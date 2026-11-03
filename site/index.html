@@ -29,11 +29,26 @@
       <button type="button" id="pauze" aria-label="Pauze">❚❚</button>
       <button type="button" id="traag" aria-pressed="false">Traag</button>
     </div>
+    <div id="kind" class="kind">
+      <a class="kindterug mono" href="/">← Voor grote mensen</a>
+      <p id="kindnaam" class="kindnaam">het wiel</p>
+      <button type="button" id="kindvorige" class="kindpijl links" aria-label="Vorige">‹</button>
+      <button type="button" id="kindvolgende" class="kindpijl rechts" aria-label="Volgende">›</button>
+      <button type="button" id="kindknop" class="kindknop" aria-label="Luister"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <span id="kindhand" class="kindhand" aria-hidden="true">👆</span>
+      <div id="kindstrook" class="kindstrook mono"></div>
+      <p class="kindbron mono">tekening · geluiden nagemaakt</p>
+    </div>
     <p id="hint" class="hint mono">Sleep om te draaien · tik op de lampen</p>
     <svg id="minifiets" class="minifiets" viewBox="0 0 120 70" aria-hidden="true"></svg>
     <p id="minitekst" class="minitekst mono">Maat ML · sleep om te draaien</p>
   </section>
   <aside class="paneel">
+    <nav class="sitenav mono" aria-label="Site">
+      <a href="/kinderen"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5" r="3"/><path d="M3 15c0-3 2-5 5-5s5 2 5 5"/></svg>Kinderen</a>
+      <a href="/onderzoekjes"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L15 15"/></svg>Onderzoekjes</a>
+      <a href="/mijn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>Mijn fiets <span id="mijnteller" class="teller">0</span></a>
+    </nav>
     <header class="paneelkop">
       <p class="model mono">E-racefiets ML</p>
       <div class="kopknoppen">

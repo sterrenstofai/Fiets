@@ -24,6 +24,23 @@ const BASIS = process.argv[2] || "http://127.0.0.1:8765";
   await p.click("#verder"); await p.waitForTimeout(300);
   await p.locator('[data-tik="lampen"]').click();
   await p.keyboard.press("ArrowRight"); await p.keyboard.press("ArrowLeft");
+  // kinderen
+  await p.goto(BASIS + "/kinderen?stil"); await p.waitForFunction(() => window.__klaar);
+  await p.click("#kindvolgende"); await p.click("#kindvolgende"); await p.waitForTimeout(300);
+  controle((await p.textContent("#kindnaam")) === "de bel", "kinderen: naar de bel");
+  await p.click("#kindknop");
+  // gezien in het echt, teller
+  await p.goto(BASIS + "/?stil&sectie=5"); await p.waitForFunction(() => window.__klaar);
+  await p.click('[data-gezien="bel"]'); await p.waitForTimeout(200);
+  controle((await p.textContent("#mijnteller")) === "1", "teller Mijn fiets");
+  await p.goto(BASIS + "/mijn"); controle(await p.locator('[data-k="bel"][aria-pressed="true"]').count() === 1, "bel staat bij Mijn fiets");
+  // onderzoekjes: stempel en certificaat
+  for (const slug of ["tel-de-spaken", "een-rondje-trappen", "bel-en-lampjes", "lucht-in-de-band", "fietsen-spotten", "bouw-een-fiets"]) {
+    await p.goto(BASIS + "/onderzoekjes/" + slug); await p.fill("#notitie", "proef"); await p.click("[data-klaar]");
+  }
+  await p.goto(BASIS + "/onderzoekjes"); await p.fill("#naam", "Fos");
+  const dl = p.waitForEvent("download"); await p.click("[data-cert]"); const d = await dl;
+  controle(d.suggestedFilename().includes("fos"), "certificaat gedownload");
   await p.goto(BASIS + "/hoe-dit-werkt"); controle((await p.textContent("h1")).includes("Hoe dit werkt"), "hoe-dit-werkt");
   await b.close();
   console.log(fouten.length ? fouten.join("\n") : "alles doorgeklikt, geen fouten");

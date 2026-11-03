@@ -23,3 +23,28 @@
   for = "/modellen/*"
   [headers.values]
     Cache-Control = "public, max-age=2592000"
+
+[[redirects]]
+  from = "/kinderen"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/onderzoekjes/*"
+  to = "/onderzoekjes.html"
+  status = 200
+
+[[redirects]]
+  from = "/onderzoekjes"
+  to = "/onderzoekjes.html"
+  status = 200
+
+[[redirects]]
+  from = "/mijn"
+  to = "/mijn.html"
+  status = 200
+
+[[redirects]]
+  from = "/hoe-dit-werkt"
+  to = "/hoe-dit-werkt.html"
+  status = 200

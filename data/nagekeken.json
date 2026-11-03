@@ -1,0 +1,100 @@
+{
+ "fiets": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "frame": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "motor": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "aandrijving": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "wielen": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "remmen": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "cockpit": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "geometrie": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ },
+ "veiligheid": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-03"
+ }
+}

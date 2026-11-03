@@ -4,6 +4,9 @@
 import * as THREE from "/js/vendor/three.module.min.js";
 import { mergeGeometries } from "/js/vendor/BufferGeometryUtils.js";
 import { HDRLoader } from "/js/vendor/HDRLoader.js";
+import * as STEM from "/js/stem.js";
+import * as MIJN from "/js/mijn.js";
+const KINDMODUS = location.pathname.replace(/\/$/, "") === "/kinderen";
 
 const params = new URLSearchParams(location.search);
 const TAU = Math.PI * 2;
@@ -203,6 +206,8 @@ const rel = (p) => p.clone().sub(HT_ONDER);
   const stuur = mesh(samen([buis(helft(1), 0.0135, { seg: 48 }), buis(helft(-1), 0.0135, { seg: 48 })]), "rubber", "stuur");
   const grepen = [1, -1].map((k) => { const g = new THREE.SphereGeometry(0.02, 20, 14); g.scale(1.6, 1.15, 0.9); const m = mesh(g, "greep", "stuur"); m.position.set(0.085, -0.002, k * 0.205); m.rotation.z = -0.35; return m; });
   const hendels = [1, -1].map((k) => mesh(buis([V(0.11, -0.01, k * 0.207), V(0.125, -0.06, k * 0.21), V(0.1, -0.11, k * 0.212)], [0.006, 0.004], { seg: 20 }), "carbon", "stuur"));
+  const bel = groep(mesh(new THREE.SphereGeometry(0.016, 24, 12, 0, TAU, 0, Math.PI / 2), "metaal", "bel"), mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.012, 10), "zwartmetaal", "bel"));
+  bel.position.set(0.004, 0.011, -0.07); stuurG.add(bel); G.bel = bel;
   stuurG.add(stuur, ...grepen, ...hendels);
   const lamp = groep(mesh(new THREE.CylinderGeometry(0.016, 0.018, 0.045, 24).rotateZ(Math.PI / 2), "zwartmetaal", "koplamp"), op(mesh(new THREE.CircleGeometry(0.014, 24).rotateY(Math.PI / 2), "lamp", "koplamp"), 0.0231, 0, 0));
   lamp.position.copy(penEind).add(V(0.035, -0.04, 0));
@@ -332,7 +337,7 @@ G.voorwielThuis = VW.w.position.clone();
 for (const m of meshes) if (m.userData.deel === "doos") m.castShadow = true;
 
 // ================= Teksten =================
-const DEEL_NAAM = { frame: "het frame", vork: "de voorvork", motor: "de motor", accu: "de accu", scherm: "het scherm", stuur: "het stuur", koplamp: "de koplamp", wielen: "de wielen", remmen: "de remmen", aandrijving: "de aandrijving", trappers: "de trappers", zadel: "het zadel", zadelpen: "de zadelpen", achterlicht: "het achterlicht", bouten: "de boutjes", afstandhouder: "het blokje", doos: "de doos" };
+const DEEL_NAAM = { bel: "de bel", frame: "het frame", vork: "de voorvork", motor: "de motor", accu: "de accu", scherm: "het scherm", stuur: "het stuur", koplamp: "de koplamp", wielen: "de wielen", remmen: "de remmen", aandrijving: "de aandrijving", trappers: "de trappers", zadel: "het zadel", zadelpen: "de zadelpen", achterlicht: "het achterlicht", bouten: "de boutjes", afstandhouder: "het blokje", doos: "de doos" };
 const SECTIES = [
   { naam: "De fiets", titel: "De fiets", tekst: "Een lichte racefiets met een motor die je bijna niet ziet. Tik op de lampen.", cam: [2.42, 0.68, 1.9, [0.14, 0.48, -0.06], 48], focus: null,
     specs: [["Wielbasis, maat ML", "1020 mm"], ["Motor bij de trappers", "helpt tot 25 km/u"], ["Accu in de onderbuis", "verstopt"], ["1 × 13 versnellingen", "10–46 T"], ["Lampen voor en achter", "tik", "lampen"]],
@@ -433,18 +438,51 @@ function maakDoelen(w, h) {
   lijnMat.uniforms.brandpunt.value = (h / 2) / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
 }
 
+// ================= Weetjes en gezien =================
+const SECTIE_SLEUTEL = ["fiets", "frame", "motor", "aandrijving", "wielen", "cockpit", "geometrie"];
+let WEETJES = {};
+fetch("/data/weetjes.json").then((r) => (r.ok ? r.json() : {})).then((d) => { WEETJES = d.secties || {}; if (tab === "anatomie") toon(); }).catch(() => {});
+const GEZIEN = [[["wielen", "de wielen"], ["zadel", "het zadel"], ["bel", "de bel"]], [["frame", "het frame"], ["vork", "de voorvork"]], [["motor", "een motor bij de trappers"], ["accu", "een fietsaccu"]], [["ketting", "de ketting"], ["trappers", "de trappers"], ["versnellingen", "de versnellingen"]], [["wielen", "de wielen"], ["ventiel", "het ventiel"], ["remmen", "de remmen"]], [["stuur", "het stuur"], ["bel", "de bel"], ["koplamp", "de koplamp"], ["achterlicht", "het achterlicht"]], []];
+const zetTeller = () => { const t = document.getElementById("mijnteller"); if (t) t.textContent = MIJN.aantal(); };
+MIJN.opVerandering(zetTeller);
+
+// ================= Kinderen: groot beeld, één knop, een stem =================
+const KIND = [
+  { naam: "het wiel", focus: ["wielen"], cam: [2.2, 0.32, 2.4, [0.55, 0.35, 0], 40], trappen: true },
+  { naam: "het stuur", focus: ["stuur"], cam: [1.9, 0.55, 1.4, [0.47, 0.84, 0], 32] },
+  { naam: "de bel", focus: ["bel"], cam: [1.6, 0.7, 0.75, [0.47, 0.88, -0.07], 30], geluid: "bel" },
+  { naam: "het zadel", focus: ["zadel"], cam: [Math.PI - 0.7, 0.4, 1.4, [-0.2, 0.95, 0], 32] },
+  { naam: "de trappers", focus: ["trappers"], cam: [0.7, 0.3, 1.5, [0, 0.28, 0], 34], trappen: true },
+  { naam: "de ketting", focus: ["aandrijving"], cam: [0.45, 0.25, 1.9, [-0.18, 0.33, 0], 30], trappen: true, geluid: "ratel" },
+  { naam: "de lamp", focus: ["koplamp", "achterlicht"], cam: [2.3, 0.35, 2.2, [0.3, 0.7, 0], 36], licht: true },
+  { naam: "de rem", focus: ["remmen"], cam: [2.7, 0.2, 1.2, [0.55, 0.35, 0], 32] },
+  { naam: "de motor", focus: ["motor"], cam: [2.75, 0.26, 1.6, [0.1, 0.3, 0], 34] },
+  { naam: "het frame", focus: ["frame", "vork"], cam: [2.42, 0.6, 2.4, [0.14, 0.5, -0.06], 44] },
+];
+let kindI = 0;
+function kindToon(i, praatOok = true) {
+  kindI = (i + KIND.length) % KIND.length; const k = KIND[kindI];
+  document.getElementById("kindnaam").textContent = k.naam;
+  for (const b of document.querySelectorAll("#kindstrook button")) b.setAttribute("aria-current", String(+b.dataset.i === kindI));
+  camNaar(k.cam); kleuren(); tekenMini();
+  if (praatOok) STEM.zeg(k.naam, { kind: true });
+}
+function kindGeluid() { const k = KIND[kindI]; if (k.geluid === "bel") STEM.bel(); else if (k.geluid === "ratel") STEM.ratel(); else STEM.zeg(k.naam, { kind: true }); }
+function kindTik(d) { const i = KIND.findIndex((k) => k.focus.includes(d)); if (i >= 0 && i !== kindI) kindToon(i); else kindGeluid(); handWeg(); }
+function handWeg() { document.getElementById("kindhand")?.remove(); try { localStorage.setItem("fiets-kind-hand", "1"); } catch {} }
+
 // ================= Toestand =================
 let stand = params.get("stand") === "donker" ? "donker" : "tekening";
 let tab = "anatomie", sectie = 0, stap = 0, gedaan = 0, lampen = false, schermAan = false, tourAan = false, stemAan = false, geluidAan = true;
 const stapTijd = { start: 0, duur: 2.6, pauze: false, traag: false, p: 1 };
 const podium = document.querySelector(".podium");
-const focusVan = () => (tab === "anatomie" ? SECTIES[sectie].focus : tab === "bouwen" ? STAPPEN[stap].focus : null);
+const focusVan = () => (tab === "kind" ? KIND[kindI].focus : tab === "anatomie" ? SECTIES[sectie].focus : tab === "bouwen" ? STAPPEN[stap].focus : null);
 function kleuren() {
   const f = focusVan(), donker = stand === "donker";
   for (const m of meshes) {
     const basis = MAT[m.userData.soort][donker ? "donker" : "teken"];
     let mat = basis;
-    if (tab === "bouwen" && f && f.includes(m.userData.deel) && !["doos"].includes(m.userData.deel)) mat = (m.userData.nadruk ||= {})[stand] ||= Object.assign(basis.clone(), { color: ACCENT[donker ? "donker" : "teken"].clone() });
+    if ((tab === "bouwen" || tab === "kind") && f && f.includes(m.userData.deel) && !["doos"].includes(m.userData.deel)) mat = (m.userData.nadruk ||= {})[stand] ||= Object.assign(basis.clone(), { color: ACCENT[donker ? "donker" : "teken"].clone() });
     m.material = mat;
   }
   const doorzicht = tab === "anatomie" && SECTIES[sectie].doorzicht;
@@ -460,7 +498,7 @@ function kleuren() {
   vraag();
 }
 function zetLichten() {
-  const aan = lampen || (tab === "bouwen" && stap === 8 && stapTijd.p > 0.6) || tab === "klaar";
+  const aan = lampen || (tab === "bouwen" && stap === 8 && stapTijd.p > 0.6) || tab === "klaar" || (tab === "kind" && KIND[kindI].licht);
   for (const s of ["lamp", "achterlicht"]) for (const k of ["teken", "donker"]) MAT[s][k].emissiveIntensity = aan ? (s === "lamp" ? 2.2 : 1.8) : 0;
   const sch = schermAan || aan;
   for (const k of ["teken", "donker"]) MAT.scherm[k].emissiveIntensity = sch ? 0.9 : 0;
@@ -480,7 +518,11 @@ function toon() {
   if (tab === "anatomie") {
     lijstEl.innerHTML = SECTIES.map((s, i) => `<li class="${i === sectie ? "aan" : ""}"><button type="button" data-sectie="${i}">${esc(s.naam)}</button></li>`).join("");
     const s = SECTIES[sectie];
-    inhoudEl.innerHTML = `<h2>${esc(s.titel)}</h2><p class="tekst">${esc(s.tekst)}</p><ul class="specs">${s.specs.map(([a, b, tik]) => `<li${tik ? ` class="tik" data-tik="${tik}"` : ""}><span class="label">${esc(a)}</span><span class="waarde">${esc(b)}</span></li>`).join("")}</ul>`;
+    const w = [...(WEETJES[SECTIE_SLEUTEL[sectie]] || []), ...(sectie === 4 ? WEETJES.remmen || [] : []), ...(sectie === 0 ? WEETJES.veiligheid || [] : [])];
+    const gezien = GEZIEN[sectie].map(([k, naam]) => { const m = MIJN.lees()[k]; return `<button type="button" class="gezien${m ? " aan" : ""}" data-gezien="${k}" data-naam="${esc(naam)}" aria-pressed="${!!m}">${m ? "✓" : "+"} ${esc(naam.replace(/^(de|het|een) /, ""))}${m ? `<small>${esc(MIJN.datumTekst(m.datum))}</small>` : ""}</button>`; }).join("");
+    inhoudEl.innerHTML = `<h2>${esc(s.titel)}</h2><p class="tekst">${esc(s.tekst)}</p><ul class="specs">${s.specs.map(([a, b, tik]) => `<li${tik ? ` class="tik" data-tik="${tik}"` : ""}><span class="label">${esc(a)}</span><span class="waarde">${esc(b)}</span></li>`).join("")}</ul>
+      ${gezien ? `<p class="nodig">In het echt gezien?</p><div class="gezienrij">${gezien}</div>` : ""}
+      ${w.length ? `<details class="weetjes"><summary>Weetjes <span class="mono zacht">nagekeken · ${w.length}</span></summary><ul>${w.map((x) => `<li>${esc(x.tekst)}<a href="${esc(x.bron)}" target="_blank" rel="noopener noreferrer">${esc(x.bron.replace(/^https?:\/\/(www\.)?/, "").slice(0, 48))}</a></li>`).join("")}</ul></details>` : ""}`;
     knoppenEl.innerHTML = `<button type="button" class="knop licht" id="terug" ${sectie === 0 ? "disabled" : ""}>Terug</button><button type="button" class="knop" id="verder">${esc(s.volgende || "Verder")}</button>`;
     toetsenEl.innerHTML = `<span><kbd>←</kbd> <kbd>→</kbd> verder</span><span><kbd>T</kbd> tour</span>`;
   } else if (tab === "bouwen") {
@@ -500,13 +542,14 @@ function toon() {
   }
   for (const b of lijstEl.querySelectorAll("[data-sectie]")) b.addEventListener("click", () => gaSectie(+b.dataset.sectie));
   for (const b of lijstEl.querySelectorAll("[data-stap]")) b.addEventListener("click", () => gaStap(+b.dataset.stap));
+  for (const b of inhoudEl.querySelectorAll("[data-gezien]")) b.addEventListener("click", () => { MIJN.wissel(b.dataset.gezien, b.dataset.naam); klik(); toon(); });
   for (const li of inhoudEl.querySelectorAll("[data-tik]")) li.addEventListener("click", () => { if (li.dataset.tik === "lampen") lampen = !lampen; else schermAan = !schermAan; klik(); zetLichten(); });
   $("terug")?.addEventListener("click", vorige); $("verder")?.addEventListener("click", volgende);
-  tekenMini(); maakNamen(); kleuren();
+  tekenMini(); maakNamen(); kleuren(); zetTeller();
 }
-function praat(t) { if (!stemAan || !("speechSynthesis" in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "nl-NL"; u.rate = 0.95; const v = speechSynthesis.getVoices().find((x) => x.lang?.startsWith("nl")); if (v) u.voice = v; speechSynthesis.speak(u); }
+function praat(t) { if (stemAan) STEM.zeg(t); }
 let ac = null;
-function klik() { if (!geluidAan || !navigator.userActivation?.hasBeenActive) return; try { ac ||= new AudioContext(); ac.resume(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = 1400; g.gain.setValueAtTime(0.05, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.05); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.06); } catch {} }
+function klik() { if (!geluidAan || !navigator.userActivation?.hasBeenActive) return; STEM.klik(); return; try { ac ||= new AudioContext(); ac.resume(); const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = 1400; g.gain.setValueAtTime(0.05, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.05); o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.06); } catch {} }
 function gaSectie(i) { if (uiteen) { uiteen = 0; $("uiteenknop").setAttribute("aria-pressed", "false"); } tab = "anatomie"; sectie = Math.max(0, Math.min(SECTIES.length - 1, i)); camNaar(SECTIES[sectie].cam); klik(); toon(); praat(SECTIES[sectie].titel + ". " + SECTIES[sectie].tekst); }
 function gaStap(i) { if (uiteen) { uiteen = 0; $("uiteenknop").setAttribute("aria-pressed", "false"); } tab = "bouwen"; stap = Math.max(0, Math.min(8, i)); stapTijd.start = performance.now(); stapTijd.p = 0; camNaar(STAPPEN[stap].cam); klik(); toon(); praat(STAPPEN[stap].titel + ". " + STAPPEN[stap].tekst); }
 function volgende() {
@@ -525,7 +568,7 @@ $("opnieuw").addEventListener("click", () => { stapTijd.start = performance.now(
 $("pauze").addEventListener("click", (e) => { stapTijd.pauze = !stapTijd.pauze; e.currentTarget.textContent = stapTijd.pauze ? "▶" : "❚❚"; if (!stapTijd.pauze) stapTijd.start = performance.now() - stapTijd.p * stapTijd.duur * 1000 * (stapTijd.traag ? 2.5 : 1); });
 $("traag").addEventListener("click", (e) => { stapTijd.traag = !stapTijd.traag; e.currentTarget.setAttribute("aria-pressed", String(stapTijd.traag)); });
 $("uiteenknop").addEventListener("click", () => zetUitElkaar(!uiteen));
-addEventListener("keydown", (e) => { if (e.target.closest?.("input,textarea")) return; if (e.key.toLowerCase() === "e") zetUitElkaar(!uiteen); if (e.key === "ArrowRight") volgende(); else if (e.key === "ArrowLeft") vorige(); else if (e.key.toLowerCase() === "t") $("tour").click(); else if (e.key.toLowerCase() === "r" && tab === "bouwen") $("opnieuw").click(); });
+addEventListener("keydown", (e) => { if (e.target.closest?.("input,textarea")) return; if (KINDMODUS) { if (e.key === "ArrowRight") kindToon(kindI + 1); else if (e.key === "ArrowLeft") kindToon(kindI - 1); else if (e.key === " ") kindGeluid(); return; } if (e.key.toLowerCase() === "e") zetUitElkaar(!uiteen); if (e.key === "ArrowRight") volgende(); else if (e.key === "ArrowLeft") vorige(); else if (e.key.toLowerCase() === "t") $("tour").click(); else if (e.key.toLowerCase() === "r" && tab === "bouwen") $("opnieuw").click(); });
 
 // minifiets: zijaanzicht in lijnen, het onderdeel van nu in rood
 function tekenMini() {
@@ -635,7 +678,9 @@ doek.addEventListener("click", (e) => {
   const r = doek.getBoundingClientRect(); ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
   const h = ray.intersectObjects(meshes.filter((m) => m.visible), false)[0]; if (!h) return;
   const d = h.object.userData.deel;
-  if (["koplamp", "achterlicht"].includes(d)) { lampen = !lampen; klik(); zetLichten(); }
+  if (KINDMODUS) { kindTik(d); return; }
+  if (d === "bel") { if (geluidAan) STEM.bel(); }
+  else if (["koplamp", "achterlicht"].includes(d)) { lampen = !lampen; klik(); zetLichten(); }
   else if (d === "scherm") { schermAan = !schermAan; klik(); zetLichten(); }
   else { const i = SECTIES.findIndex((s) => s.focus?.includes(d)); if (i >= 0 && tab === "anatomie") gaSectie(i); }
 });
@@ -763,7 +808,7 @@ function stap_(t) {
   if (camVolgt) { const k = Math.min(1, dt * 2.6); for (const key of ["draai", "helling", "afstand", "fov"]) cam[key] += (camDoel[key] - cam[key]) * k; zetLens(); cam.doel.lerp(camDoel.doel, k); if (Math.abs(camDoel.draai - cam.draai) + Math.abs(camDoel.afstand - cam.afstand) + cam.doel.distanceTo(camDoel.doel) > 0.002) bezig = true; }
   if (Math.abs(vaart) > 1e-4 && !wijzers.size) { cam.draai += vaart; vaart *= 0.94; bezig = true; }
   // trappen en rollen
-  const trap = (tab === "anatomie" && (SECTIES[sectie].trappen || SECTIES[sectie].rollen)) || tab === "klaar";
+  const trap = (tab === "anatomie" && (SECTIES[sectie].trappen || SECTIES[sectie].rollen)) || tab === "klaar" || (tab === "kind" && KIND[kindI].trappen);
   if (trap) { krukHoek -= dt * 2.2; wielHoek -= dt * 2.2 * (46 / 21); kettingT -= dt * 2.2 * ((46 * 0.0127) / TAU) / G.ketting.pad.getLength(); bezig = true; }
   if (tab === "bouwen" && !stapTijd.pauze && stapTijd.p < 1) { stapTijd.p = Math.min(1, (t - stapTijd.start) / (stapTijd.duur * 1000 * (stapTijd.traag ? 2.5 : 1))); bezig = true; }
   if (tab === "klaar") { cam.draai += dt * 0.12; bezig = true; }
@@ -789,7 +834,18 @@ function stap_(t) {
   namenBijwerken();
   window.__meting.frames++;
 }
-toon(); camNaar(SECTIES[0].cam);
+if (KINDMODUS) {
+  document.body.classList.add("kindmodus"); tab = "kind";
+  const strook = document.getElementById("kindstrook");
+  strook.innerHTML = KIND.map((k, i) => `<button type="button" data-i="${i}">${esc(k.naam.replace(/^(de|het) /, ""))}</button>`).join("");
+  for (const b of strook.querySelectorAll("button")) b.addEventListener("click", () => { kindToon(+b.dataset.i); handWeg(); });
+  document.getElementById("kindknop").addEventListener("click", () => { kindGeluid(); handWeg(); });
+  document.getElementById("kindvorige").addEventListener("click", () => { kindToon(kindI - 1); handWeg(); });
+  document.getElementById("kindvolgende").addEventListener("click", () => { kindToon(kindI + 1); handWeg(); });
+  let sx = null; doek.addEventListener("pointerdown", (e) => (sx = e.clientX)); doek.addEventListener("pointerup", (e) => { if (sx !== null && Math.abs(e.clientX - sx) > 90 && !wijzers.size) kindToon(kindI + (e.clientX < sx ? 1 : -1)); sx = null; });
+  try { if (localStorage.getItem("fiets-kind-hand")) document.getElementById("kindhand")?.remove(); } catch {}
+  kindToon(0, false); zetTeller();
+} else { toon(); camNaar(SECTIES[0].cam); }
 if (params.get("cam")) { const c = params.get("cam").split(",").map(Number); camNaar([c[0], c[1], c[2], [c[3], c[4], c[5]], +(params.get("fov") || 30)]); }
 
 if (params.get("sectie")) gaSectie(+params.get("sectie"));
