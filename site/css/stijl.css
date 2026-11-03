@@ -258,3 +258,4 @@ textarea, input[type=text] { font: inherit; font-size: 15px; border: 1px solid v
 body.kindmodus .voet { display: none; }
 body.kindmodus .app { height: 100svh; }
 @media (max-width: 900px) { body.kindmodus .podium { height: 100svh; } }
+@media (max-width: 520px) { .kindbron { top: auto; bottom: 108px; right: 0; left: 0; text-align: center; } .kindnaam { top: 40px; } }
