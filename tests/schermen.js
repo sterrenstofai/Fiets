@@ -21,7 +21,7 @@ const PAGINAS = [["start", "/"], ["kinderkeuze", "/kinderen"], ["fiets", "/fiets
       await page.waitForTimeout(2500);
       const breed = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       if (breed > 0) { problemen++; console.log(`  ${b}px ${naam}: ${breed}px horizontaal scrollen`); }
-      await page.screenshot({ path: `${UIT}/${naam}-${b}.png` });
+      await page.screenshot({ path: `${UIT}/${naam}-${b}.png`, timeout: 180000 });
     }
     for (const f of new Set(fouten)) { problemen++; console.log(`  ${b}px fout: ${f.slice(0, 200)}`); }
     await page.close();
