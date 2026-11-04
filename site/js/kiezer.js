@@ -11,5 +11,5 @@ for (const nav of document.querySelectorAll("nav[data-kiezer]")) {
     nav.append(a);
   }
   const a = nav.querySelector("[aria-current]"); // in beeld schuiven zonder de pagina te laten springen
-  if (a) requestAnimationFrame(() => { nav.scrollLeft = a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2; });
+  if (a) requestAnimationFrame(() => { const r = a.getBoundingClientRect(), n = nav.getBoundingClientRect(); nav.scrollLeft += r.left - n.left - (n.width - r.width) / 2; });
 }
