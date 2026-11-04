@@ -1,4 +1,4 @@
-// De voorpagina: een opening met het skateboard live in 3D, de strook, en alle voertuigen met zoeken en filters.
+// De voorpagina: een opening met het skateboard live in 3D, en alle voertuigen met zoeken en filters.
 import { lijst, pad } from "/js/voertuigen.js";
 const V = lijst(), $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -18,10 +18,8 @@ async function held(v) {
   const t = await tel(v);
   $("[data-held-gegevens]").innerHTML = `<dt>Waar</dt><dd>${esc(v.groep)}</dd>` + (t ? `<dt>Onderdelen</dt><dd>${t.onderdelen}, elk met uitleg</dd><dt>Weetjes</dt><dd>${t.weetjes}, nagekeken bij de bron</dd>` : "") + `<dt>Voor kinderen</dt><dd>grote knoppen en een stem</dd>`;
 }
-// strook
 // de opening: het skateboard, live in 3D (de pagina /skateboard?held in een kader); tot die klaar is staat het plaatje er
 const HELD = V.find((v) => v.slug === "skateboard") || V[0];
-$("[data-strook]").innerHTML = V.map((v) => `<a class="strook-item" href="${pad(v)}"${v === HELD ? ' aria-current="true"' : ""}><span class="strook-beeld"><img src="/beeld/${v.slug}.webp" alt="" width="84" height="56" loading="lazy"></span><span class="strook-naam">${esc(v.label)}</span></a>`).join("");
 held(HELD);
 addEventListener("message", (e) => { if (e.origin === location.origin && e.data === "held-klaar") $("[data-held-3d]").classList.add("klaar"); });
 // alle voertuigen

@@ -347,7 +347,7 @@ let namen = [];
 function lokaal(obj) { const b = new THREE.Box3().setFromObject(obj); return b.isEmpty() ? new THREE.Vector3() : obj.worldToLocal(b.getCenter(new THREE.Vector3())); }
 function maakNamen() {
   namenEl.textContent = ""; lijnEl.textContent = ""; namen = [];
-  if (KINDMODUS || HELD) return;
+  if (KINDMODUS) return;
   const A = ANKEROBJ();
   const lijst = uiteen ? EX.filter((e) => e.naam).map((e) => [e.obj, e.naam, e.plek[0], e.plek[1], e]) : (SECTIES[sectie].namen || []).map(([k, t, dx, dy]) => [A[k], t, dx, dy, null]);
   for (const [obj, tekst, dx, dy, ex] of lijst) {
@@ -488,11 +488,11 @@ if (KINDMODUS) {
   try { if (localStorage.getItem("fiets-kind-hand")) $("kindhand")?.remove(); } catch {}
   kindToon(0, false);
 } else { toon(); camNaar(SECTIES[0].cam); }
-if (HELD) { camDoel.afstand *= 0.95; camDoel.doel.y *= 0.8; }
 if (params.get("sectie")) gaSectie(+params.get("sectie"));
 if (params.get("cam")) { const c = params.get("cam").split(",").map(Number); camNaar([c[0], c[1], c[2], [c[3], c[4], c[5]], c[6] || 32]); }
 if (params.get("stand") === "tekening") document.querySelector('[data-stand="tekening"]').click(); else document.querySelector('[data-stand="echt"]').click();
 if (params.has("uiteen")) { zetUitElkaar(true); if (params.has("af")) uiteenNu = 1; }
+if (HELD) { camDoel.afstand *= params.has("uiteen") ? 0.8 : 0.95; camDoel.doel.y *= 0.8; if (params.has("af")) { cam.afstand = camDoel.afstand; cam.doel.copy(camDoel.doel); } }
 requestAnimationFrame(stap_);
 window.__klaar = true;
 window.__info = { meshes: meshes.length, voertuig: SLUG, schaal: +F.toFixed(3) };

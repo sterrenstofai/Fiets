@@ -229,7 +229,7 @@ const qT = new THREE.Quaternion();
 let wielHoek = 0, kantel = 0, kantelT = 0, pop = 0, popT = 0;
 function beweeg(dt, h, s) {
   let bezig = false;
-  if (h.rollen || s.uiteen) { wielHoek -= dt * (s.uiteen ? 2 : 5); for (const w of G.wielen) w.rotation.z = wielHoek; bezig = true; }
+  if (h.rollen || s.uiteen) { wielHoek -= dt * (s.uiteen ? 3 : 5); for (const w of G.wielen) w.rotation.z = wielHoek; bezig = true; }
   if (h.kantel && !s.uiteen) kantelT += dt;
   const kDoel = h.kantel && !s.uiteen ? Math.sin(kantelT * 1.5) * 0.24 : 0;
   kantel += (kDoel - kantel) * Math.min(1, dt * 5);

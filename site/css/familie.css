@@ -183,5 +183,6 @@ footer.voet a, .familie .noot a, .held-beeld a { color: inherit; }
 .held-3d.klaar iframe { opacity: 1; }
 .held-3d-hint { position: absolute; left: 50%; bottom: .4rem; transform: translateX(-50%); margin: 0; pointer-events: none; font: 500 .8rem var(--letter); color: var(--inkt-zacht); background: color-mix(in srgb, var(--papier-licht) 88%, transparent); border: 1px solid var(--lijn-f); border-radius: 999px; padding: .25rem .8rem; white-space: nowrap; opacity: 0; transition: opacity .6s; }
 .held-3d.klaar .held-3d-hint { opacity: 1; }
-@media (min-width: 1000px) { .held-3d { aspect-ratio: 4 / 3; } }
+.held-3d { aspect-ratio: 1 / 1; }
+@media (min-width: 1000px) { .held-3d { aspect-ratio: 4 / 3.4; } }
 @media (prefers-reduced-motion: reduce) { .held-3d iframe, .held-3d-hint { transition: none; } }
