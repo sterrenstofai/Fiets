@@ -855,4 +855,5 @@ if (params.get("stand") !== "tekening") document.querySelector('[data-stand="ech
 if (params.has("uiteen")) { zetUitElkaar(true); if (params.has("af")) uiteenNu = 1; }
 requestAnimationFrame(stap_);
 window.__klaar = true;
+requestAnimationFrame(() => document.getElementById("laden")?.remove());
 window.__info = { meshes: meshes.length };

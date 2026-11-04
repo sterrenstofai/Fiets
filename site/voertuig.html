@@ -16,7 +16,10 @@
 <body class="familie-app">
 <header class="balk" data-familie></header>
 <main class="app">
+  <h1 class="sr" id="paginakop"></h1>
   <section class="podium" aria-label="Het voertuig in 3D" data-aria-titel>
+    <p class="laden" id="laden" aria-live="polite"><span></span>Even het voertuig tekenen…</p>
+    <noscript><p class="laden">Voor de tekening in 3D is JavaScript nodig.</p></noscript>
     <canvas id="doek" aria-label="Een getekend voertuig. Sleep om te draaien."></canvas>
     <svg id="lijntjes" class="lijntjes" aria-hidden="true"></svg>
     <div id="namen" class="namen" aria-hidden="true"></div>
@@ -57,7 +60,7 @@
     </footer>
   </aside>
 </main>
-<p class="appvoet mono"><span class="label-tekening">tekening</span> zelf getekend, geen bestaand voertuig · maten van de tekening · bewegingen zijn een simulatie · geen cookies · <a href="/hoe-dit-werkt">Hoe dit werkt</a></p>
+<footer class="appvoet mono"><span class="label-tekening">tekening</span> zelf getekend, geen bestaand voertuig · maten van de tekening · bewegingen zijn een simulatie · geen cookies · <a href="/hoe-dit-werkt">Hoe dit werkt</a></footer>
 <script type="module" src="/js/familie.js"></script>
 <script type="module" src="/js/kiezer.js"></script>
 <script type="module" src="/js/kern.js"></script>

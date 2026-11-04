@@ -8,6 +8,11 @@
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#F1F0EE">
 <meta name="referrer" content="no-referrer">
+<meta property="og:title" content="Voertuigen">
+<meta property="og:description" content="Wat zit er in een skateboard, een trekker of een vliegtuig? Voertuigen in 3D, getekend in code. Voor ouders en kinderen.">
+<meta property="og:image" content="https://voertuigen.netlify.app/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/stijl.css">
@@ -34,7 +39,7 @@
     <figure class="held-beeld">
       <div class="held-3d" data-held-3d>
         <img src="/beeld/skateboard-uiteen.webp" alt="Het skateboard uit elkaar: schroeven, griptape, plank, trucks, wielen en kogellagers" width="1200" height="900">
-        <iframe src="/skateboard?held&amp;stil&amp;uiteen&amp;af" title="Het skateboard uit elkaar, in 3D. Sleep om te draaien, tik om het te openen." loading="eager"></iframe>
+        <iframe tabindex="-1" aria-hidden="true" src="/skateboard?held&amp;stil&amp;uiteen&amp;af" title="Het skateboard uit elkaar, in 3D. Sleep om te draaien, tik om het te openen." loading="eager"></iframe>
       </div>
       <figcaption><span class="label">tekening</span><span>Zelf getekend in code. Geen bestaand voertuig.</span></figcaption>
     </figure>
@@ -47,7 +52,7 @@
       <input id="filterveld" class="veld" type="search" placeholder="Zoek op naam" autocomplete="off">
       <div class="chips" data-chips></div>
     </div>
-    <div class="raster" data-raster></div>
+    <div class="raster" data-raster><noscript><p>Deze site heeft JavaScript nodig voor de voertuigen in 3D. Lees <a href="/hoe-dit-werkt">hoe dit werkt</a>.</p></noscript></div>
     <p class="noot">Elk voertuig is een tekening: de maten zijn die van de tekening, wat er beweegt is een simulatie. Bij elk onderdeel staan weetjes met een bron die we nakijken. <a href="/hoe-dit-werkt">Hoe dit werkt</a></p>
   </section>
 

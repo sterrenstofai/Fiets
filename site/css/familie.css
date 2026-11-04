@@ -150,7 +150,7 @@ body.familie > main { flex: 1; }
 /* ---------- Voet ---------- */
 footer.voet { padding: 3rem var(--rand) 2rem; border-top: 1px solid var(--lijn-f); margin-top: 3rem; }
 .voet-kolommen { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 2rem; max-width: 74rem; margin-inline: auto; }
-footer.voet h3 { font: 600 .82rem var(--letter); margin: 0 0 .5rem; }
+footer.voet h2 { font: 600 .82rem var(--letter); letter-spacing: 0; margin: 0 0 .5rem; }
 footer.voet p { font: 400 .82rem/1.55 var(--letter); color: var(--inkt-zacht); margin: 0; }
 .voet-acties { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; margin: 4rem 0 1rem; }
 footer.voet .voet-merk { font: 500 clamp(3.4rem, 15vw, 14rem)/.9 var(--letter); letter-spacing: -.035em; text-align: center; margin: 1rem 0 5rem; color: var(--inkt); }
@@ -186,3 +186,16 @@ footer.voet a, .familie .noot a, .held-beeld a { color: inherit; }
 .held-3d { aspect-ratio: 1 / 1; }
 @media (min-width: 1000px) { .held-3d { aspect-ratio: 4 / 3.4; } }
 @media (prefers-reduced-motion: reduce) { .held-3d iframe, .held-3d-hint { transition: none; } }
+
+/* links in de familie: inkt met een zachte onderstreping, geen browserblauw */
+:where(.familie, .familie-app) a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .18em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+:where(.familie) a:hover { text-decoration-color: currentColor; }
+.familie.leespagina main h1 { font-weight: 500; letter-spacing: -.01em; }
+.familie.leespagina main h2 { font-weight: 500; letter-spacing: -.01em; }
+
+/* ---------- Laden (uit De Ruimte) ---------- */
+.podium .laden { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: .8rem; margin: 0; font: 400 1.05rem var(--letter); color: var(--inkt-zacht); pointer-events: none; z-index: 1; }
+.laden span { width: 48px; height: 2px; background: var(--inkt); transform-origin: left; animation: laden 1.1s ease-in-out infinite; }
+@keyframes laden { 0% { transform: scaleX(0); } 60% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+body.held .laden { display: none; }
+@media (prefers-reduced-motion: reduce) { .laden span { animation: none; } }

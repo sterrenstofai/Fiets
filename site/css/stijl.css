@@ -4,7 +4,7 @@
 @font-face { font-family: "Geist"; src: url("/fonts/geist-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: "Geist Mono"; src: url("/fonts/geist-mono-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2C60-2C7F, U+A720-A7FF; }
 :root {
-  --papier: #F1F0EE; --wit: #FFFFFF; --inkt: #1E1E1E; --zacht: #8A8A87; --lijn: #D9D8D4; --vlak: #F7F7F5;
+  --papier: #F1F0EE; --wit: #FFFFFF; --inkt: #1E1E1E; --zacht: #6A6864; --lijn: #D9D8D4; --vlak: #F7F7F5;
   --rood: #C8102E; --rood-licht: #F5D3D8;
   --letter: "Geist", "Helvetica Neue", Arial, system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, Menlo, monospace;
@@ -17,6 +17,8 @@ body { background: var(--papier); color: var(--inkt); font: 400 15px/1.45 var(--
 button { font: inherit; color: inherit; cursor: pointer; }
 .mono { font-family: var(--mono); }
 .zacht { color: var(--zacht); }
+:focus-visible { outline: 2px solid var(--inkt); outline-offset: 3px; border-radius: 4px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .app { display: grid; grid-template-columns: minmax(0, 1fr) 340px; height: calc(100svh - 28px); min-height: 560px; }
 .podium { position: relative; overflow: hidden; touch-action: none; }
@@ -260,7 +262,7 @@ textarea, input[type=text] { font: inherit; font-size: 15px; border: 1px solid v
 body.kindmodus .appvoet { display: none; }
 body.kindmodus .app { height: 100svh; }
 @media (max-width: 900px) { body.kindmodus .podium { height: 100svh; } }
-@media (max-width: 520px) { .kindbron { top: auto; bottom: 108px; right: 0; left: 0; text-align: center; } .kindnaam { top: 40px; } }
+@media (max-width: 520px) { .kindbron { top: 20px; right: 16px; left: auto; max-width: 42%; text-align: right; line-height: 1.3; } .kindnaam { top: 40px; } }
 /* schakelaar Fiets | Vliegtuig bovenaan het paneel */
 .voertuig { display: flex; gap: 3px; padding: 3px; margin: 0 0 12px; border-radius: 999px; background: var(--vlak); border: 1px solid var(--lijn); overflow-x: auto; scrollbar-width: none; max-width: 100%; }
 .voertuig::-webkit-scrollbar { display: none; }

@@ -29,7 +29,7 @@ for (const kop of document.querySelectorAll("header.balk[data-familie]")) {
         <div class="zoek-pil">
           <label class="sr" for="zoekveld">Zoek een voertuig</label>
           <input id="zoekveld" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"
-            placeholder="Zoek een voertuig, zoals trein of step" role="combobox" aria-expanded="false" aria-controls="zoek-lijst" aria-autocomplete="list">
+            placeholder="Zoek een voertuig" role="combobox" aria-expanded="false" aria-controls="zoek-lijst" aria-autocomplete="list">
           <ul id="zoek-lijst" class="zoek-lijst" role="listbox" hidden></ul>
         </div>
         <button class="knop-pil knop-donker zoek-knop" type="button">${ICOON.zoek}Zoeken</button>
@@ -69,10 +69,10 @@ for (const kop of document.querySelectorAll("header.balk[data-familie]")) {
 for (const voet of document.querySelectorAll("footer.voet[data-familie]")) {
   voet.innerHTML = `
     <div class="voet-kolommen">
-      <div><h3>Data</h3><p>De maten zijn die van de tekening, geen gegevens van een echt voertuig. Weetjes komen van Wikipedia (CC BY-SA), elk met een zin die we letterlijk op de bronpagina terugvinden. Dat kijken we elke maand opnieuw na. <a href="/hoe-dit-werkt">Hoe dit werkt</a></p></div>
-      <div><h3>Beeld</h3><p>Alle voertuigen zijn in code getekend met three.js (MIT). Geen foto's, geen AI-beelden, geen merken of logo's. Belichting: Studio Small 09 van Poly Haven (CC0). Letters: Geist en Geist Mono (OFL).</p></div>
-      <div><h3>Geluid</h3><p>Alle geluiden zijn nagemaakt in je browser: de bel, de toeter, de sirene, de treinfluit en de scheepshoorn. Het zijn geen opnames. De stem is die van je eigen toestel.</p></div>
-      <div><h3>Privacy</h3><p>Geen cookies en geen bezoekersstatistiek. Er gaat niets naar andere sites. Mijn fiets en de logboeken van de onderzoekjes blijven op je eigen apparaat.</p></div>
+      <div><h2>Data</h2><p>De maten zijn die van de tekening, geen gegevens van een echt voertuig. Weetjes komen van Wikipedia (CC BY-SA), elk met een zin die we letterlijk op de bronpagina terugvinden. Dat kijken we elke maand opnieuw na. <a href="/hoe-dit-werkt">Hoe dit werkt</a></p></div>
+      <div><h2>Beeld</h2><p>Alle voertuigen zijn in code getekend met three.js (MIT). Geen foto's, geen AI-beelden, geen merken of logo's. Belichting: Studio Small 09 van Poly Haven (CC0). Letters: Geist en Geist Mono (OFL).</p></div>
+      <div><h2>Geluid</h2><p>Alle geluiden zijn nagemaakt in je browser: de bel, de toeter, de sirene, de treinfluit en de scheepshoorn. Het zijn geen opnames. De stem is die van je eigen toestel.</p></div>
+      <div><h2>Privacy</h2><p>Geen cookies en geen bezoekersstatistiek. Er gaat niets naar andere sites. Mijn fiets en de logboeken van de onderzoekjes blijven op je eigen apparaat.</p></div>
     </div>
     <div class="voet-acties">
       <a class="knop-pil" href="/#alle">Alle voertuigen</a>

@@ -201,6 +201,7 @@ document.title = `${DEF.titel} · Voertuigen`;
 {
   const zet = (id, f) => { const el = document.getElementById(id); if (el) f(el); };
   zet("model", (el) => (el.textContent = DEF.model || DEF.label));
+  zet("paginakop", (el) => (el.textContent = DEF.titel));
   zet("kindterug", (el) => (el.href = "/" + SLUG));
   zet("kindlink", (el) => (el.href = "/kinderen/" + SLUG));
   if (DEF.hint) zet("hint", (el) => (el.textContent = DEF.hint));
@@ -495,4 +496,5 @@ if (params.has("uiteen")) { zetUitElkaar(true); if (params.has("af")) uiteenNu =
 if (HELD) { camDoel.afstand *= params.has("uiteen") ? 0.8 : 0.95; camDoel.doel.y *= 0.8; if (params.has("af")) { cam.afstand = camDoel.afstand; cam.doel.copy(camDoel.doel); } }
 requestAnimationFrame(stap_);
 window.__klaar = true;
+requestAnimationFrame(() => document.getElementById("laden")?.remove());
 window.__info = { meshes: meshes.length, voertuig: SLUG, schaal: +F.toFixed(3) };
