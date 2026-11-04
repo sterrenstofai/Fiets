@@ -488,7 +488,7 @@ if (KINDMODUS) {
   try { if (localStorage.getItem("fiets-kind-hand")) $("kindhand")?.remove(); } catch {}
   kindToon(0, false);
 } else { toon(); camNaar(SECTIES[0].cam); }
-if (HELD) { camDoel.afstand *= 0.78; camDoel.doel.y *= 0.8; }
+if (HELD) { camDoel.afstand *= 0.95; camDoel.doel.y *= 0.8; }
 if (params.get("sectie")) gaSectie(+params.get("sectie"));
 if (params.get("cam")) { const c = params.get("cam").split(",").map(Number); camNaar([c[0], c[1], c[2], [c[3], c[4], c[5]], c[6] || 32]); }
 if (params.get("stand") === "tekening") document.querySelector('[data-stand="tekening"]').click(); else document.querySelector('[data-stand="echt"]').click();

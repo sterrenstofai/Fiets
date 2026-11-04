@@ -1,6 +1,8 @@
 /* Proef fiets: dezelfde opbouw en sfeer als het voorbeeld (lichtgrijs papier, zwarte inkt, rood accent, Geist + Geist Mono). */
 @font-face { font-family: "Geist"; src: url("/fonts/geist-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 @font-face { font-family: "Geist Mono"; src: url("/fonts/geist-mono-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("/fonts/geist-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Geist Mono"; src: url("/fonts/geist-mono-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2C60-2C7F, U+A720-A7FF; }
 :root {
   --papier: #F1F0EE; --wit: #FFFFFF; --inkt: #1E1E1E; --zacht: #8A8A87; --lijn: #D9D8D4; --vlak: #F7F7F5;
   --rood: #C8102E; --rood-licht: #F5D3D8;

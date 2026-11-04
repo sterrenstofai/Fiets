@@ -15,7 +15,8 @@
 body.familie { min-height: 100svh; display: flex; flex-direction: column; height: auto; font: 400 1.0625rem/1.6 var(--letter); }
 body.familie > main { flex: 1; }
 .familie h1, .familie h2, .familie h3 { font-family: var(--letter); line-height: 1.05; margin: 0; }
-.familie h1, .familie h2 { font-weight: 300; letter-spacing: -.035em; }
+.familie h1, .familie h2, .familie h3 { font-weight: 500; letter-spacing: -.01em; }
+.familie h1 { line-height: .95; }
 .breed { padding-inline: var(--rand); width: 100%; }
 .naar-inhoud { position: absolute; left: -999px; }
 .naar-inhoud:focus { left: 1rem; top: 1rem; background: var(--papier); padding: .5rem 1rem; z-index: 50; }
@@ -40,7 +41,8 @@ body.familie > main { flex: 1; }
 .balk { position: relative; z-index: 30; display: grid; grid-template-columns: 1fr auto; grid-template-areas: "merk nav" "zoek zoek"; gap: .75rem 1rem; align-items: center; padding: max(.85rem, env(safe-area-inset-top)) max(var(--rand), env(safe-area-inset-right)) .9rem max(var(--rand), env(safe-area-inset-left)); background: var(--papier); }
 .merk { grid-area: merk; display: flex; align-items: center; gap: .5rem; text-decoration: none; color: var(--inkt); }
 .merk-icoon { width: 30px; height: 30px; color: var(--inkt); }
-.merk-naam { font: 500 1.3rem/1 var(--letter); letter-spacing: -.03em; }
+.merk-naam { font: 600 1.5rem/1 var(--letter); letter-spacing: -.02em; }
+@media (max-width: 380px) { .merk-naam { font-size: 1.2rem; } .nav-knop { width: 36px; height: 36px; } }
 .zoek { grid-area: zoek; position: relative; display: grid; gap: .4rem; }
 .zoek-rij { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
 .zoek-pil { grid-column: 1 / -1; position: relative; display: flex; align-items: center; background: var(--papier-licht); border-radius: 999px; border: 1px solid var(--lijn-f); height: 46px; }
@@ -78,7 +80,7 @@ body.familie > main { flex: 1; }
 /* ---------- Kleine onderdelen (uit ikhooreengeluidje) ---------- */
 .familie .etiket { display: flex; align-items: center; gap: .5rem; margin: 0 0 .8rem; font: 500 .74rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--inkt); }
 .familie .etiket::before { content: ""; width: .55rem; height: .55rem; background: var(--inkt); flex: none; }
-.accent { background: var(--geel); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.accent { background: var(--geel); padding: 0 .08em; margin: 0 -.02em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .familie .label { display: inline-block; font: 500 .66rem var(--mono); text-transform: uppercase; letter-spacing: .06em; background: var(--geel); border-radius: 999px; padding: .15rem .5rem; color: var(--inkt); vertical-align: middle; }
 .familie .label-zacht { background: var(--papier-licht); border: 1px solid var(--lijn-f); color: var(--inkt-zacht); }
 .blok { margin-top: 3.5rem; }
@@ -132,7 +134,7 @@ body.familie > main { flex: 1; }
 .oz-teaser::after { content: "?"; position: absolute; right: -.1em; bottom: -.32em; font: 400 14rem/1 var(--letter); color: rgb(35 35 35 / .08); pointer-events: none; }
 .oz-teaser-tekst { display: grid; gap: .45rem; max-width: 34rem; position: relative; z-index: 1; }
 .oz-boventitel { font: 500 .74rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
-.oz-teaser-tekst strong { font-weight: 500; font-size: clamp(2rem, 6vw, 3rem); line-height: 1; letter-spacing: -.03em; }
+.oz-teaser-tekst strong { font-weight: 500; font-size: clamp(2rem, 6vw, 3rem); line-height: 1; letter-spacing: -.01em; }
 .oz-teaser .knop-pil { justify-self: start; position: relative; z-index: 1; }
 
 /* ---------- Over dit project ---------- */
