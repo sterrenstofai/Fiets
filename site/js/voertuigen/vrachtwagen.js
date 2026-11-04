@@ -172,7 +172,7 @@ G.onder.add(mesh(samen([W.doos(0.14, 0.13, 2.36, XE + 0.12, 0.52, 0, 0.03), ...[
 const SECTIES = [
   { sleutel: "vrachtwagen", naam: "De vrachtwagen", titel: "De vrachtwagen", tekst: "Een trekker met een oplegger erachter. De trekker trekt, de oplegger draagt de lading. Tik op de lampjes.", cam: [0.6, 0.2, 27, [1.2, 1.9, 0], 30], focus: null,
     specs: [["Lengte", "16,9 m in de tekening"], ["Hoogte", "4 m in de tekening"], ["Breedte", "2,55 m"], ["Banden", "12, achter de trekker dubbel"], ["Lampjes", "tik", "lichten"]],
-    namen: [["cabine", "CABINE", 50, -60], ["oplegger", "OPLEGGER", -40, -70], ["dubbellucht", "WIELEN", -40, 70], ["tank", "TANK", 60, 60]] },
+    namen: [["cabine", "CABINE", 50, -60], ["oplegger", "OPLEGGER", -40, -70], ["dubbellucht", "WIELEN", -40, 70], ["tank", "TANK", 110, 50]] },
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Hier zit de chauffeur, hoog boven de weg. Achter de stoelen ligt een bed. Met de spiegels kijkt de chauffeur naast en achter de wagen.", cam: [0.62, 0.12, 8.2, [7.0, 2.1, 0], 30], focus: ["cabine", "binnen", "spiegels", "opstap", "toeter"], doorzicht: true,
     specs: [["Stoelen", "2"], ["Bed", "achter de stoelen"], ["Spiegels", "2 aan elke kant"], ["Opstap", "2 treden"], ["Hoogte", "3,7 m in de tekening"]],
     namen: [["stuur", "STUUR", -70, -50], ["spiegel", "SPIEGELS", 60, -40], ["opstap", "OPSTAP", 60, 40], ["bed", "BED", -60, 40]] },

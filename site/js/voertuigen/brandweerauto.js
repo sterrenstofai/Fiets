@@ -285,28 +285,31 @@ for (const [x, dubbel] of [[XV, false], [XA, true]]) for (const k of [1, -1]) {
 // op een smal scherm (staand) iets verder weg, zodat het hele voertuig in beeld past
 const SMAL = typeof matchMedia === "function" && matchMedia("(max-aspect-ratio: 1/1)").matches;
 const C = (d, h, a, p, fov) => [d, h, a * (SMAL ? 1.3 : 1), p, fov];
+// op een smal scherm alle namen links van hun punt, dan lopen ze niet over de rechterrand
+const U = (lijst) => (SMAL ? lijst.map(([o, v, n, pl]) => [o, v, n, pl ? [-Math.abs(pl[0]), pl[1]] : pl]) : lijst);
+const N = (lijst) => (SMAL ? lijst.map(([k, t, dx, dy]) => [k, t, -Math.abs(dx), dy]) : lijst);
 const SECTIES = [
   { sleutel: "brandweerauto", naam: "De brandweerauto", titel: "De brandweerauto", tekst: "Een tankautospuit: de brandweerauto die als eerste komt. Hij heeft water bij zich, een pomp, slangen, een ladder en plek voor zes mensen. Tik op de zwaailichten.", cam: C(0.7, 0.16, 15.5, [0.1, 1.5, 0], 32), focus: null,
     specs: [["Lengte", "8,6 m in de tekening"], ["Breedte", "2,55 m"], ["Hoogte", "3,3 m met de ladder"], ["Bemanning", "6, in de cabine"], ["Zwaailichten", "tik", "zwaailichten"]],
-    namen: [["cabine", "CABINE", 50, -90], ["luik", "ROLLUIKEN", -40, 90], ["ladder", "LADDER", -50, -60], ["zwaai", "ZWAAILICHTEN", 40, -50], ["wiel", "WIELEN", 50, 70]] },
+    namen: N([["cabine", "CABINE", 50, -90], ["luik", "ROLLUIKEN", -40, 90], ["ladder", "LADDER", -50, -60], ["zwaai", "ZWAAILICHTEN", 40, -50], ["wiel", "WIELEN", 50, 70]]) },
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Voorin rijdt de chauffeur, naast hem zit de baas van de ploeg. Achterin zitten nog vier brandweermensen. Ze trekken onderweg hun pak en masker al aan.", cam: C(0.95, 0.14, 13, [2.4, 1.6, 0.6], 32), focus: ["cabine", "spiegels"], deuren: true,
     specs: [["Plaatsen", "6: 2 voor, 4 achter"], ["Deuren", "4, ze draaien open"], ["Chauffeur", "linksvoor"], ["Spiegels", "2 aan elke kant"]],
-    namen: [["voordeur", "VOORDEUR", 50, -70], ["bemanning", "BEMANNING", -50, -80], ["spiegel", "SPIEGELS", 50, 60]] },
+    namen: N([["voordeur", "VOORDEUR", 50, -70], ["bemanning", "BEMANNING", -50, -80], ["spiegel", "SPIEGELS", 50, 60]]) },
   { sleutel: "kasten", naam: "De kasten", titel: "De kasten met rolluiken", tekst: "Aan de zijkant zitten kasten met rolluiken. Die schuiven omhoog. Daarachter liggen de slangen, de flessen met lucht om te ademen en het gereedschap.", cam: C(0.1, 0.1, 12.5, [-0.7, 1.6, 0.4], 32), focus: ["kasten", "gereedschap"], luiken: true,
     specs: [["Kasten", "3 aan elke kant"], ["Rolluiken", "van aluminium, schuiven omhoog"], ["Ademlucht", "4 flessen per kant in de tekening"], ["Slangen", "opgerold, 9 per kant"]],
-    namen: [["flessen", "ADEMLUCHT", 60, 130], ["slangen", "SLANGEN", 40, -120], ["luik", "ROLLUIK", -60, -140]] },
+    namen: N([["flessen", "ADEMLUCHT", 60, 130], ["slangen", "SLANGEN", 40, -120], ["luik", "ROLLUIK", -60, -140]]) },
   { sleutel: "ladder", naam: "De ladder", titel: "De ladder", tekst: "Op het dak ligt een schuifladder. Hier gaat hij omhoog en schuift hij uit. Bij een brand halen ze hem van het dak en zetten hem tegen het huis.", cam: C(0.42, 0.16, 20, [-0.6, 3.5, 0], 32), focus: ["ladder"], ladder: true,
     specs: [["Ladder", "2 delen, schuift uit"], ["Lengte", "4,5 m, uitgeschoven 7 m in de tekening"], ["Ook op het dak", "2 zuigslangen"]],
-    namen: [["ladderBoven", "SCHUIFLADDER", 50, -40], ["zuig", "ZUIGSLANGEN", -60, 50]] },
+    namen: N([["ladderBoven", "SCHUIFLADDER", 50, -40], ["zuig", "ZUIGSLANGEN", -60, 50]]) },
   { sleutel: "pomp", naam: "De pomp", titel: "De pomp en de haspels", tekst: "Achterin zit de pomp. Die pompt water uit de tank of uit een brandkraan naar de slangen. Op de haspels zit een lange slang die altijd klaar ligt.", cam: C(-0.95, 0.14, 9, [-3.9, 1.6, 0], 32), focus: ["pomp", "haspel"], achter: true, haspel: true,
     specs: [["Pomp", "achterin, met meters"], ["Haspels", "2, links en rechts"], ["Watertank", "in het midden, minstens 1500 liter"]],
-    namen: [["pomp", "POMP", 90, 90], ["haspelR", "HASPEL", -110, -90], ["meters", "METERS", 110, -60]] },
+    namen: N([["pomp", "POMP", 90, 90], ["haspelR", "HASPEL", -110, -90], ["meters", "METERS", 110, -60]]) },
   { sleutel: "zwaailichten", naam: "De zwaailichten", titel: "Zwaailichten en sirene", tekst: "Als de brandweer haast heeft, flitsen de blauwe lampen en gaat de sirene. Dan gaan de andere auto's opzij.", cam: C(1.05, 0.22, 10.5, [3.4, 2.2, 0], 32), focus: ["zwaailichten", "lichten"], zwaai: true,
     specs: [["Zwaailichten", "blauw, op het dak en voorop"], ["Sirene", "tussen de lampen op het dak"], ["Achter", "ook blauwe flitsers"], ["Zwaailichten", "tik", "zwaailichten"]],
-    namen: [["zwaai", "ZWAAILICHTEN", 50, -60], ["koplamp", "KOPLAMP", -80, 90], ["flitser", "FLITSER", 60, 40]] },
+    namen: N([["zwaai", "ZWAAILICHTEN", 50, -60], ["koplamp", "KOPLAMP", -80, 90], ["flitser", "FLITSER", 60, 40]]) },
   { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Zes grote wielen: voor één aan elke kant, achter twee naast elkaar. De voorwielen sturen, de achterwielen worden aangedreven.", cam: C(0.12, 0.08, 16, [0.7, 0.95, 0], 32), focus: ["wielen"], rollen: true,
     specs: [["Wielen", "6: voor 2, achter 2 × 2"], ["Doorsnede", "1,06 m in de tekening"], ["Tussen de assen", "4,2 m"]],
-    namen: [["wiel", "VOORWIEL", 50, 110], ["wielA", "DUBBELE ACHTERWIELEN", -50, 110]] },
+    namen: N([["wiel", "VOORWIEL", 50, 110], ["wielA", "DUBBELE ACHTERWIELEN", -50, 110]]) },
 ];
 const KIND = [
   { naam: "de brandweerauto", focus: ["cabine", "opbouw"], cam: C(0.7, 0.16, 15.5, [0.1, 1.5, 0], 32), geluid: "sirene", zwaai: true },
@@ -365,7 +368,7 @@ return {
     voordeur: G.deuren[0].s, bemanning: G.cabBinnen.children[0], spiegel: G.spiegels.children[0], flessen: G.flessen, slangen: G.slangen, pomp: G.pomp.children[0], haspelR: G.haspelR, meters: G.pomp.children[3],
     koplamp: G.lichten.kop, flitser: DELEN.zwaailichten[0] }),
   uiteenCam: C(0.62, 0.42, 22, [-0.2, 2.0, 0], 34),
-  uiteen: () => [
+  uiteen: () => U([
     [G.cab, [2.2, 0, 0], "CABINE", [60, -40]],
     [G.zwaai, [0.6, 1.0, 0], "ZWAAILICHTEN", [60, -30]],
     [G.ladder, [0, 1.8, 0], "LADDER", [-60, -30]],
@@ -374,6 +377,6 @@ return {
     [G.luiken[3], [0, 0, -1.5], null], [G.luiken[4], [0, 0, -1.5], null], [G.luiken[5], [0, 0, -1.5], null],
     [G.achterLuik, [-1.2, 0, 0], null], [G.pomp, [-2.0, -0.2, 0], "POMP", [-60, 30]], [G.haspelR, [-1.8, 0.6, 0.9], "HASPEL", [-60, -30]], [G.haspelL, [-1.8, 0.6, -0.9], null],
     [G.wielVR, [0, 0, 2.2], "WIELEN", [50, 30]], [G.wielAR, [0, 0, 2.2], null], [G.wielVL, [0, 0, -2.2], null], [G.wielAL, [0, 0, -2.2], null],
-  ],
+  ]),
 };
 }

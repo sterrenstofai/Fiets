@@ -196,7 +196,8 @@ for (const [a, b] of DEUREN) {
   const voet = [new THREE.CylinderGeometry(0.06, 0.12, 0.44, 16).translate(4.95, VLOER + 0.22, zc)];
   const dash = rondeDoos(0.5, 0.3, 1.1, 0.07); dash.rotateZ(0.35); dash.translate(5.7, 0.9, -0.65);
   const kolom = staaf(V(5.62, 0.92, zc), V(5.3, 1.2, zc), 0.035, 12);
-  const scherm = rondeDoos(0.03, 0.18, 0.3, 0.015); scherm.rotateZ(0.6); scherm.translate(5.5, 1.24, -0.4);
+  const voetje = staaf(V(5.68, 0.98, -0.3), V(5.64, 1.08, -0.3), 0.02, 8); // het scherm staat op het dashboard
+  const scherm = rondeDoos(0.03, 0.18, 0.3, 0.015); scherm.rotateZ(0.6); scherm.translate(5.62, 1.13, -0.3);
   const stuur = new THREE.TorusGeometry(0.24, 0.022, 12, 40); stuur.rotateX(Math.PI / 2); stuur.rotateZ(0.42); stuur.translate(5.28, 1.22, zc);
   const spaken = [staaf(V(5.28, 1.22, zc - 0.22), V(5.28, 1.22, zc + 0.22), 0.016, 8)];
   // het wandje achter de chauffeur, met glas
@@ -212,7 +213,7 @@ for (const [a, b] of DEUREN) {
     hoofd.push(new THREE.SphereGeometry(0.045, 12, 8).translate(5.24, VLOER + 0.87, zc + d * 1.8));
   }
   hoofd.push(new THREE.SphereGeometry(0.105, 24, 16).scale(1, 1.15, 0.95).translate(4.87, VLOER + 1.37, zc), new THREE.CylinderGeometry(0.05, 0.055, 0.1, 12).translate(4.86, VLOER + 1.23, zc));
-  ch.add(mesh(samen(stoel), "stoel", "chauffeur"), mesh(samen(voet), "zwartmetaal", "chauffeur"), mesh(samen([dash, kolom]), "klep", "chauffeur"), mesh(scherm, "scherm", "chauffeur"),
+  ch.add(mesh(samen(stoel), "stoel", "chauffeur"), mesh(samen(voet), "zwartmetaal", "chauffeur"), mesh(samen([dash, kolom, voetje]), "klep", "chauffeur"), mesh(scherm, "scherm", "chauffeur"),
     mesh(samen([stuur, ...spaken]), "zwartmetaal", "chauffeur"), mesh(samen(wandje), "binnenwand", "chauffeur"), mesh(wglas, "raam", "chauffeur"),
     mesh(samen(mens), "kleding", "chauffeur"), mesh(samen(hoofd), "gezicht", "chauffeur"));
   bak.add(ch); G.chauffeur = ch;
@@ -231,28 +232,31 @@ root.add(mesh(samen([staaf(V(XV, RW, -0.95), V(XV, RW, 0.95), 0.06, 12), staaf(V
 // op een smal scherm (staand) iets verder weg, zodat het hele voertuig in beeld past
 const SMAL = typeof matchMedia === "function" && matchMedia("(max-aspect-ratio: 1/1)").matches;
 const C = (d, h, a, p, fov) => [d, h, a * (SMAL ? 1.3 : 1), p, fov];
+// op een smal scherm alle namen links van hun punt, dan lopen ze niet over de rechterrand
+const U = (lijst) => (SMAL ? lijst.map(([o, v, n, pl]) => [o, v, n, pl ? [-Math.abs(pl[0]), pl[1]] : pl]) : lijst);
+const N = (lijst) => (SMAL ? lijst.map(([k, t, dx, dy]) => [k, t, -Math.abs(dx), dy]) : lijst);
 const SECTIES = [
   { sleutel: "bus", naam: "De bus", titel: "De bus", tekst: "Een stadsbus met een lage vloer: je stapt zo naar binnen, zonder trapje. Deze bus rijdt op stroom. Tik op de lampen.", cam: C(0.62, 0.15, 20, [0.2, 1.4, 0], 32), focus: null,
     specs: [["Lengte", "12 m in de tekening"], ["Breedte", "2,55 m"], ["Hoogte", "3,3 m met het dak"], ["Deuren", "3, aan de rechterkant"], ["Zitplaatsen", "31 in de tekening"], ["Lampen", "tik", "lichten"]],
-    namen: [["deur", "DEUREN", -40, 70], ["ruit", "RAMEN", -50, -70], ["wiel", "WIELEN", 50, 60], ["dak", "DAK · ACCU'S", 40, -60], ["spiegels", "SPIEGEL", 50, -40]] },
+    namen: N([["deur", "DEUREN", -40, 70], ["ruit", "RAMEN", -50, -70], ["wiel", "WIELEN", 50, 60], ["dak", "DAK · ACCU'S", 40, -60], ["spiegels", "SPIEGEL", 50, -40]]) },
   { sleutel: "deuren", naam: "De deuren", titel: "De deuren", tekst: "Drie brede deuren aan de rechterkant. Ze gaan eerst naar buiten en schuiven dan opzij. De bus zakt aan die kant een stukje omlaag: dat heet knielen.", cam: C(0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32), focus: ["deuren"], deuren: true,
     specs: [["Deuren", "3, elk met 2 vleugels"], ["Breedte", "1,2 tot 1,3 m in de tekening"], ["Vloer", "37 cm boven de weg"], ["Knielen", "een paar centimeter omlaag"]],
-    namen: [["deur", "MIDDELSTE DEUR", 30, 110], ["deur1", "VOORDEUR", 30, 110], ["deur3", "ACHTERDEUR", -30, 110]] },
+    namen: N([["deur", "MIDDELSTE DEUR", 30, 110], ["deur1", "VOORDEUR", 30, 110], ["deur3", "ACHTERDEUR", -30, 110]]) },
   { sleutel: "binnen", naam: "Binnen", titel: "Binnen in de bus", tekst: "Stoelen aan twee kanten van het gangpad, en overal stangen om je vast te houden. Met de rode knop vraag je de chauffeur om te stoppen.", cam: C(0.55, 0.72, 22, [0.1, 0.8, 0], 32), focus: ["binnen"], doorzicht: true,
     specs: [["Zitplaatsen", "31 in de tekening"], ["Stangen", "geel, van vloer tot plafond"], ["Stopknoppen", "rood, aan de stangen"], ["Rolstoelplek", "tegenover de middelste deur"]],
-    namen: [["stoel", "STOELEN", -60, -60], ["stangen", "STANGEN", 50, -80], ["vloer", "LAGE VLOER", 60, 50]] },
+    namen: N([["stoel", "STOELEN", -60, -60], ["stangen", "STANGEN", 50, -80], ["vloer", "LAGE VLOER", 60, 50]]) },
   { sleutel: "chauffeur", naam: "De chauffeur", titel: "De chauffeur", tekst: "Linksvoor zit de chauffeur, achter een groot stuur dat bijna plat ligt. Voor hem zit een dashboard met knoppen en een scherm.", cam: C(1.72, 0.5, 9.5, [4.9, 1.15, -0.45], 32), focus: ["chauffeur"], doorzicht: true,
     specs: [["Plek", "linksvoor"], ["Stuur", "bijna plat"], ["Wandje", "van glas, achter de stoel"]],
-    namen: [["chauffeur", "CHAUFFEUR", -60, -60], ["stuur", "STUUR", 60, -40]] },
+    namen: N([["chauffeur", "CHAUFFEUR", -60, -60], ["stuur", "STUUR", 60, -40]]) },
   { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Voor zit aan elke kant één wiel, achter twee wielen naast elkaar. De voorwielen sturen, de achterwielen worden aangedreven.", cam: C(0.14, 0.08, 20, [0.35, 0.9, 0], 32), focus: ["wielen"], rollen: true,
     specs: [["Wielen", "6: voor 2, achter 2 × 2"], ["Doorsnede", "96 cm in de tekening"], ["Tussen de assen", "5,9 m"]],
-    namen: [["wiel", "VOORWIEL", 50, 110], ["wielA", "DUBBELE ACHTERWIELEN", -50, 110]] },
+    namen: N([["wiel", "VOORWIEL", 50, 110], ["wielA", "DUBBELE ACHTERWIELEN", -50, 110]]) },
   { sleutel: "dak", naam: "Het dak", titel: "Het dak", tekst: "Op het dak liggen de accu's: grote batterijen voor de motor. Voorop staat de airco, die het binnen koel of warm maakt.", cam: C(0.75, 0.7, 23, [-0.4, 2.2, 0], 32), focus: ["dak"],
     specs: [["Accu's", "2 lange kasten op het dak"], ["Airco", "voorop het dak"], ["Motor", "elektrisch, bij de achteras"]],
-    namen: [["accus", "ACCU'S", -50, -60], ["airco", "AIRCO", 50, -60]] },
+    namen: N([["accus", "ACCU'S", -50, -60], ["airco", "AIRCO", 50, -60]]) },
   { sleutel: "lichten", naam: "Lampen en spiegels", titel: "Lampen en spiegels", tekst: "Voor twee koplampen, achter rode lampen. De spiegels hangen aan lange armen voor de ruit, zodat de chauffeur langs de bus kijkt.", cam: C(1.18, 0.12, 12, [4.6, 1.5, 0], 32), focus: ["lichten", "spiegels"], lichten: true,
     specs: [["Koplampen", "2, wit"], ["Knipperlichten", "oranje, voor en opzij"], ["Spiegels", "2, aan lange armen"], ["Lampen", "tik", "lichten"]],
-    namen: [["koplamp", "KOPLAMP", -50, 50], ["spiegels", "SPIEGEL", 50, -60]] },
+    namen: N([["koplamp", "KOPLAMP", -50, 50], ["spiegels", "SPIEGEL", 50, -60]]) },
 ];
 const KIND = [
   { naam: "de bus", focus: ["romp"], cam: C(0.62, 0.15, 20, [0.2, 1.4, 0], 32), geluid: "toeter" },
@@ -310,13 +314,13 @@ return {
   anker: () => ({ romp: G.huid, ruit: G.ruit, deur: G.deuren[1].vleugels[1], deur1: G.deuren[0].vleugels[0], deur3: G.deuren[2].vleugels[1], wiel: G.wielVR, wielA: G.wielAR, dak: G.dak, accus: G.accus, airco: G.airco,
     spiegels: G.spiegels.children[0], stoel: G.binnen.children[5], stangen: G.stangen, vloer: G.binnen.children[0], chauffeur: G.chauffeur.children[7], stuur: G.chauffeur.children[4], koplamp: G.lichten.kop }),
   uiteenCam: C(0.6, 0.42, 30, [0, 2.2, 0], 34),
-  uiteen: () => [
+  uiteen: () => U([
     [G.dak, [0, 2.4, 0], "DAK · ACCU'S · AIRCO", [-60, -30]],
     [G.binnen, [0, 0, -3.4], "STOELEN · STANGEN", [-60, -40]],
     [G.chauffeur, [2.6, 0.4, -0.6], "CHAUFFEUR", [60, -30]],
     [G.spiegels, [1.4, 0.5, 0], null],
     [G.deuren[0].g, [0, 0, 1.6], null], [G.deuren[1].g, [0, 0, 1.6], "DEUREN", [40, 40]], [G.deuren[2].g, [0, 0, 1.6], null],
     [G.wielVR, [0, 0, 2.6], "WIELEN", [50, 30]], [G.wielAR, [0, 0, 2.6], null], [G.wielVL, [0, 0, -2.2], null], [G.wielAL, [0, 0, -2.2], null],
-  ],
+  ]),
 };
 }
