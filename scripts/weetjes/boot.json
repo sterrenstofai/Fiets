@@ -1,0 +1,193 @@
+{
+ "secties": [
+  "boot",
+  "romp",
+  "ruim",
+  "stuurhuis",
+  "woning",
+  "schroef",
+  "voorschip"
+ ],
+ "weetjes": [
+  [
+   "boot",
+   "Een binnenvaartschip vervoert spullen en mensen over rivieren en kanalen. Het gaat niet de zee op.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "dat goederen en personen over de binnenwateren (zoals rivieren en kanalen"
+  ],
+  [
+   "boot",
+   "Voor zo'n klein land heeft Nederland heel veel binnenvaartschepen: de grootste vloot van West-Europa.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "nederland heeft relatief de grootste binnenvaartvloot in west-europa."
+  ],
+  [
+   "boot",
+   "Vroeger hadden binnenschepen geen motor. Ze voeren met de wind, of ze werden getrokken door paarden en soms door mensen.",
+   "https://nl.wikipedia.org/wiki/Binnenvaart",
+   "de schepen werden eeuwenlang aangedreven door de wind, of getrokken door paarden en soms met menskracht"
+  ],
+  [
+   "boot",
+   "Een zwemvest houdt je hoofd en je mond boven water. Bij het water doe je er een aan, en je gaat er samen met een volwassene heen.",
+   "https://en.wikipedia.org/wiki/Personal_flotation_device",
+   "the device will keep the wearer afloat with their head and mouth above the surface"
+  ],
+  [
+   "romp",
+   "Een schip drijft omdat het water omhoog duwt. Het water duwt even hard als het water weegt dat het schip opzij duwt.",
+   "https://nl.wikipedia.org/wiki/Wet_van_Archimedes",
+   "ondervindt een opwaartse kracht die gelijk is aan het gewicht van de verplaatste vloeistof"
+  ],
+  [
+   "romp",
+   "Hoe diep een schip in het water ligt, heet de diepgang.",
+   "https://nl.wikipedia.org/wiki/Diepgang",
+   "de diepgang van een vaartuig geeft aan hoe diep het in het water ligt."
+  ],
+  [
+   "romp",
+   "Met meer lading zakt het schip dieper in het water.",
+   "https://nl.wikipedia.org/wiki/Diepgang",
+   "als een schip zwaarder beladen wordt, zal het dieper komen te liggen."
+  ],
+  [
+   "romp",
+   "De waterlijn is de grens tussen het stuk van de romp onder water en het stuk erboven.",
+   "https://nl.wikipedia.org/wiki/Waterlijn",
+   "tussen het gedeelte van de scheepsromp onder water en dat van het gedeelte erboven."
+  ],
+  [
+   "ruim",
+   "Het ruim is de ruimte in het schip waar de lading in gaat.",
+   "https://nl.wikipedia.org/wiki/Ruim_(schip)",
+   "is de ruimte van een schip of vliegtuig waarin de lading wordt vervoerd."
+  ],
+  [
+   "ruim",
+   "De platte vloer van het ruim heet de buikdenning.",
+   "https://nl.wikipedia.org/wiki/Ruim_(schip)",
+   "de vlakke vloer van het ruim heet buikdenning"
+  ],
+  [
+   "ruim",
+   "De luiken zijn van aluminium. Ze kunnen schuiven, of een luikenwagen zet ze op een stapel.",
+   "https://nl.wikipedia.org/wiki/Luikenkap",
+   "in de huidige binnenvaart zijn de luiken van aluminium en zijn ze schuifbaar of met een elektrische luikenwagen stapelbaar."
+  ],
+  [
+   "ruim",
+   "Een schipper kan de luiken in zijn eentje open en dicht doen.",
+   "https://nl.wikipedia.org/wiki/Luikenkap",
+   "een geoefende schipper legt bovendien zo'n kap gemakkelijk alleen open en dicht."
+  ],
+  [
+   "ruim",
+   "Schepen voor zand en grind hebben vaak helemaal geen luiken. Het zand wordt er nat in gespoten.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "zand- en grindschepen worden zelfs volgespoten en kennen geen luiken."
+  ],
+  [
+   "stuurhuis",
+   "Op een groot schip heet de plek waar gestuurd wordt de brug.",
+   "https://nl.wikipedia.org/wiki/Stuurhuis",
+   "de brug is op een schip de plaats van waaruit het schip bestuurd wordt."
+  ],
+  [
+   "stuurhuis",
+   "Links op een schip heet bakboord, rechts heet stuurboord. Je kijkt dan naar voren, naar de neus.",
+   "https://nl.wikipedia.org/wiki/Stuurboord",
+   "en stuurboord is de rechterzijde, gezien in de normale vaar- of vliegrichting"
+  ],
+  [
+   "stuurhuis",
+   "Het lampje aan bakboord is rood, het lampje aan stuurboord is groen. Zo zien andere schippers in het donker welke kant je op vaart.",
+   "https://nl.wikipedia.org/wiki/Stuurboord",
+   "deze lichten helpen andere schippers de beweegrichting en bak- en stuurboordzijde van een naderend schip te bepalen in het donker."
+  ],
+  [
+   "stuurhuis",
+   "Een radar zoekt met radiogolven naar wat er om het schip heen is, zoals andere schepen.",
+   "https://nl.wikipedia.org/wiki/Radar",
+   "is een installatie die gemaakt is om met behulp van radiogolven de omgeving af te zoeken naar objecten"
+  ],
+  [
+   "woning",
+   "Voor de schipper en het gezin is het schip ook hun huis: een huis dat vaart.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "voor schippers en hun gezin is het schip tevens een varend huis"
+  ],
+  [
+   "woning",
+   "Veel binnenschepen zijn van de schipper zelf.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "veel binnenvaartschepen zijn eigendom van de schipper zelf."
+  ],
+  [
+   "woning",
+   "Schippers noemen elkaar van oudsher buurman of buurvrouw.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "de onder elkaar gebezigde aanspreektitel is van oudsher: buurman of buurvrouw"
+  ],
+  [
+   "woning",
+   "Bijna alle binnenschepen varen op gasolie, een soort diesel.",
+   "https://nl.wikipedia.org/wiki/Binnenvaartschip",
+   "bijna alle binnenvaartschepen maken gebruik van gasolie als brandstof voor de motoren."
+  ],
+  [
+   "schroef",
+   "Bijna elk schip gaat vooruit met een schroef.",
+   "https://nl.wikipedia.org/wiki/Scheepsschroef",
+   "een scheepsschroef is de meest gebruikte manier van voortstuwing van een schip"
+  ],
+  [
+   "schroef",
+   "Een scheepsschroef lijkt op een ventilator: bladen rond een as in het midden.",
+   "https://nl.wikipedia.org/wiki/Scheepsschroef",
+   "vergelijkbaar met een ventilator of een vliegtuigschroef."
+  ],
+  [
+   "schroef",
+   "Een scheepsschroef heeft hoogstens zeven bladen.",
+   "https://nl.wikipedia.org/wiki/Scheepsschroef",
+   "het maximaal aantal bladen is zeven."
+  ],
+  [
+   "schroef",
+   "Het roer is een plaat die kan draaien. Zo blijft het schip op koers, of gaat het een andere kant op.",
+   "https://nl.wikipedia.org/wiki/Roer_(schip)",
+   "een roer van een vaartuig is een beweegbaar stuurvlak, dat dient om een schip op koers te houden of gecontroleerd van koers te doen veranderen."
+  ],
+  [
+   "schroef",
+   "De ring om de schroef heet een straalbuis. Die draait zelf niet mee.",
+   "https://en.wikipedia.org/wiki/Kort_nozzle",
+   "is a marine propeller shrouded with a non-rotating nozzle"
+  ],
+  [
+   "voorschip",
+   "Met het anker ligt het schip stil op een plek waar het niet aan de kant kan.",
+   "https://nl.wikipedia.org/wiki/Anker_(schip)",
+   "dat overboord wordt geworpen om het schip vast te leggen op plaatsen waar niet aangemeerd kan worden."
+  ],
+  [
+   "voorschip",
+   "Een ketting is zwaarder dan een staalkabel. Daarom gebruikt een schip een ketting aan het anker.",
+   "https://nl.wikipedia.org/wiki/Ankerketting",
+   "een voordeel van een ketting ten opzichte van een staalkabel is dat een ketting zwaarder is."
+  ],
+  [
+   "voorschip",
+   "In de binnenvaart heet de boegschroef meestal de kopschroef.",
+   "https://nl.wikipedia.org/wiki/Boegschroef",
+   "in de binnenvaart meestal kopschroef genoemd"
+  ],
+  [
+   "voorschip",
+   "Het schroefje in de boegschroef kan twee kanten op draaien. Zo gaat de neus naar links of naar rechts.",
+   "https://nl.wikipedia.org/wiki/Boegschroef",
+   "de schroef kan in die constructie twee kanten opdraaien."
+  ]
+ ]
+}
