@@ -42,3 +42,17 @@ export function ratel(n = 14) {
 export function klik() {
   try { const a = ctx(), o = a.createOscillator(), g = a.createGain(); o.frequency.value = 1400; g.gain.setValueAtTime(0.05, a.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + 0.05); o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime + 0.06); } catch {}
 }
+// Een straalmotor (nagemaakt): ruis die aanzwelt, met een fluittoon erbij.
+export function straal() {
+  try {
+    const a = ctx(), t0 = a.currentTime, n = a.sampleRate * 2.4, b = a.createBuffer(1, n, a.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+    s.buffer = b; f.type = "lowpass"; f.frequency.setValueAtTime(300, t0); f.frequency.linearRampToValueAtTime(1800, t0 + 1.6);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.35, t0 + 1.2); g.gain.linearRampToValueAtTime(0, t0 + 2.4);
+    s.connect(f).connect(g).connect(a.destination); s.start(t0);
+    const o = a.createOscillator(), og = a.createGain(); o.frequency.setValueAtTime(900, t0); o.frequency.linearRampToValueAtTime(2600, t0 + 1.8);
+    og.gain.setValueAtTime(0, t0); og.gain.linearRampToValueAtTime(0.03, t0 + 1.2); og.gain.linearRampToValueAtTime(0, t0 + 2.4);
+    o.connect(og).connect(a.destination); o.start(t0); o.stop(t0 + 2.5);
+  } catch {}
+}

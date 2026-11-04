@@ -7,7 +7,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "frame": {
   "weetjes": [
@@ -17,7 +17,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "motor": {
   "weetjes": [
@@ -28,7 +28,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "aandrijving": {
   "weetjes": [
@@ -39,7 +39,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "wielen": {
   "weetjes": [
@@ -50,7 +50,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "remmen": {
   "weetjes": [
@@ -61,7 +61,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "cockpit": {
   "weetjes": [
@@ -73,7 +73,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "geometrie": {
   "weetjes": [
@@ -84,7 +84,7 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  },
  "veiligheid": {
   "weetjes": [
@@ -95,6 +95,6 @@
    true
   ],
   "alles": true,
-  "datum": "2026-11-03"
+  "datum": "2026-11-04"
  }
 }

@@ -1,0 +1,79 @@
+{
+ "vliegtuig": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ },
+ "romp": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ },
+ "vleugels": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ },
+ "motoren": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ },
+ "staart": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ },
+ "landingsgestel": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ },
+ "cockpit": {
+  "weetjes": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "alles": true,
+  "datum": "2026-11-04"
+ }
+}

@@ -25,8 +25,18 @@
     Cache-Control = "public, max-age=2592000"
 
 [[redirects]]
+  from = "/kinderen/vliegtuig"
+  to = "/vliegtuig.html"
+  status = 200
+
+[[redirects]]
   from = "/kinderen"
   to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/vliegtuig"
+  to = "/vliegtuig.html"
   status = 200
 
 [[redirects]]

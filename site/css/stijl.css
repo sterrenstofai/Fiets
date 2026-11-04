@@ -259,3 +259,10 @@ body.kindmodus .voet { display: none; }
 body.kindmodus .app { height: 100svh; }
 @media (max-width: 900px) { body.kindmodus .podium { height: 100svh; } }
 @media (max-width: 520px) { .kindbron { top: auto; bottom: 108px; right: 0; left: 0; text-align: center; } .kindnaam { top: 40px; } }
+/* schakelaar Fiets | Vliegtuig bovenaan het paneel */
+.voertuig { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; margin: 0 0 12px; border-radius: 999px; background: var(--vlak); border: 1px solid var(--lijn); }
+.voertuig a { text-align: center; padding: 7px 0; border-radius: 999px; font: 600 14px/1 var(--letter); color: #5e5e5b; text-decoration: none; }
+.voertuig a[aria-current="page"] { background: var(--inkt); color: var(--wit); }
+.voertuig a:hover:not([aria-current]) { color: var(--inkt); }
+.kindwissel { position: absolute; top: 16px; left: 170px; font-size: 12px; color: var(--inkt); text-decoration: none; border: 1px solid var(--lijn); background: var(--wit); border-radius: 999px; padding: 3px 9px; }
+@media (max-width: 520px) { .kindwissel { top: 40px; left: 18px; } .kindnaam { top: 64px; } }

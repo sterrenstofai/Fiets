@@ -5,9 +5,10 @@ Een racefiets met motor in 3D, in de browser. Draaien, onderdelen bekijken (zeve
 ```
 site/                 wat live gaat (Netlify publiceert deze map)
   index.html          de app: podium links, paneel rechts; /kinderen is dezelfde pagina in de kinderstand
+  vliegtuig.html      het vliegtuig (js/vliegtuig.js, gemaakt door scripts/maak_vliegtuig.py); /kinderen/vliegtuig is de kinderstand
   onderzoekjes.html   zes onderzoekjes met Fos (js/onderzoekjes.js), met logboek, stempel en certificaat
   mijn.html           Mijn fiets: wat je in het echt hebt gezien (js/mijnpagina.js, js/mijn.js)
-  data/weetjes.json   44 weetjes met bron en controlezin
+  data/weetjes.json   44 weetjes over de fiets, data/weetjes-vliegtuig.json 35 over het vliegtuig, met bron en controlezin
   hoe-dit-werkt.html  wat echt is en wat niet, en de bronnen
   css/stijl.css
   js/app.js           de fiets (three.js), de anatomie, de bouwstappen, uit elkaar

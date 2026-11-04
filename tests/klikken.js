@@ -41,6 +41,19 @@ const BASIS = process.argv[2] || "http://127.0.0.1:8765";
   await p.goto(BASIS + "/onderzoekjes"); await p.fill("#naam", "Fos");
   const dl = p.waitForEvent("download"); await p.click("[data-cert]"); const d = await dl;
   controle(d.suggestedFilename().includes("fos"), "certificaat gedownload");
+  // vliegtuig: schakelaar, onderdelen, uit elkaar, kinderen
+  await p.goto(BASIS + "/?stil"); await p.waitForFunction(() => window.__klaar);
+  await p.click('.voertuig a[href="/vliegtuig"]'); await p.waitForFunction(() => window.__klaar);
+  controle((await p.textContent("#inhoud h2")) === "Het vliegtuig", "vliegtuig geopend via de schakelaar");
+  for (let i = 0; i < 6; i++) { await p.click("#verder"); await p.waitForTimeout(250); }
+  controle((await p.textContent("#inhoud h2")) === "De cockpit", "zeven onderdelen van het vliegtuig");
+  controle((await p.locator("details.weetjes").count()) === 1, "weetjes bij het vliegtuig");
+  await p.click("#uiteenknop"); await p.waitForTimeout(2200);
+  controle((await p.locator("#namen .naam").count()) >= 6, "vliegtuig uit elkaar met namen");
+  await p.goto(BASIS + "/kinderen/vliegtuig?stil"); await p.waitForFunction(() => window.__klaar);
+  await p.click("#kindvolgende"); await p.click("#kindvolgende"); await p.waitForTimeout(200);
+  controle((await p.textContent("#kindnaam")) === "de motor", "kinderen: de motor");
+  await p.click("#kindknop");
   await p.goto(BASIS + "/hoe-dit-werkt"); controle((await p.textContent("h1")).includes("Hoe dit werkt"), "hoe-dit-werkt");
   await b.close();
   console.log(fouten.length ? fouten.join("\n") : "alles doorgeklikt, geen fouten");

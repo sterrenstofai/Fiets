@@ -1,8 +1,10 @@
-"""Kijkt elk weetje in site/data/weetjes.json na: staat de controlezin letterlijk op de bronpagina?
+"""Kijkt elk weetje in site/data/weetjes.json (de fiets) en site/data/weetjes-vliegtuig.json
+(het vliegtuig) na: staat de controlezin letterlijk op de bronpagina?
 
 Overgenomen van sterrenstofai/deruimte/scripts/nakijken.py (zelfde norm() en tekst()).
 Zet per weetje "gevonden" op true/false in site/data/weetjes.json (de site toont alleen
-gevonden weetjes) en schrijft data/nagekeken.json met de uitkomst en de datum.
+gevonden weetjes) en schrijft data/nagekeken.json (fiets) en data/nagekeken-vliegtuig.json
+(vliegtuig) met de uitkomst en de datum.
 Is een bron nu niet bereikbaar (Wikipedia geeft soms 429), dan blijft de vorige uitkomst staan.
 Dit script vangt verschuivingen en tikfouten op, niet of de vertaling goed is.
 Bedoeld om maandelijks te draaien. Alleen standaardbibliotheek: python3 -I scripts/nakijken.py
@@ -49,8 +51,11 @@ def tekst(url):
     return haal(url)[1]
 
 
-def main():
-    pad = ROOT / "site" / "data" / "weetjes.json"
+BESTANDEN = [("weetjes.json", "nagekeken.json"), ("weetjes-vliegtuig.json", "nagekeken-vliegtuig.json")]
+
+
+def kijk_na(pad, uitpad):
+    print(pad.name)
     data = json.loads(pad.read_text())
     uit, fout, totaal = {}, 0, 0
     for sectie, weetjes in data["secties"].items():
@@ -70,9 +75,16 @@ def main():
         uit[sectie] = {"weetjes": r, "alles": all(r) and bool(r), "datum": date.today().isoformat()}
     pad.write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n")
     (ROOT / "data").mkdir(exist_ok=True)
-    (ROOT / "data" / "nagekeken.json").write_text(json.dumps(uit, indent=1) + "\n")
-    print(f"{sum(v['alles'] for v in uit.values())} van {len(uit)} secties helemaal nagekeken; "
+    uitpad.write_text(json.dumps(uit, indent=1) + "\n")
+    print(f"  {sum(v['alles'] for v in uit.values())} van {len(uit)} secties helemaal nagekeken; "
           f"{fout} van {totaal} weetjes niet gevonden")
+
+
+def main():
+    for naam, uitnaam in BESTANDEN:
+        pad = ROOT / "site" / "data" / naam
+        if pad.exists():
+            kijk_na(pad, ROOT / "data" / uitnaam)
 
 
 if __name__ == "__main__":
