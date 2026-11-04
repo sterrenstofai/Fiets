@@ -1,6 +1,8 @@
-// ================= Het vliegtuig (schaal 1:10 in meters; de neus wijst naar +x, rechts is +z) =================
-// Een algemeen tweemotorig passagiersvliegtuig, zelf getekend. Geen bestaand type, geen merk.
-const vliegtuig = new THREE.Group(); scene.add(vliegtuig);
+// Het vliegtuig: een algemeen tweemotorig passagiersvliegtuig, in code getekend (schaal 1:10 in meters; de neus wijst naar +x, rechts is +z).
+// Geen bestaand type, geen merk. Module voor /js/kern.js.
+export default function maak(ctx) {
+const { THREE, V, TAU, root, MAT, DELEN, mesh, groep, op, buis, samen, rondeDoos, vleugelvorm, naarBuitenG } = ctx;
+const vliegtuig = root;
 const G = { draaien: [], wielen: [], kleppen: [], roer: null, lichten: {} };
 const RR = 0.2, LANG = 3.8, X0 = -1.9, YM = 0.45; // straal van de romp, lengte, achterkant, hoogte van de as
 const ruimte = (t) => t * t * (3 - 2 * t);
@@ -50,31 +52,6 @@ function huid(xc, phic, w, h, off = 0.0015, n = 4, rond = 4) {
   const cr = [];
   for (const [phi, xc, w] of [[0.24, 1.7, 0.05], [-0.24, 1.7, 0.05], [0.66, 1.692, 0.052], [-0.66, 1.692, 0.052], [1.06, 1.676, 0.05], [-1.06, 1.676, 0.05]]) cr.push(huid(xc, phi, w, 0.058, 0.006, 4, 5));
   vliegtuig.add(mesh(samen(cr), "raam", "cockpit"));
-}
-// ---- een vleugelprofiel, uitgetrokken over doorsneden (NACA 4-cijfers, 2 procent welving)
-function profiel(n = 30) {
-  const p = [], m = 0.02, pp = 0.4;
-  for (let i = 0; i <= n; i++) { const b = (i / n) * Math.PI, x = (1 - Math.cos(b)) / 2; p.push(x); }
-  const pt = (x, onder) => { const yt = 5 * (0.2969 * Math.sqrt(x) - 0.126 * x - 0.3516 * x * x + 0.2843 * x ** 3 - 0.1036 * x ** 4);
-    const yc = x < pp ? (m / pp ** 2) * (2 * pp * x - x * x) : (m / (1 - pp) ** 2) * (1 - 2 * pp + 2 * pp * x - x * x); return [x, yc + (onder ? -yt : yt), yt]; };
-  return [...p.slice().reverse().map((x) => pt(x, false)), ...p.slice(1).map((x) => pt(x, true))]; // van achterrand over de bovenkant naar voren en onderlangs terug
-}
-const PROFIEL = profiel();
-// een vleugelachtig deel: dikte per doorsnede schaalt het profiel (12 procent) naar t
-function vleugelvorm(secs, naar, soort, deel, dicht = true) {
-  const echte = secs.map((sc) => ({ ...sc }));
-  const pos = [], idx = [], n = PROFIEL.length;
-  for (const sc of echte) for (const [x, y] of PROFIEL) pos.push(...naar(sc.le - x * sc.c, y * sc.c * sc.t, sc).toArray());
-  for (let i = 0; i < echte.length - 1; i++) for (let j = 0; j < n - 1; j++) { const a = i * n + j, b = a + 1, c = a + n, d = c + 1; idx.push(a, c, b, b, c, d); }
-  if (dicht) for (const [l, kant] of [[echte.length - 1, 1], [0, -1]]) { if (kant < 0 && !secs.wortelDicht) continue; const sc = echte[l], ci = pos.length / 3; pos.push(...naar(sc.le - 0.4 * sc.c, 0.02 * sc.c, sc).toArray()); for (let j = 0; j < n - 1; j++) kant > 0 ? idx.push(l * n + j, ci, l * n + j + 1) : idx.push(l * n + j + 1, ci, l * n + j); }
-  const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
-  return g;
-}
-function naarBuitenG(g, binnen) { // draai de vlakken om als de normalen naar het punt "binnen" wijzen
-  const p = g.attributes.position, nrm = g.attributes.normal; let som = 0;
-  for (let i = 0; i < p.count; i += 7) som += (p.getX(i) - binnen.x) * nrm.getX(i) + (p.getY(i) - binnen.y) * nrm.getY(i) + (p.getZ(i) - binnen.z) * nrm.getZ(i);
-  if (som < 0) { const ix = g.index.array; for (let q = 0; q < ix.length; q += 3) { const tmp = ix[q + 1]; ix[q + 1] = ix[q + 2]; ix[q + 2] = tmp; } g.computeVertexNormals(); }
-  return g;
 }
 // ---- vleugels met kleppen en winglets
 const VL_Y = 0.345, V_HOEK = 0.09; // hoogte van de vleugelwortel, V-stand (5 graden)
@@ -179,4 +156,80 @@ G.hoofdR = gestel(-0.12, 0.36, VL_Y - 0.03, 0.064, true);
   G.cockpitBinnen = groep(mesh(samen(cs), "stoel", "cockpit"), mesh(paneel, "scherm", "cockpit"));
   vliegtuig.add(G.cockpitBinnen);
 }
-const SNELHEID = { fan: 0 };
+
+
+// ================= Teksten (maten zijn die van de tekening, schaal 1:10) =================
+const SECTIES = [
+  { sleutel: "vliegtuig", naam: "Het vliegtuig", titel: "Het vliegtuig", tekst: "Een passagiersvliegtuig met twee motoren, zoals je er veel ziet op Schiphol. Tik op de lampjes.", cam: [0.78, 0.3, 7.2, [0.0, 0.5, 0], 32], focus: null,
+    specs: [["Lengte", "38 m in de tekening"], ["Spanwijdte", "34 m in de tekening"], ["Motoren", "2, onder de vleugels"], ["Stoelen", "162 in de tekening"], ["Lampjes", "tik", "lichten"]],
+    namen: [["vleugelR", "VLEUGEL", 60, -40], ["motorR", "MOTOR", 70, 40], ["staartVert", "STAART", -70, -30], ["neuswiel", "LANDINGSGESTEL", 40, 50], ["romp", "ROMP", -60, -50]] },
+  { sleutel: "romp", naam: "De romp", titel: "De romp", tekst: "De lange buis waar de mensen in zitten. Voorin de piloten, daarachter rijen stoelen, en onderin de koffers.", cam: [0.12, 0.18, 6.4, [0.0, 0.5, 0], 30], focus: ["romp", "cabine"], doorzicht: true,
+    specs: [["Rijen stoelen", "27 in de tekening"], ["Stoelen per rij", "6, met een gangpad"], ["Deuren", "2 aan elke kant"], ["Ramen", "een lange rij aan elke kant"]],
+    namen: [["cabine", "CABINE · STOELEN", -60, -60], ["romp", "ROMP", 60, -50]] },
+  { sleutel: "vleugels", naam: "De vleugels", titel: "De vleugels", tekst: "Door de vorm van de vleugels gaat het vliegtuig omhoog als het hard genoeg gaat. Kijk: de kleppen gaan uit.", cam: [0.55, 1.05, 5.6, [-0.15, 0.4, 0.5], 34], focus: ["vleugels", "kleppen"], kleppen: true,
+    specs: [["Spanwijdte", "34 m in de tekening"], ["Pijlstand", "naar achteren"], ["Kleppen", "2 aan elke kant"], ["Winglets", "omhoog aan de punt"]],
+    namen: [["vleugelR", "VLEUGEL", 60, -30], ["kleppen", "KLEPPEN", -70, 30]] },
+  { sleutel: "motoren", naam: "De motoren", titel: "De motoren", tekst: "Voorin draait een grote ventilator. Die blaast lucht hard naar achteren, en dan gaat het vliegtuig vooruit.", cam: [0.95, 0.16, 2.3, [0.18, 0.25, 0.62], 32], focus: ["motoren"], draaien: true,
+    specs: [["Motoren", "2 straalmotoren"], ["Ventilator", "20 bladen in de tekening"], ["Plek", "onder de vleugels"]],
+    namen: [["motorR", "STRAALMOTOR", 60, -40]] },
+  { sleutel: "staart", naam: "De staart", titel: "De staart", tekst: "De staart houdt het vliegtuig recht. Met het roer stuurt de piloot naar links en naar rechts.", cam: [-0.95, 0.35, 2.9, [-1.55, 0.8, 0], 32], focus: ["staart"], roer: true,
+    specs: [["Richtingsroer", "links en rechts"], ["Hoogteroeren", "omhoog en omlaag"], ["Staartlicht", "wit"]],
+    namen: [["staartVert", "RICHTINGSROER", -60, -40], ["hoogteR", "HOOGTEROER", 60, 30]] },
+  { sleutel: "landingsgestel", naam: "Het landingsgestel", titel: "Het landingsgestel", tekst: "Wielen om op te landen en te rijden. In de lucht klappen ze in de romp, zodat het vliegtuig makkelijker vliegt.", cam: [0.85, 0.03, 3.3, [0.4, 0.18, 0], 34], focus: ["landingsgestel"], rollen: true,
+    specs: [["Neuswiel", "2 wielen, stuurt op de grond"], ["Hoofdwielen", "2 × 2 wielen"], ["Wielen samen", "6"]],
+    namen: [["neuswiel", "NEUSWIEL", 60, -30], ["hoofdR", "HOOFDWIELEN", -60, -30]] },
+  { sleutel: "cockpit", naam: "De cockpit", titel: "De cockpit", tekst: "Hier zitten de piloten, met schermen en knoppen. Buiten knipperen de lampjes: rood links, groen rechts.", cam: [0.62, 0.22, 2.3, [1.45, 0.5, 0], 30], focus: ["cockpit", "lichten"], doorzicht: true, lichten: true,
+    specs: [["Piloten", "2"], ["Ramen", "4 in de tekening"], ["Lampjes", "rood, groen en wit"]],
+    namen: [["cockpit", "COCKPIT", 60, -40], ["lichten", "LAMPJES", -60, 40]] },
+];
+const KIND = [
+  { naam: "het vliegtuig", focus: ["romp"], cam: [0.78, 0.3, 7.2, [0.0, 0.5, 0], 32] },
+  { naam: "de vleugel", focus: ["vleugels", "kleppen"], cam: [0.55, 1.05, 5.6, [-0.15, 0.4, 0.5], 34], kleppen: true },
+  { naam: "de motor", focus: ["motoren"], cam: [0.95, 0.16, 2.3, [0.18, 0.25, 0.62], 32], draaien: true, geluid: "straal" },
+  { naam: "de staart", focus: ["staart"], cam: [-0.95, 0.35, 2.9, [-1.55, 0.8, 0], 32], roer: true },
+  { naam: "de wielen", focus: ["landingsgestel"], cam: [0.85, 0.03, 3.3, [0.4, 0.18, 0], 34], rollen: true },
+  { naam: "de ramen", focus: ["romp"], cam: [0.12, 0.15, 3.4, [0.3, 0.5, 0], 30] },
+  { naam: "de cockpit", focus: ["cockpit"], cam: [0.62, 0.22, 2.3, [1.45, 0.5, 0], 30] },
+  { naam: "de lampjes", focus: ["lichten"], cam: [0.6, 0.6, 5.0, [-0.2, 0.45, 0], 34], lichten: true },
+];
+
+
+function mini(aan) {
+  const sx = (x) => 60 + x * 26, sy = (y) => 52 - y * 26;
+  const romp = Array.from({ length: 31 }, (_, i) => { const t = i / 30; return [rompX(t), rompY(t) + rompStraal(t)]; }).concat(Array.from({ length: 31 }, (_, i) => { const t = 1 - i / 30; return [rompX(t), rompY(t) - rompStraal(t)]; }));
+  return `<path d="M${romp.map(([x, y]) => `${sx(x).toFixed(1)},${sy(y).toFixed(1)}`).join("L")}Z" class="${aan("romp") || aan("cockpit")}"/>` +
+    `<path d="M${sx(-1.2)},${sy(0.66)}L${sx(-1.66)},${sy(1.28)}L${sx(-1.84)},${sy(1.28)}L${sx(-1.76)},${sy(0.66)}" class="${aan("staart")}"/>` +
+    `<path d="M${sx(0.36)},${sy(0.36)}L${sx(-0.5)},${sy(0.42)}L${sx(-0.36)},${sy(0.33)}Z" class="${aan("vleugels")}"/>` +
+    `<path d="M${sx(0.42)},${sy(0.24)}L${sx(-0.18)},${sy(0.24)}" class="${aan("motoren")}" style="stroke-width:6"/>` +
+    `<line x1="${sx(1.42)}" y1="${sy(0.26)}" x2="${sx(1.42)}" y2="${sy(0)}" class="${aan("landingsgestel")}"/><line x1="${sx(-0.12)}" y1="${sy(0.33)}" x2="${sx(-0.12)}" y2="${sy(0)}" class="${aan("landingsgestel")}"/>`;
+}
+
+
+let fan = 0, kleppenNu = 0, roerT = 0, wielHoek = 0, lichtT = 0;
+function beweeg(dt, h, s) {
+  let bezig = false;
+  const fanDoel = h.draaien || s.uiteen ? 9 : 0; fan += (fanDoel - fan) * Math.min(1, dt * 1.5);
+  if (fan > 0.01) { for (const f of G.draaien) f.rotation.x += fan * dt; bezig = true; }
+  if (h.kleppen || h.roer || h.rollen || s.lichtAan || h.lichten || Math.abs(kleppenNu - (h.kleppen ? 0.55 : 0)) > 0.002) bezig = true;
+  const kDoel = h.kleppen ? 0.55 : 0; kleppenNu += (kDoel - kleppenNu) * Math.min(1, dt * 2); for (const k of G.kleppen) k.rotation.z = kleppenNu;
+  if (h.roer) roerT += dt; G.roer.rotation.y = h.roer ? Math.sin(roerT * 1.6) * 0.35 : G.roer.rotation.y * 0.9;
+  if (h.rollen) { wielHoek -= dt * 2.5; for (const w of G.wielen) w.rotation.z = wielHoek; }
+  lichtT += dt; const aan = s.lichtAan || h.lichten || s.uiteen;
+  for (const k of ["teken", "donker"]) { MAT.roodlicht[k].emissiveIntensity = MAT.groenlicht[k].emissiveIntensity = MAT.witlicht[k].emissiveIntensity = aan ? 2.2 : 0.15; }
+  G.lichten.zwaai.scale.setScalar(aan && lichtT % 1.1 < 0.12 ? 1.6 : 1);
+  return bezig;
+}
+return {
+  titel: "Het vliegtuig", label: "Vliegtuig", model: "Passagiersvliegtuig", schaal: "Schaal 1:10", hint: "Sleep om te draaien · tik op de lampjes", SECTIES, KIND, mini, beweeg,
+  doorzicht: (aan) => { G.cabine.visible = G.cockpitBinnen.visible = aan; },
+  anker: () => ({ romp: DELEN.romp[0], cabine: G.cabine, vleugelR: G.vleugelR, kleppen: G.kleppen[1], motorR: G.motorR, staartVert: G.staartVert, hoogteR: G.hoogteR, neuswiel: G.neuswiel, hoofdR: G.hoofdR, cockpit: DELEN.cockpit[0], lichten: G.lichten.groen }),
+  uiteenCam: [0.75, 0.45, 8.8, [-0.1, 0.65, 0], 34],
+  uiteen: () => [
+    [G.staartVert, [-0.35, 0.55, 0], "STAART", [-60, -30]], [G.hoogteL, [-0.45, 0.2, -0.35], null], [G.hoogteR, [-0.45, 0.2, 0.35], "HOOGTEROER", [60, -20]],
+    [G.vleugelL, [0, 0.05, -0.65], null], [G.vleugelR, [0, 0.05, 0.65], "VLEUGEL", [60, -30]],
+    [G.motorL, [0.15, -0.3, -0.95], null], [G.motorR, [0.15, -0.3, 0.95], "MOTOR", [60, 30]],
+    [G.neuswiel, [0.35, -0.3, 0], "NEUSWIEL", [50, 20]], [G.hoofdL, [0, -0.35, -0.3], null], [G.hoofdR, [0, -0.35, 0.3], "HOOFDWIELEN", [60, 20]],
+    [G.cabine, [0, 0.75, 0], "CABINE · 162 STOELEN", [-70, -30]], [G.cockpitBinnen, [0.45, 0.6, 0], "COCKPIT", [60, -20]],
+  ],
+};
+}

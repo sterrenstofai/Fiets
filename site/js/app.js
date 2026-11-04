@@ -6,7 +6,7 @@ import { mergeGeometries } from "/js/vendor/BufferGeometryUtils.js";
 import { HDRLoader } from "/js/vendor/HDRLoader.js";
 import * as STEM from "/js/stem.js";
 import * as MIJN from "/js/mijn.js";
-const KINDMODUS = location.pathname.replace(/\/$/, "") === "/kinderen";
+const KINDMODUS = location.pathname.replace(/\/$/, "") === "/kinderen/fiets";
 
 const params = new URLSearchParams(location.search);
 const TAU = Math.PI * 2;

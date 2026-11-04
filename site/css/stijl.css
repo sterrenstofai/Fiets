@@ -260,9 +260,25 @@ body.kindmodus .app { height: 100svh; }
 @media (max-width: 900px) { body.kindmodus .podium { height: 100svh; } }
 @media (max-width: 520px) { .kindbron { top: auto; bottom: 108px; right: 0; left: 0; text-align: center; } .kindnaam { top: 40px; } }
 /* schakelaar Fiets | Vliegtuig bovenaan het paneel */
-.voertuig { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; margin: 0 0 12px; border-radius: 999px; background: var(--vlak); border: 1px solid var(--lijn); }
-.voertuig a { text-align: center; padding: 7px 0; border-radius: 999px; font: 600 14px/1 var(--letter); color: #5e5e5b; text-decoration: none; }
+.voertuig { display: flex; gap: 3px; padding: 3px; margin: 0 0 12px; border-radius: 999px; background: var(--vlak); border: 1px solid var(--lijn); overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+.voertuig::-webkit-scrollbar { display: none; }
+.voertuig a { flex: 0 0 auto; text-align: center; padding: 7px 12px; border-radius: 999px; font: 600 14px/1 var(--letter); color: #5e5e5b; text-decoration: none; white-space: nowrap; }
+.voertuig a.alle { color: var(--inkt); }
+.voertuig a.alle::before { content: "▦ "; font-size: 12px; }
 .voertuig a[aria-current="page"] { background: var(--inkt); color: var(--wit); }
 .voertuig a:hover:not([aria-current]) { color: var(--inkt); }
 .kindwissel { position: absolute; top: 16px; left: 170px; font-size: 12px; color: var(--inkt); text-decoration: none; border: 1px solid var(--lijn); background: var(--wit); border-radius: 999px; padding: 3px 9px; }
 @media (max-width: 520px) { .kindwissel { top: 40px; left: 18px; } .kindnaam { top: 64px; } }
+
+/* startpagina en kinderkeuze: een kaart per voertuig */
+.leespagina main.overzicht { max-width: 60rem; }
+.overzicht .inleiding { max-width: 36rem; color: #444; }
+.groepnaam { font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--zacht); margin: 28px 0 10px; }
+.kaartrij { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.kaart { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 10px 14px; background: var(--wit); border: 1px solid var(--lijn); border-radius: 14px; color: var(--inkt); text-decoration: none; font: 600 15px/1.2 var(--letter); transition: transform .15s, border-color .15s; }
+.kaart img { width: 100%; max-width: 120px; height: auto; }
+.kaart:hover, .kaart:focus-visible { border-color: var(--inkt); transform: translateY(-2px); }
+.kinderkeuze .kaartrij { grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 14px; margin-top: 16px; }
+.kinderkeuze .kaart { padding: 26px 12px 20px; font-size: 24px; border-radius: 20px; }
+.kinderkeuze .kaart img { max-width: 170px; }
+.kinderkeuze h1 { font-size: 34px; }

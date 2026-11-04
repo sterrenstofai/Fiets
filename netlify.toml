@@ -24,19 +24,120 @@
   [headers.values]
     Cache-Control = "public, max-age=2592000"
 
+# Elk voertuig heeft een eigen adres: /<naam> en /kinderen/<naam>. De lijst staat in site/js/voertuigen.js.
 [[redirects]]
-  from = "/kinderen/vliegtuig"
-  to = "/vliegtuig.html"
+  from = "/kinderen"
+  to = "/kinderen.html"
   status = 200
 
 [[redirects]]
-  from = "/kinderen"
-  to = "/index.html"
+  from = "/kinderen/fiets"
+  to = "/fiets.html"
+  status = 200
+
+[[redirects]]
+  from = "/fiets"
+  to = "/fiets.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/step"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/step"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/skateboard"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/skateboard"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/trekker"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/trekker"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/vrachtwagen"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/vrachtwagen"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/bus"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/bus"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/brandweerauto"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/brandweerauto"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/vuilniswagen"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/vuilniswagen"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/trein"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/trein"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/boot"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/boot"
+  to = "/voertuig.html"
+  status = 200
+
+[[redirects]]
+  from = "/kinderen/vliegtuig"
+  to = "/voertuig.html"
   status = 200
 
 [[redirects]]
   from = "/vliegtuig"
-  to = "/vliegtuig.html"
+  to = "/voertuig.html"
   status = 200
 
 [[redirects]]

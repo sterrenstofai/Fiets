@@ -56,3 +56,40 @@ export function straal() {
     o.connect(og).connect(a.destination); o.start(t0); o.stop(t0 + 2.5);
   } catch {}
 }
+// ---- geluiden voor de andere voertuigen (allemaal nagemaakt, geen opnames)
+function toon(a, t0, f, duur, { v = 0.12, type = "sawtooth", lp = 2400, glij = 0 } = {}) {
+  const o = a.createOscillator(), g = a.createGain(), fl = a.createBiquadFilter();
+  o.type = type; o.frequency.setValueAtTime(f, t0); if (glij) o.frequency.linearRampToValueAtTime(f + glij, t0 + duur);
+  fl.type = "lowpass"; fl.frequency.value = lp;
+  g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(v, t0 + 0.03); g.gain.setValueAtTime(v, t0 + duur - 0.06); g.gain.linearRampToValueAtTime(0, t0 + duur);
+  o.connect(fl).connect(g).connect(a.destination); o.start(t0); o.stop(t0 + duur + 0.02);
+}
+// Een toeter (auto, vrachtwagen, bus): twee tonen tegelijk, twee keer kort.
+export function toeter() { try { const a = ctx(), t0 = a.currentTime; for (const s of [0, 0.42]) for (const f of [349, 440]) toon(a, t0 + s, f, 0.32, { v: 0.08 }); } catch {} }
+// Een sirene (brandweer): twee tonen om en om, "taa-tuu".
+export function sirene() { try { const a = ctx(), t0 = a.currentTime; for (let i = 0; i < 4; i++) toon(a, t0 + i * 0.55, i % 2 ? 440 : 587, 0.55, { v: 0.09, type: "square", lp: 1800 }); } catch {} }
+// Een treinfluit: een hoge, iets hese toon.
+export function fluit() { try { const a = ctx(), t0 = a.currentTime; for (const f of [622, 740, 932]) toon(a, t0, f, 1.1, { v: 0.05, type: "triangle", lp: 3000 }); } catch {} }
+// Een scheepshoorn: een lage, lange toon.
+export function hoorn() { try { const a = ctx(), t0 = a.currentTime; for (const f of [110, 165, 220]) toon(a, t0, f, 1.6, { v: 0.09, lp: 900 }); } catch {} }
+// Een motor die aanslaat en bromt (trekker, vuilniswagen): lage tikjes die sneller worden.
+export function brom() {
+  try {
+    const a = ctx(), t0 = a.currentTime, o = a.createOscillator(), g = a.createGain(), fl = a.createBiquadFilter(), lfo = a.createOscillator(), lg = a.createGain();
+    o.type = "sawtooth"; o.frequency.setValueAtTime(38, t0); o.frequency.linearRampToValueAtTime(62, t0 + 1.2); o.frequency.linearRampToValueAtTime(48, t0 + 2.2);
+    fl.type = "lowpass"; fl.frequency.value = 420; lfo.frequency.setValueAtTime(9, t0); lfo.frequency.linearRampToValueAtTime(16, t0 + 1.2); lg.gain.value = 0.06;
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.14, t0 + 0.2); g.gain.setValueAtTime(0.14, t0 + 1.9); g.gain.linearRampToValueAtTime(0, t0 + 2.3);
+    lfo.connect(lg).connect(g.gain); o.connect(fl).connect(g).connect(a.destination); o.start(t0); lfo.start(t0); o.stop(t0 + 2.4); lfo.stop(t0 + 2.4);
+  } catch {}
+}
+// Wieltjes over de stoep (skateboard, step): een rollend gerommel met tikjes van de tegels.
+export function rol() {
+  try {
+    const a = ctx(), t0 = a.currentTime, n = a.sampleRate * 1.6, b = a.createBuffer(1, n, a.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (0.5 + 0.5 * ((i / a.sampleRate) % 0.32 < 0.012 ? 3 : 1));
+    const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+    s.buffer = b; f.type = "bandpass"; f.frequency.value = 500; f.Q.value = 0.8;
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(0.3, t0 + 0.15); g.gain.linearRampToValueAtTime(0, t0 + 1.6);
+    s.connect(f).connect(g).connect(a.destination); s.start(t0);
+  } catch {}
+}

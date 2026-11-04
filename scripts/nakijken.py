@@ -1,10 +1,9 @@
-"""Kijkt elk weetje in site/data/weetjes.json (de fiets) en site/data/weetjes-vliegtuig.json
-(het vliegtuig) na: staat de controlezin letterlijk op de bronpagina?
+"""Kijkt elk weetje in site/data/weetjes.json (de fiets) en site/data/weetjes-<naam>.json
+(de andere voertuigen) na: staat de controlezin letterlijk op de bronpagina?
 
 Overgenomen van sterrenstofai/deruimte/scripts/nakijken.py (zelfde norm() en tekst()).
 Zet per weetje "gevonden" op true/false in site/data/weetjes.json (de site toont alleen
-gevonden weetjes) en schrijft data/nagekeken.json (fiets) en data/nagekeken-vliegtuig.json
-(vliegtuig) met de uitkomst en de datum.
+gevonden weetjes) en schrijft data/nagekeken.json (fiets) en data/nagekeken-<naam>.json met de uitkomst en de datum.
 Is een bron nu niet bereikbaar (Wikipedia geeft soms 429), dan blijft de vorige uitkomst staan.
 Dit script vangt verschuivingen en tikfouten op, niet of de vertaling goed is.
 Bedoeld om maandelijks te draaien. Alleen standaardbibliotheek: python3 -I scripts/nakijken.py
@@ -51,7 +50,12 @@ def tekst(url):
     return haal(url)[1]
 
 
-BESTANDEN = [("weetjes.json", "nagekeken.json"), ("weetjes-vliegtuig.json", "nagekeken-vliegtuig.json")]
+def bestanden():
+    """De fiets (weetjes.json) en elk ander voertuig (weetjes-<naam>.json)."""
+    uit = [("weetjes.json", "nagekeken.json")]
+    for p in sorted((ROOT / "site" / "data").glob("weetjes-*.json")):
+        uit.append((p.name, "nagekeken-" + p.name[len("weetjes-"):]))
+    return uit
 
 
 def kijk_na(pad, uitpad):
@@ -81,7 +85,7 @@ def kijk_na(pad, uitpad):
 
 
 def main():
-    for naam, uitnaam in BESTANDEN:
+    for naam, uitnaam in bestanden():
         pad = ROOT / "site" / "data" / naam
         if pad.exists():
             kijk_na(pad, ROOT / "data" / uitnaam)

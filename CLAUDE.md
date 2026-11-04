@@ -1,13 +1,14 @@
-# De fiets (werktitel): werkafspraken
+# Voertuigen (werktitel): werkafspraken
 
 Ontstaan uit het autoproject (`/home/user/auto`, fase 1 datacheck). Op 3 november 2026 besloten: geen auto maar een racefiets met motor, getekend in code, naar het voorbeeld van een interactieve 3D-fiets (LinkedIn-video).
 
 - **Eerlijk over wat de site niet weet.** De fiets is een "tekening" en de beweging een "simulatie". De getallen zijn maten van de tekening, geen gegevens van een echte fiets. Weetjes met een bron alleen met een controlezin (`nakijken.py` uit `sterrenstofai/deruimte`). Pagina `site/hoe-dit-werkt.html`.
-- **Het vliegtuig** (besluit 4 november 2026): een algemeen tweemotorig passagiersvliegtuig, in code getekend op schaal 1:10, met anatomie (zeven onderdelen), uit elkaar en een kinderstand; geen bouwstappen. Schakelaar "Fiets | Vliegtuig" bovenaan het paneel. `site/js/vliegtuig.js` wordt gemaakt door `scripts/maak_vliegtuig.py` uit `scripts/vliegtuig_deel*.js` plus de weergave uit `app.js`: bewerk de delen, niet het resultaat.
-- **Geen merk nadoen:** geen logo's, geen merknamen (dus geen TREK, Bontrager, SRAM, TQ).
+- **Het vliegtuig** (besluit 4 november 2026): een algemeen tweemotorig passagiersvliegtuig, in code getekend op schaal 1:10, met anatomie (zeven onderdelen), uit elkaar en een kinderstand; geen bouwstappen.
+- **Voertuigen** (besluit 4 november 2026): de site heet "Voertuigen". Startpagina `/` met een kaart per voertuig, `/kinderen` is de kinderkeuze. De fiets staat op `/fiets` (eigen app `site/js/app.js`, met bouwstappen). Elk ander voertuig is een module `site/js/voertuigen/<naam>.js` op de gedeelde motor `site/js/kern.js`, op `/<naam>` en `/kinderen/<naam>`. De lijst staat in `site/js/voertuigen.js`; een keuzestrook bovenaan het paneel (`site/js/kiezer.js`). Hoe je er een toevoegt: `docs/nieuw-voertuig.md`.
+- **Geen merk nadoen:** geen logo's, geen merknamen (dus geen TREK, Bontrager, SRAM, TQ), geen bestaand type en geen kleurstelling van een bedrijf of vervoerder. Geen tekst op een voertuig.
 - **Geen AI-beelden.** Alles in code; belichting is een CC0-HDR van Poly Haven.
-- **Veiligheid:** bouwen doe je samen met een volwassene; het is geen handleiding voor een echte fiets; de accu maak je niet open.
-- **Geen cookies, geen tracking**, niets naar andere sites. Stem = Web Speech van het toestel, klikgeluid nagemaakt (Web Audio, pas na een tik).
+- **Veiligheid:** bouwen doe je samen met een volwassene; het is geen handleiding voor een echte fiets; de accu maak je niet open. Nooit op of bij het spoor (bovenleiding), een zwemvest bij het water, een helm op een skateboard of step.
+- **Geen cookies, geen tracking**, niets naar andere sites. Stem = Web Speech van het toestel, geluiden nagemaakt (Web Audio, pas na een tik).
 - **Browser-first:** statische site in `site/`, ES-modules, geen build-stap. three.js r187 (MIT) in `site/js/vendor/`, één keer verkleind met esbuild; versie vastgezet. Strikte CSP in `netlify.toml`; `scripts/server.py` stuurt dezelfde CSP mee.
 - **Stijl:** lichtgrijs papier `#F1F0EE`, inkt `#1E1E1E`, rood accent `#C8102E`; Geist en Geist Mono (OFL), zelf gehost. Standaard de stand "Donker".
 - **Nederlands**, direct, zonder marketingtoon. Let op de/het: de fiets, het frame, het stuur, de ketting, het wiel, de accu.
