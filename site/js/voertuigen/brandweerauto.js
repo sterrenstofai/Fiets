@@ -59,7 +59,7 @@ const K = kast(ctx, { x0: CX0, x1: X1, y0: CY0, y1: CY1, z0: -ZB, z1: ZB }, { xn
   const kl = mesh(samen(kop), "lamp", "lichten"); G.lichten.kop = kl;
   cab.add(kl, mesh(samen(knip), "knipper", "lichten"));
   // reflecterende streep: om de voorkant heen en langs de zijkant (onder de voordeur door)
-  const streep = [VL("x+", -1.42, 1.42, 1.2, 1.27, { rc: 0.01, off: 0.012, ringen: 2 })];
+  const streep = [VL("x+", 0.98, 1.42, 1.2, 1.27, { rc: 0.01, off: 0.012, ringen: 2 }), VL("x+", -1.42, -0.98, 1.2, 1.27, { rc: 0.01, off: 0.012, ringen: 2 })];
   for (const k of [1, -1]) streep.push(VL(k > 0 ? "z+" : "z-", CD[1] + 0.04, 4.12, 1.2, 1.27, { rc: 0.01, off: 0.012, ringen: 2 }));
   const st = mesh(samen(streep), "reflex", "cabine"); st.userData.romp = true; cab.add(st);
   // blauwe flitsers in de grille
@@ -282,38 +282,41 @@ for (const [x, dubbel] of [[XV, false], [XA, true]]) for (const k of [1, -1]) {
 
 
 // ================= Teksten (maten zijn die van de tekening) =================
+// op een smal scherm (staand) iets verder weg, zodat het hele voertuig in beeld past
+const SMAL = typeof matchMedia === "function" && matchMedia("(max-aspect-ratio: 1/1)").matches;
+const C = (d, h, a, p, fov) => [d, h, a * (SMAL ? 1.3 : 1), p, fov];
 const SECTIES = [
-  { sleutel: "brandweerauto", naam: "De brandweerauto", titel: "De brandweerauto", tekst: "Een tankautospuit: de brandweerauto die als eerste komt. Hij heeft water bij zich, een pomp, slangen, een ladder en plek voor zes mensen. Tik op de zwaailichten.", cam: [0.7, 0.16, 15.5, [0.1, 1.5, 0], 32], focus: null,
+  { sleutel: "brandweerauto", naam: "De brandweerauto", titel: "De brandweerauto", tekst: "Een tankautospuit: de brandweerauto die als eerste komt. Hij heeft water bij zich, een pomp, slangen, een ladder en plek voor zes mensen. Tik op de zwaailichten.", cam: C(0.7, 0.16, 15.5, [0.1, 1.5, 0], 32), focus: null,
     specs: [["Lengte", "8,6 m in de tekening"], ["Breedte", "2,55 m"], ["Hoogte", "3,3 m met de ladder"], ["Bemanning", "6, in de cabine"], ["Zwaailichten", "tik", "zwaailichten"]],
     namen: [["cabine", "CABINE", 50, -90], ["luik", "ROLLUIKEN", -40, 90], ["ladder", "LADDER", -50, -60], ["zwaai", "ZWAAILICHTEN", 40, -50], ["wiel", "WIELEN", 50, 70]] },
-  { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Voorin rijdt de chauffeur, naast hem zit de baas van de ploeg. Achterin zitten nog vier brandweermensen. Ze trekken onderweg hun pak en masker al aan.", cam: [0.5, 0.12, 9.5, [2.6, 1.7, 0.6], 32], focus: ["cabine", "spiegels"], deuren: true,
+  { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Voorin rijdt de chauffeur, naast hem zit de baas van de ploeg. Achterin zitten nog vier brandweermensen. Ze trekken onderweg hun pak en masker al aan.", cam: C(0.95, 0.14, 13, [2.4, 1.6, 0.6], 32), focus: ["cabine", "spiegels"], deuren: true,
     specs: [["Plaatsen", "6: 2 voor, 4 achter"], ["Deuren", "4, ze draaien open"], ["Chauffeur", "linksvoor"], ["Spiegels", "2 aan elke kant"]],
     namen: [["voordeur", "VOORDEUR", 50, -70], ["bemanning", "BEMANNING", -50, -80], ["spiegel", "SPIEGELS", 50, 60]] },
-  { sleutel: "kasten", naam: "De kasten", titel: "De kasten met rolluiken", tekst: "Aan de zijkant zitten kasten met rolluiken. Die schuiven omhoog. Daarachter liggen de slangen, de flessen met lucht om te ademen en het gereedschap.", cam: [0.1, 0.1, 12.5, [-0.7, 1.6, 0.4], 32], focus: ["kasten", "gereedschap"], luiken: true,
+  { sleutel: "kasten", naam: "De kasten", titel: "De kasten met rolluiken", tekst: "Aan de zijkant zitten kasten met rolluiken. Die schuiven omhoog. Daarachter liggen de slangen, de flessen met lucht om te ademen en het gereedschap.", cam: C(0.1, 0.1, 12.5, [-0.7, 1.6, 0.4], 32), focus: ["kasten", "gereedschap"], luiken: true,
     specs: [["Kasten", "3 aan elke kant"], ["Rolluiken", "van aluminium, schuiven omhoog"], ["Ademlucht", "4 flessen per kant in de tekening"], ["Slangen", "opgerold, 9 per kant"]],
     namen: [["flessen", "ADEMLUCHT", 60, 130], ["slangen", "SLANGEN", 40, -120], ["luik", "ROLLUIK", -60, -140]] },
-  { sleutel: "ladder", naam: "De ladder", titel: "De ladder", tekst: "Op het dak ligt een schuifladder. Hier gaat hij omhoog en schuift hij uit. Bij een brand halen ze hem van het dak en zetten hem tegen het huis.", cam: [0.42, 0.16, 20, [-0.6, 3.5, 0], 32], focus: ["ladder"], ladder: true,
+  { sleutel: "ladder", naam: "De ladder", titel: "De ladder", tekst: "Op het dak ligt een schuifladder. Hier gaat hij omhoog en schuift hij uit. Bij een brand halen ze hem van het dak en zetten hem tegen het huis.", cam: C(0.42, 0.16, 20, [-0.6, 3.5, 0], 32), focus: ["ladder"], ladder: true,
     specs: [["Ladder", "2 delen, schuift uit"], ["Lengte", "4,5 m, uitgeschoven 7 m in de tekening"], ["Ook op het dak", "2 zuigslangen"]],
     namen: [["ladderBoven", "SCHUIFLADDER", 50, -40], ["zuig", "ZUIGSLANGEN", -60, 50]] },
-  { sleutel: "pomp", naam: "De pomp", titel: "De pomp en de haspels", tekst: "Achterin zit de pomp. Die pompt water uit de tank of uit een brandkraan naar de slangen. Op de haspels zit een lange slang die altijd klaar ligt.", cam: [-0.95, 0.14, 9, [-3.9, 1.6, 0], 32], focus: ["pomp", "haspel"], achter: true, haspel: true,
+  { sleutel: "pomp", naam: "De pomp", titel: "De pomp en de haspels", tekst: "Achterin zit de pomp. Die pompt water uit de tank of uit een brandkraan naar de slangen. Op de haspels zit een lange slang die altijd klaar ligt.", cam: C(-0.95, 0.14, 9, [-3.9, 1.6, 0], 32), focus: ["pomp", "haspel"], achter: true, haspel: true,
     specs: [["Pomp", "achterin, met meters"], ["Haspels", "2, links en rechts"], ["Watertank", "in het midden, minstens 1500 liter"]],
-    namen: [["pomp", "POMP", 60, 70], ["haspelR", "HASPEL", -60, -70], ["meters", "METERS", 60, -60]] },
-  { sleutel: "zwaailichten", naam: "De zwaailichten", titel: "Zwaailichten en sirene", tekst: "Als de brandweer haast heeft, flitsen de blauwe lampen en gaat de sirene. Dan gaan de andere auto's opzij.", cam: [1.05, 0.22, 10.5, [3.4, 2.2, 0], 32], focus: ["zwaailichten", "lichten"], zwaai: true,
+    namen: [["pomp", "POMP", 90, 90], ["haspelR", "HASPEL", -110, -90], ["meters", "METERS", 110, -60]] },
+  { sleutel: "zwaailichten", naam: "De zwaailichten", titel: "Zwaailichten en sirene", tekst: "Als de brandweer haast heeft, flitsen de blauwe lampen en gaat de sirene. Dan gaan de andere auto's opzij.", cam: C(1.05, 0.22, 10.5, [3.4, 2.2, 0], 32), focus: ["zwaailichten", "lichten"], zwaai: true,
     specs: [["Zwaailichten", "blauw, op het dak en voorop"], ["Sirene", "tussen de lampen op het dak"], ["Achter", "ook blauwe flitsers"], ["Zwaailichten", "tik", "zwaailichten"]],
-    namen: [["zwaai", "ZWAAILICHTEN", 50, -60], ["koplamp", "KOPLAMP", -50, 60], ["flitser", "FLITSER", 60, 40]] },
-  { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Zes grote wielen: voor één aan elke kant, achter twee naast elkaar. De voorwielen sturen, de achterwielen worden aangedreven.", cam: [0.08, 0.05, 12, [0.6, 0.85, 0], 32], focus: ["wielen"], rollen: true,
+    namen: [["zwaai", "ZWAAILICHTEN", 50, -60], ["koplamp", "KOPLAMP", -80, 90], ["flitser", "FLITSER", 60, 40]] },
+  { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Zes grote wielen: voor één aan elke kant, achter twee naast elkaar. De voorwielen sturen, de achterwielen worden aangedreven.", cam: C(0.12, 0.08, 16, [0.7, 0.95, 0], 32), focus: ["wielen"], rollen: true,
     specs: [["Wielen", "6: voor 2, achter 2 × 2"], ["Doorsnede", "1,06 m in de tekening"], ["Tussen de assen", "4,2 m"]],
-    namen: [["wiel", "VOORWIEL", 50, -80], ["wielA", "DUBBELE ACHTERWIELEN", -50, -80]] },
+    namen: [["wiel", "VOORWIEL", 50, 110], ["wielA", "DUBBELE ACHTERWIELEN", -50, 110]] },
 ];
 const KIND = [
-  { naam: "de brandweerauto", focus: ["cabine", "opbouw"], cam: [0.7, 0.16, 15.5, [0.1, 1.5, 0], 32], geluid: "sirene", zwaai: true },
-  { naam: "de cabine", focus: ["cabine"], cam: [0.5, 0.12, 9.5, [2.6, 1.7, 0.6], 32], deuren: true },
-  { naam: "de rolluiken", focus: ["kasten"], cam: [0.1, 0.1, 12.5, [-0.7, 1.6, 0.4], 32], luiken: true },
-  { naam: "de ladder", focus: ["ladder"], cam: [0.42, 0.16, 20, [-0.6, 3.5, 0], 32], ladder: true },
-  { naam: "de slang", focus: ["haspel", "gereedschap"], cam: [-0.95, 0.14, 9, [-3.9, 1.6, 0], 32], achter: true, haspel: true },
-  { naam: "de pomp", focus: ["pomp"], cam: [-0.95, 0.14, 9, [-3.9, 1.6, 0], 32], achter: true },
-  { naam: "de zwaailichten", focus: ["zwaailichten"], cam: [1.05, 0.22, 10.5, [3.4, 2.2, 0], 32], zwaai: true, geluid: "sirene" },
-  { naam: "de wielen", focus: ["wielen"], cam: [0.08, 0.05, 12, [0.6, 0.85, 0], 32], rollen: true, geluid: "rol" },
+  { naam: "de brandweerauto", focus: ["cabine", "opbouw"], cam: C(0.7, 0.16, 15.5, [0.1, 1.5, 0], 32), geluid: "sirene", zwaai: true },
+  { naam: "de cabine", focus: ["cabine"], cam: C(0.95, 0.14, 13, [2.4, 1.6, 0.6], 32), deuren: true },
+  { naam: "de rolluiken", focus: ["kasten"], cam: C(0.1, 0.1, 12.5, [-0.7, 1.6, 0.4], 32), luiken: true },
+  { naam: "de ladder", focus: ["ladder"], cam: C(0.42, 0.16, 20, [-0.6, 3.5, 0], 32), ladder: true },
+  { naam: "de slang", focus: ["haspel", "gereedschap"], cam: C(-0.95, 0.14, 9, [-3.9, 1.6, 0], 32), achter: true, haspel: true },
+  { naam: "de pomp", focus: ["pomp"], cam: C(-0.95, 0.14, 9, [-3.9, 1.6, 0], 32), achter: true },
+  { naam: "de zwaailichten", focus: ["zwaailichten"], cam: C(1.05, 0.22, 10.5, [3.4, 2.2, 0], 32), zwaai: true, geluid: "sirene" },
+  { naam: "de wielen", focus: ["wielen"], cam: C(0.12, 0.08, 16, [0.7, 0.95, 0], 32), rollen: true, geluid: "rol" },
 ];
 
 function mini(aan) {
@@ -361,7 +364,7 @@ return {
   anker: () => ({ cabine: G.huid, luik: G.luiken[0], ladder: G.ladder.children[0], ladderBoven: G.ladderBoven, zuig: DELEN.ladder[DELEN.ladder.length - 1], zwaai: G.zwaai, wiel: G.wielVR, wielA: G.wielAR,
     voordeur: G.deuren[0].s, bemanning: G.cabBinnen.children[0], spiegel: G.spiegels.children[0], flessen: G.flessen, slangen: G.slangen, pomp: G.pomp.children[0], haspelR: G.haspelR, meters: G.pomp.children[3],
     koplamp: G.lichten.kop, flitser: DELEN.zwaailichten[0] }),
-  uiteenCam: [0.62, 0.42, 22, [-0.2, 2.0, 0], 34],
+  uiteenCam: C(0.62, 0.42, 22, [-0.2, 2.0, 0], 34),
   uiteen: () => [
     [G.cab, [2.2, 0, 0], "CABINE", [60, -40]],
     [G.zwaai, [0.6, 1.0, 0], "ZWAAILICHTEN", [60, -30]],

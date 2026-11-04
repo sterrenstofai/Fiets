@@ -306,6 +306,7 @@ const binnen = new THREE.Group(); root.add(binnen); G.binnen = binnen;
 const cabine = new THREE.Group(); root.add(cabine); G.cabine = cabine;
 {
   cabine.add(mesh(samen([rondeDoos(0.06, 2.5, 2.6, 0.02).translate(9.3, 3.15, 0), new THREE.BoxGeometry(2.9, 0.06, 2.3).translate(10.75, 2.02, 0)]), WAND, "cabine"));
+  cabine.add(mesh(rondeDoos(0.02, 0.9, 0.55, 0.05).translate(9.34, 3.35, -0.55), "raam", "cabine")); // raampje in de deur naar de wagen
   // de stuurtafel met schermen
   const t = new THREE.Shape(); t.moveTo(10.95, 2.05); t.lineTo(11.75, 2.05); t.lineTo(11.75, 2.62); t.lineTo(11.3, 2.92); t.lineTo(10.95, 2.82); t.closePath();
   const tafel = new THREE.ExtrudeGeometry(t, { depth: 2.0, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 2 }); tafel.translate(0, 0, -1.0); tafel.computeVertexNormals();
@@ -341,7 +342,7 @@ let zaad = 7; const rnd = () => { zaad = (zaad * 16807) % 2147483647; return (za
   }
   const steen = (x, y, z, r) => { const g = new THREE.IcosahedronGeometry(r, 0); g.scale(1, 0.7, 1).rotateY(rnd() * 3).rotateX(rnd()).translate(x, y, z); stenen.push(g); };
   for (let i = 0; i < 800; i++) { const k = rnd() < 0.5 ? 1 : -1, u = rnd(), z = k * (1.65 + 0.8 * u); steen(SP0 + 0.1 + rnd() * (SP1 - SP0 - 0.2), 0.42 * (1 - u) + 0.01, z, 0.045 + rnd() * 0.04); }
-  for (let i = 0; i < 2400; i++) { const x = SP0 + 0.1 + rnd() * (SP1 - SP0 - 0.2), d = Math.abs(((x - SP0 - 0.3) % 0.6 + 0.6) % 0.6); if (d < 0.19 || d > 0.41) continue; steen(x, 0.415 + rnd() * 0.01, (rnd() * 2 - 1) * 1.62, 0.03 + rnd() * 0.03); }
+  for (let i = 0; i < 6000; i++) { const x = SP0 + 0.1 + rnd() * (SP1 - SP0 - 0.2), d = Math.abs(((x - SP0 - 0.3) % 0.6 + 0.6) % 0.6); if (d < 0.21 || d > 0.39) continue; steen(x, 0.405 + rnd() * 0.01, (rnd() * 2 - 1) * 1.62, 0.04 + rnd() * 0.03); }
   spoor.add(mesh(samen(stenen), STEEN, "spoor"), mesh(samen(liggers), BETON, "spoor"), mesh(samen(klem), "zwartmetaal", "spoor"));
   // spoorstaaf met vignoleprofiel (voet, lijf, kop)
   const r = new THREE.Shape();
@@ -388,7 +389,7 @@ const punt = (x, y, z, ouder = root) => { const g = new THREE.Mesh(ANKERGEO, ANK
 const A = {
   wagen: punt(0, 4.2, W0, kop), deuren: punt(7.0, 3.2, W0, kop), cabine: punt(11.3, 3.6, 0.6, kop), lichten: punt(12.3, 2.36, 0.74, kop),
   machinist: punt(10.4, 3.3, 0, cabine), stoelen: punt(-2, 2.6, 0.6, binnen), wiel: punt(8.6 + 1.25, RAILTOP + 0.46, 0.85), veer: punt(8.6 - 1.25, 1.3, 1.05),
-  draaistel: punt(8.6, 1.45, 1.1), panto: punt(0.1, 0.4, 0, panto), rijdraad: punt(2, DRAADY, zigzag(2)), draagkabel: punt(M1 + VELD * 0.3, draagY(M1 + VELD * 0.3), zigzag(M1 + VELD * 0.3)), mast: punt(M2, 4.5, -2.95),
+  draaistel: punt(8.6, 1.45, 1.1), panto: punt(0.1, 0.4, 0, panto), rijdraad: punt(-2.4, DRAADY, zigzag(-2.4)), draagkabel: punt(M1 + VELD * 0.3, draagY(M1 + VELD * 0.3), zigzag(M1 + VELD * 0.3)), mast: punt(M2, 4.5, -2.95),
   rails: punt(14.2, RAILTOP, RZ), liggers: punt(13.9, 0.45, 1.2), ballast: punt(14.0, 0.25, 2.0), koppeling: punt(-11.8, KOPH, 0.2), balg: punt(-11.8, 3.6, 1.05),
 };
 A.wiel.parent.remove(A.wiel); G.dsVoor.add(A.wiel); A.wiel.position.set(1.25, RAILTOP + 0.46, 0.85);
@@ -399,25 +400,25 @@ A.draaistel.parent.remove(A.draaistel); G.dsVoor.add(A.draaistel); A.draaistel.p
 const CAM = {
   trein: [0.55, 0.17, 57, [-1.2, 3.1, 0], 30],
   cabine: [0.95, 0.12, 16, [10.6, 2.9, 0], 30],
-  wagen: [0.08, 0.06, 30, [-0.5, 3.1, 0], 30],
+  wagen: [0.1, 0.07, 37, [-0.8, 3.0, 0], 30],
   draaistel: [0.5, 0.07, 11, [8.6, 1.3, 0.3], 30],
-  panto: [0.5, 0.36, 12, [-5.8, 5.3, 0], 30],
+  panto: [0.6, 0.13, 12, [-5.5, 5.35, 0], 30],
   spoor: [1.05, 0.42, 11, [12.8, 0.5, 0], 30],
   koppeling: [-0.45, 0.04, 14, [-11.8, 2.3, 0], 30],
 };
 const SECTIES = [
   { sleutel: "trein", naam: "De trein", titel: "De trein", tekst: "Een elektrische trein: voorop de kopwagen met de cabine, daarachter het begin van de tweede wagen. De trein rijdt op stroom uit de draad boven het spoor. Tik op de lampen.", cam: CAM.trein, focus: null,
     specs: [["Kopwagen", "24 m lang in de tekening"], ["Breedte", "2,9 m in de tekening"], ["Wagens", "2 (een kopwagen en een stukje)"], ["Wielen", "12 in de tekening"], ["Lampen", "tik", "lichten"]],
-    namen: [["cabine", "CABINE", 50, -60], ["panto", "STROOMAFNEMER", -40, -50], ["draaistel", "DRAAISTEL", 40, 115], ["deuren", "DEUREN", -40, -105], ["rijdraad", "BOVENLEIDING", 50, -55]] },
+    namen: [["cabine", "CABINE", 50, -60], ["panto", "STROOMAFNEMER", -40, -50], ["draaistel", "DRAAISTEL", 40, 115], ["deuren", "DEUREN", -40, -80], ["rijdraad", "BOVENLEIDING", 50, -55]] },
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine en de lampen", tekst: "Voorin zit de machinist. Die bestuurt de trein en let goed op de seinen langs het spoor. Voorop branden witte lampen. Aan de achterkant van een trein branden rode lampen.", cam: CAM.cabine, focus: ["cabine", "machinist", "lichten"], doorzicht: true, lichten: true,
     specs: [["Machinist", "1, in het midden"], ["Koplampen", "3, wit"], ["Sluitseinen", "2, rood"], ["Lampen", "tik", "lichten"]],
     namen: [["machinist", "MACHINIST", -60, -50], ["cabine", "VOORRUIT", 50, -50], ["lichten", "KOPLAMP", 50, 40]] },
   { sleutel: "wagen", naam: "De wagen", titel: "De wagen en de deuren", tekst: "In de wagen zitten de reizigers. Staat de trein stil bij het perron, dan schuiven de deuren opzij. Pas als iedereen binnen is, gaan ze weer dicht.", cam: CAM.wagen, focus: ["wagen", "deuren", "interieur"], doorzicht: true, deuren: true,
     specs: [["Deuren", "2 aan elke kant"], ["Stoelen", `${G.aantalStoelen} in de kopwagen`], ["Ramen", "8 aan elke kant"], ["Deurknop", "groen, naast de deur"]],
-    namen: [["deuren", "SCHUIFDEUREN", 50, -50], ["stoelen", "STOELEN", -50, -50]] },
+    namen: [["deuren", "SCHUIFDEUREN", 40, -90], ["stoelen", "STOELEN", -50, -90]] },
   { sleutel: "draaistel", naam: "Het draaistel", titel: "Het draaistel en de wielen", tekst: "Onder de wagen zit een draaistel: een klein wagentje met vier wielen dat meedraait in de bocht. Veren maken de rit zacht. Elk wiel heeft een rand aan de binnenkant, de flens. Die houdt de trein op de rails.", cam: CAM.draaistel, focus: ["draaistel", "wielen"], rollen: true,
     specs: [["Draaistellen", "2 onder de kopwagen"], ["Wielen", "4 per draaistel"], ["Wiel", "0,92 m doorsnee in de tekening"], ["Flens", "aan de binnenkant van het wiel"]],
-    namen: [["wiel", "WIEL MET FLENS", 60, 120], ["veer", "VEER", -60, -90], ["draaistel", "DRAAISTEL", 50, -110]] },
+    namen: [["wiel", "WIEL MET FLENS", 60, 120], ["veer", "VEER", -80, 110], ["draaistel", "DRAAISTEL", 50, -110]] },
   { sleutel: "stroomafnemer", naam: "De stroomafnemer", titel: "De stroomafnemer en de bovenleiding", tekst: "De stroomafnemer op het dak drukt zacht tegen de rijdraad. Zo krijgen de motoren stroom. In de bovenleiding zit een heel hoge spanning. Kom er nooit aan en ook nooit in de buurt: dat is levensgevaarlijk.", cam: CAM.panto, focus: ["stroomafnemer", "bovenleiding"], panto: true,
     specs: [["Stroomafnemer", "1, op het dak"], ["Rijdraad", "5,3 m boven de rails in de tekening"], ["Draagkabel", "houdt de rijdraad recht"], ["Masten", "2 in de tekening"], ["Veiligheid", "nooit aankomen, hoge spanning"]],
     namen: [["panto", "STROOMAFNEMER", 50, 40], ["rijdraad", "RIJDRAAD", 60, -40], ["draagkabel", "DRAAGKABEL", -60, -40], ["mast", "MAST", -50, 50]] },
@@ -482,9 +483,9 @@ return {
   titel: "De trein", label: "Trein", model: "Elektrische trein", schaal: "Maten in meters", hint: "Sleep om te draaien · tik op de lampen", SECTIES, KIND, mini, beweeg,
   doorzicht: (aan) => { G.binnen.visible = G.cabine.visible = aan; },
   anker: () => A,
-  uiteenCam: [0.62, 0.3, 74, [-1.0, 3.6, 1.5], 34],
+  uiteenCam: [0.62, 0.3, 62, [-1.0, 3.4, 1.5], 34],
   uiteen: () => [
-    [G.bovenleiding, [0, 3.2, -1.0], "BOVENLEIDING", [-60, -30]], [G.panto, [0, 1.6, 0], "STROOMAFNEMER", [60, -30]],
+    [G.bovenleiding, [0, 3.2, -1.0], "BOVENLEIDING", [100, -60]], [G.panto, [0, 1.6, 0], "STROOMAFNEMER", [-90, -30]],
     [G.cabine, [4.5, 0.6, 0], "CABINE · MACHINIST", [60, -30]], [G.binnen, [0, 0.0, 0], "STOELEN", [-60, -40]],
     [G.dsVoor, [1.5, 0.3, 4.5], "DRAAISTEL", [60, 30]], [G.dsAchter, [-1.5, 0.3, 4.5], null], [G.koppelVoor, [2.0, 0, 0], null],
     [G.wagen2, [-3.5, 0, 0], "TWEEDE WAGEN", [-60, -30]], [G.koppelMidden, [-1.6, 0, 2.5], "KOPPELING", [-60, 30]],

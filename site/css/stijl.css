@@ -47,7 +47,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .minifiets .aan { stroke: var(--rood); stroke-width: 2.2; }
 .minitekst { position: absolute; right: 16px; bottom: 8px; margin: 0; font-size: 10px; color: var(--zacht); text-align: right; }
 
-.paneel { background: var(--wit); border-left: 1px solid var(--lijn); display: flex; flex-direction: column; min-height: 0; padding: 18px 22px 12px; }
+.paneel { min-width: 0; background: var(--wit); border-left: 1px solid var(--lijn); display: flex; flex-direction: column; min-height: 0; padding: 18px 22px 12px; }
 .paneelkop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 12px; border-bottom: 1.5px solid var(--inkt); }
 .model { margin: 0; font-size: 13px; letter-spacing: .02em; white-space: nowrap; }
 .kopknoppen { display: flex; gap: 5px; }
@@ -110,7 +110,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .voet { margin: 0; height: 28px; display: flex; align-items: center; padding: 0 16px; font-size: 10.5px; color: var(--zacht); border-top: 1px solid var(--lijn); background: var(--papier); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
 @media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; height: auto; }
+  .app { grid-template-columns: minmax(0, 1fr); height: auto; }
   .podium { height: 62svh; min-height: 380px; }
   .paneel { border-left: 0; border-top: 1px solid var(--lijn); }
   .inhoud { overflow: visible; }
@@ -161,7 +161,7 @@ details.weetjes li { border-left: 2px solid var(--rood); padding-left: 8px; }
 details.weetjes a { display: block; font: 400 10.5px/1.3 var(--mono); color: var(--zacht); margin-top: 2px; word-break: break-all; }
 /* kinderen */
 .kind { display: none; }
-body.kindmodus .app { grid-template-columns: 1fr; height: calc(100svh - 28px); }
+body.kindmodus .app { grid-template-columns: minmax(0, 1fr); height: calc(100svh - 28px); }
 body.kindmodus .paneel, body.kindmodus .stand, body.kindmodus .uiteenknop, body.kindmodus .hint, body.kindmodus .minitekst, body.kindmodus .namen, body.kindmodus .lijntjes { display: none; }
 body.kindmodus .kind { display: block; position: absolute; inset: 0; pointer-events: none; }
 .kind > * { pointer-events: auto; }

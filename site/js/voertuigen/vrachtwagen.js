@@ -18,7 +18,7 @@ G.trekker = new THREE.Group(); root.add(G.trekker);
 const cab = W.cabine({ x: XV, L: 2.3, W: 2.5, H: 3.72, yVoor: 0.5, yAchter: 1.05, wiel: [XW, RW, 0.6], ruit: [2.1, 3.0, 0.3], deurAchter: 6.45, vloer: 1.42, bed: true });
 G.cab = cab.g;
 // de cabine kan naar voren kantelen, om een scharnier vooraan (dan zie je de motor)
-G.kantel = op(new THREE.Group(), 7.85, 1.05, 0); { const binnen = op(new THREE.Group(), -7.85, -1.05, 0); binnen.add(G.cab); G.kantel.add(binnen); }
+G.kantel = op(new THREE.Group(), 8.2, 0.98, 0); { const binnen = op(new THREE.Group(), -8.2, -0.98, 0); binnen.add(G.cab); G.kantel.add(binnen); }
 G.trekker.add(G.kantel); G.trekker.add(cab.bumper); // de bumper zit vast aan het chassis
 // zijschermen achter de cabine (dicht het gat naar de oplegger) en twee luchthoorns op het dak
 G.cab.add(mesh(samen([1, -1].map((k) => doos(0.5, 2.3, 0.03, 5.83, 2.5, k * 1.235, 0.012))), S.wit, "cabine"));
@@ -170,15 +170,15 @@ G.onder.add(mesh(samen([W.doos(0.14, 0.13, 2.36, XE + 0.12, 0.52, 0, 0.03), ...[
 
 // ================= Teksten (maten van de tekening) =================
 const SECTIES = [
-  { sleutel: "vrachtwagen", naam: "De vrachtwagen", titel: "De vrachtwagen", tekst: "Een trekker met een oplegger erachter. De trekker trekt, de oplegger draagt de lading. Tik op de lampjes.", cam: [0.6, 0.2, 27, [0.3, 1.9, 0], 30], focus: null,
+  { sleutel: "vrachtwagen", naam: "De vrachtwagen", titel: "De vrachtwagen", tekst: "Een trekker met een oplegger erachter. De trekker trekt, de oplegger draagt de lading. Tik op de lampjes.", cam: [0.6, 0.2, 27, [1.2, 1.9, 0], 30], focus: null,
     specs: [["Lengte", "16,9 m in de tekening"], ["Hoogte", "4 m in de tekening"], ["Breedte", "2,55 m"], ["Banden", "12, achter de trekker dubbel"], ["Lampjes", "tik", "lichten"]],
-    namen: [["cabine", "CABINE", 50, -60], ["oplegger", "OPLEGGER", -40, -70], ["dubbellucht", "WIELEN", 30, 60], ["tank", "TANK", -50, 60]] },
+    namen: [["cabine", "CABINE", 50, -60], ["oplegger", "OPLEGGER", -40, -70], ["dubbellucht", "WIELEN", -40, 70], ["tank", "TANK", 60, 60]] },
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Hier zit de chauffeur, hoog boven de weg. Achter de stoelen ligt een bed. Met de spiegels kijkt de chauffeur naast en achter de wagen.", cam: [0.62, 0.12, 8.2, [7.0, 2.1, 0], 30], focus: ["cabine", "binnen", "spiegels", "opstap", "toeter"], doorzicht: true,
     specs: [["Stoelen", "2"], ["Bed", "achter de stoelen"], ["Spiegels", "2 aan elke kant"], ["Opstap", "2 treden"], ["Hoogte", "3,7 m in de tekening"]],
     namen: [["stuur", "STUUR", -70, -50], ["spiegel", "SPIEGELS", 60, -40], ["opstap", "OPSTAP", 60, 40], ["bed", "BED", -60, 40]] },
-  { sleutel: "motor", naam: "De motor", titel: "De motor", tekst: "De motor zit onder de cabine. Kijk: de cabine kantelt naar voren, dan kun je erbij. Voor de motor zit de koeler, met een ventilator.", cam: [0.62, 0.16, 10, [7.2, 1.5, 0], 30], focus: ["motor"], kantel: true, draaien: true,
+  { sleutel: "motor", naam: "De motor", titel: "De motor", tekst: "De motor zit onder de cabine. Kijk: de cabine kantelt naar voren, dan kun je erbij. Voor de motor zit de koeler, met een ventilator.", cam: [0.38, 0.2, 11.5, [6.7, 1.3, 0], 30], focus: ["motor"], kantel: true, draaien: true,
     specs: [["Plek", "onder de cabine"], ["Brandstof", "diesel"], ["Koeler", "voor de motor"], ["Ventilator", "7 bladen in de tekening"]],
-    namen: [["motor", "MOTOR", -70, -50], ["koeler", "KOELER", 60, -50]] },
+    namen: [["motor", "MOTOR", -80, -70], ["koeler", "KOELER", -60, 60]] },
   { sleutel: "chassis", naam: "Het chassis", titel: "Het chassis", tekst: "Twee lange stalen balken dragen alles. Achterop zit de koppelschotel: daar haakt de oplegger in. Kijk, de oplegger rijdt los.", cam: [0.42, 0.42, 14, [4.8, 0.9, 0], 32], focus: ["chassis", "tank", "koppeling"], los: true,
     specs: [["Balken", "2, van staal"], ["Koppelschotel", "boven de achteras"], ["Tank", "rechts, 1,5 m lang in de tekening"], ["Assen", "2 onder de trekker"]],
     namen: [["koppeling", "KOPPELSCHOTEL", -60, -60], ["chassis", "CHASSISBALK", 60, -50], ["tank", "TANK", 60, 40], ["poten", "STEUNPOTEN", -60, 40]] },
@@ -190,11 +190,11 @@ const SECTIES = [
     namen: [["deuren", "DEUREN", 50, -60], ["oplegger", "LAADBAK", -60, -60], ["oplwiel", "3 ASSEN", -60, 40]] },
   { sleutel: "lichten", naam: "De lichten", titel: "De lichten", tekst: "Voor zitten koplampen, achter rode lampen. De oranje lampjes knipperen als de wagen afslaat. Langs de zijkant zitten oranje lampjes, zo zie je hoe lang hij is.", cam: [1.0, 0.1, 9.5, [7.4, 1.4, 0], 30], focus: ["lichten"], lichten: true,
     specs: [["Koplampen", "2, wit"], ["Knipperlichten", "oranje, voor en opzij"], ["Achterlichten", "rood"], ["Lampjes", "tik", "lichten"]],
-    namen: [["koplamp", "KOPLAMP", 60, -40], ["knipper", "KNIPPERLICHT", -60, 40]] },
+    namen: [["koplamp", "KOPLAMP", 70, -60], ["knipper", "KNIPPERLICHT", -80, 60]] },
 ];
 const KIND = [
   { naam: "de vrachtwagen", focus: ["cabine", "oplegger"], cam: [0.6, 0.2, 33, [0, 2.0, 0], 30], geluid: "toeter" },
-  { naam: "de motor", focus: ["motor"], cam: [0.62, 0.16, 10, [7.2, 1.5, 0], 30], kantel: true, draaien: true, geluid: "brom" },
+  { naam: "de motor", focus: ["motor"], cam: [0.38, 0.2, 11.5, [6.7, 1.3, 0], 30], kantel: true, draaien: true, geluid: "brom" },
   { naam: "het stuur", focus: ["binnen"], cam: [0.62, 0.12, 9.5, [7.1, 2.1, 0], 30], doorzicht: true },
   { naam: "de spiegel", focus: ["spiegels"], cam: [0.75, 0.15, 6.5, [7.6, 2.6, 0.8], 30] },
   { naam: "de wielen", focus: ["wielen"], cam: [0.3, 0.1, 6.2, [3.5, 0.6, 0.9], 30], rollen: true, geluid: "rol" },
@@ -220,7 +220,10 @@ function mini(aan) {
 
 let wielHoek = 0, deurNu = 0, losNu = 0, fanV = 0, lichtT = 0, kantelNu = 0;
 const glad = (t) => { t = Math.min(1, Math.max(0, t)); return t * t * (3 - 2 * t); };
-function beweeg(dt, h, s) {
+let tVorig = null;
+function beweeg(dt0, h, s) {
+  // eigen klok: de bewegingen duren even lang, ook als het tekenen traag gaat
+  const dt = tVorig === null ? dt0 : Math.min(0.25, Math.max(0, (s.t - tVorig) / 1000)); tVorig = s.t;
   let bezig = false;
   if (h.rollen) { wielHoek -= dt * 2.2; bezig = true; }
   for (const w of G.wielen) w.rotation.z = wielHoek;
@@ -231,7 +234,7 @@ function beweeg(dt, h, s) {
   G.poten.position.y = -0.24 * poot; G.trailer.position.x = -3.6 * weg;
   for (const w of G.oplWielen) w.rotation.z = wielHoek + (3.6 * weg) / RO;
   const kaDoel = h.kantel ? 1 : 0; if (Math.abs(kaDoel - kantelNu) > 0.001) { kantelNu += Math.sign(kaDoel - kantelNu) * Math.min(Math.abs(kaDoel - kantelNu), dt / 2.5); bezig = true; }
-  G.kantel.rotation.z = -0.85 * glad(kantelNu);
+  G.kantel.rotation.z = -0.95 * glad(kantelNu);
   const fDoel = h.draaien ? 14 : 0; fanV += (fDoel - fanV) * Math.min(1, dt * 1.5);
   if (fanV > 0.01) { G.motor.fan.rotation.x += fanV * dt; bezig = true; }
   lichtT += dt; const aan = s.lichtAan || h.lichten || s.uiteen;

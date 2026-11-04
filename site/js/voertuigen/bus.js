@@ -228,38 +228,41 @@ root.add(mesh(samen([staaf(V(XV, RW, -0.95), V(XV, RW, 0.95), 0.06, 12), staaf(V
 
 
 // ================= Teksten (maten zijn die van de tekening) =================
+// op een smal scherm (staand) iets verder weg, zodat het hele voertuig in beeld past
+const SMAL = typeof matchMedia === "function" && matchMedia("(max-aspect-ratio: 1/1)").matches;
+const C = (d, h, a, p, fov) => [d, h, a * (SMAL ? 1.3 : 1), p, fov];
 const SECTIES = [
-  { sleutel: "bus", naam: "De bus", titel: "De bus", tekst: "Een stadsbus met een lage vloer: je stapt zo naar binnen, zonder trapje. Deze bus rijdt op stroom. Tik op de lampen.", cam: [0.62, 0.15, 20, [0.2, 1.4, 0], 32], focus: null,
+  { sleutel: "bus", naam: "De bus", titel: "De bus", tekst: "Een stadsbus met een lage vloer: je stapt zo naar binnen, zonder trapje. Deze bus rijdt op stroom. Tik op de lampen.", cam: C(0.62, 0.15, 20, [0.2, 1.4, 0], 32), focus: null,
     specs: [["Lengte", "12 m in de tekening"], ["Breedte", "2,55 m"], ["Hoogte", "3,3 m met het dak"], ["Deuren", "3, aan de rechterkant"], ["Zitplaatsen", "31 in de tekening"], ["Lampen", "tik", "lichten"]],
     namen: [["deur", "DEUREN", -40, 70], ["ruit", "RAMEN", -50, -70], ["wiel", "WIELEN", 50, 60], ["dak", "DAK · ACCU'S", 40, -60], ["spiegels", "SPIEGEL", 50, -40]] },
-  { sleutel: "deuren", naam: "De deuren", titel: "De deuren", tekst: "Drie brede deuren aan de rechterkant. Ze gaan eerst naar buiten en schuiven dan opzij. De bus zakt aan die kant een stukje omlaag: dat heet knielen.", cam: [0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32], focus: ["deuren"], deuren: true,
+  { sleutel: "deuren", naam: "De deuren", titel: "De deuren", tekst: "Drie brede deuren aan de rechterkant. Ze gaan eerst naar buiten en schuiven dan opzij. De bus zakt aan die kant een stukje omlaag: dat heet knielen.", cam: C(0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32), focus: ["deuren"], deuren: true,
     specs: [["Deuren", "3, elk met 2 vleugels"], ["Breedte", "1,2 tot 1,3 m in de tekening"], ["Vloer", "37 cm boven de weg"], ["Knielen", "een paar centimeter omlaag"]],
     namen: [["deur", "MIDDELSTE DEUR", 30, 110], ["deur1", "VOORDEUR", 30, 110], ["deur3", "ACHTERDEUR", -30, 110]] },
-  { sleutel: "binnen", naam: "Binnen", titel: "Binnen in de bus", tekst: "Stoelen aan twee kanten van het gangpad, en overal stangen om je vast te houden. Met de rode knop vraag je de chauffeur om te stoppen.", cam: [0.55, 0.72, 22, [0.1, 0.8, 0], 32], focus: ["binnen"], doorzicht: true,
+  { sleutel: "binnen", naam: "Binnen", titel: "Binnen in de bus", tekst: "Stoelen aan twee kanten van het gangpad, en overal stangen om je vast te houden. Met de rode knop vraag je de chauffeur om te stoppen.", cam: C(0.55, 0.72, 22, [0.1, 0.8, 0], 32), focus: ["binnen"], doorzicht: true,
     specs: [["Zitplaatsen", "31 in de tekening"], ["Stangen", "geel, van vloer tot plafond"], ["Stopknoppen", "rood, aan de stangen"], ["Rolstoelplek", "tegenover de middelste deur"]],
     namen: [["stoel", "STOELEN", -60, -60], ["stangen", "STANGEN", 50, -80], ["vloer", "LAGE VLOER", 60, 50]] },
-  { sleutel: "chauffeur", naam: "De chauffeur", titel: "De chauffeur", tekst: "Linksvoor zit de chauffeur, achter een groot stuur dat bijna plat ligt. Voor hem zit een dashboard met knoppen en een scherm.", cam: [2.0, 0.28, 6.8, [5.0, 1.25, -0.6], 32], focus: ["chauffeur"], doorzicht: true,
+  { sleutel: "chauffeur", naam: "De chauffeur", titel: "De chauffeur", tekst: "Linksvoor zit de chauffeur, achter een groot stuur dat bijna plat ligt. Voor hem zit een dashboard met knoppen en een scherm.", cam: C(1.72, 0.5, 9.5, [4.9, 1.15, -0.45], 32), focus: ["chauffeur"], doorzicht: true,
     specs: [["Plek", "linksvoor"], ["Stuur", "bijna plat"], ["Wandje", "van glas, achter de stoel"]],
     namen: [["chauffeur", "CHAUFFEUR", -60, -60], ["stuur", "STUUR", 60, -40]] },
-  { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Voor zit aan elke kant één wiel, achter twee wielen naast elkaar. De voorwielen sturen, de achterwielen worden aangedreven.", cam: [0.1, 0.06, 13, [0.35, 0.75, 0], 32], focus: ["wielen"], rollen: true,
+  { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Voor zit aan elke kant één wiel, achter twee wielen naast elkaar. De voorwielen sturen, de achterwielen worden aangedreven.", cam: C(0.14, 0.08, 20, [0.35, 0.9, 0], 32), focus: ["wielen"], rollen: true,
     specs: [["Wielen", "6: voor 2, achter 2 × 2"], ["Doorsnede", "96 cm in de tekening"], ["Tussen de assen", "5,9 m"]],
-    namen: [["wiel", "VOORWIEL", 50, -70], ["wielA", "DUBBELE ACHTERWIELEN", -50, -70]] },
-  { sleutel: "dak", naam: "Het dak", titel: "Het dak", tekst: "Op het dak liggen de accu's: grote batterijen voor de motor. Voorop staat de airco, die het binnen koel of warm maakt.", cam: [0.75, 0.78, 15, [-0.5, 2.6, 0], 32], focus: ["dak"],
+    namen: [["wiel", "VOORWIEL", 50, 110], ["wielA", "DUBBELE ACHTERWIELEN", -50, 110]] },
+  { sleutel: "dak", naam: "Het dak", titel: "Het dak", tekst: "Op het dak liggen de accu's: grote batterijen voor de motor. Voorop staat de airco, die het binnen koel of warm maakt.", cam: C(0.75, 0.7, 23, [-0.4, 2.2, 0], 32), focus: ["dak"],
     specs: [["Accu's", "2 lange kasten op het dak"], ["Airco", "voorop het dak"], ["Motor", "elektrisch, bij de achteras"]],
     namen: [["accus", "ACCU'S", -50, -60], ["airco", "AIRCO", 50, -60]] },
-  { sleutel: "lichten", naam: "Lampen en spiegels", titel: "Lampen en spiegels", tekst: "Voor twee koplampen, achter rode lampen. De spiegels hangen aan lange armen voor de ruit, zodat de chauffeur langs de bus kijkt.", cam: [1.18, 0.12, 12, [4.6, 1.5, 0], 32], focus: ["lichten", "spiegels"], lichten: true,
+  { sleutel: "lichten", naam: "Lampen en spiegels", titel: "Lampen en spiegels", tekst: "Voor twee koplampen, achter rode lampen. De spiegels hangen aan lange armen voor de ruit, zodat de chauffeur langs de bus kijkt.", cam: C(1.18, 0.12, 12, [4.6, 1.5, 0], 32), focus: ["lichten", "spiegels"], lichten: true,
     specs: [["Koplampen", "2, wit"], ["Knipperlichten", "oranje, voor en opzij"], ["Spiegels", "2, aan lange armen"], ["Lampen", "tik", "lichten"]],
     namen: [["koplamp", "KOPLAMP", -50, 50], ["spiegels", "SPIEGEL", 50, -60]] },
 ];
 const KIND = [
-  { naam: "de bus", focus: ["romp"], cam: [0.62, 0.15, 20, [0.2, 1.4, 0], 32], geluid: "toeter" },
-  { naam: "de deuren", focus: ["deuren"], cam: [0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32], deuren: true },
-  { naam: "de stoelen", focus: ["binnen"], cam: [0.55, 0.72, 22, [0.1, 0.8, 0], 32], doorzicht: true },
-  { naam: "de chauffeur", focus: ["chauffeur"], cam: [2.0, 0.28, 6.8, [5.0, 1.25, -0.6], 32], doorzicht: true, geluid: "toeter" },
-  { naam: "de wielen", focus: ["wielen"], cam: [0.1, 0.06, 13, [0.35, 0.75, 0], 32], rollen: true, geluid: "rol" },
-  { naam: "het dak", focus: ["dak"], cam: [0.75, 0.78, 15, [-0.5, 2.6, 0], 32] },
-  { naam: "de lampen", focus: ["lichten"], cam: [1.18, 0.12, 12, [4.6, 1.5, 0], 32], lichten: true },
-  { naam: "de spiegels", focus: ["spiegels"], cam: [1.3, 0.25, 8, [5.6, 2.2, 0.3], 32] },
+  { naam: "de bus", focus: ["romp"], cam: C(0.62, 0.15, 20, [0.2, 1.4, 0], 32), geluid: "toeter" },
+  { naam: "de deuren", focus: ["deuren"], cam: C(0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32), deuren: true },
+  { naam: "de stoelen", focus: ["binnen"], cam: C(0.55, 0.72, 22, [0.1, 0.8, 0], 32), doorzicht: true },
+  { naam: "de chauffeur", focus: ["chauffeur"], cam: C(1.72, 0.5, 9.5, [4.9, 1.15, -0.45], 32), doorzicht: true, geluid: "toeter" },
+  { naam: "de wielen", focus: ["wielen"], cam: C(0.14, 0.08, 20, [0.35, 0.9, 0], 32), rollen: true, geluid: "rol" },
+  { naam: "het dak", focus: ["dak"], cam: C(0.75, 0.7, 23, [-0.4, 2.2, 0], 32) },
+  { naam: "de lampen", focus: ["lichten"], cam: C(1.18, 0.12, 12, [4.6, 1.5, 0], 32), lichten: true },
+  { naam: "de spiegels", focus: ["spiegels"], cam: C(1.3, 0.25, 8, [5.6, 2.2, 0.3], 32) },
 ];
 
 function mini(aan) {
@@ -306,7 +309,7 @@ return {
   doorzicht: () => {},
   anker: () => ({ romp: G.huid, ruit: G.ruit, deur: G.deuren[1].vleugels[1], deur1: G.deuren[0].vleugels[0], deur3: G.deuren[2].vleugels[1], wiel: G.wielVR, wielA: G.wielAR, dak: G.dak, accus: G.accus, airco: G.airco,
     spiegels: G.spiegels.children[0], stoel: G.binnen.children[5], stangen: G.stangen, vloer: G.binnen.children[0], chauffeur: G.chauffeur.children[7], stuur: G.chauffeur.children[4], koplamp: G.lichten.kop }),
-  uiteenCam: [0.6, 0.42, 30, [0, 2.2, 0], 34],
+  uiteenCam: C(0.6, 0.42, 30, [0, 2.2, 0], 34),
   uiteen: () => [
     [G.dak, [0, 2.4, 0], "DAK · ACCU'S · AIRCO", [-60, -30]],
     [G.binnen, [0, 0, -3.4], "STOELEN · STANGEN", [-60, -40]],

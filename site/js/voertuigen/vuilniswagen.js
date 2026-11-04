@@ -72,7 +72,7 @@ G.opbouw = new THREE.Group(); root.add(G.opbouw);
   // binnen: het afval en de uitduwplaat (te zien als de laadbak doorzichtig is)
   const lomp = []; let zaad = 7;
   const toeval = () => ((zaad = (zaad * 16807) % 2147483647) / 2147483647);
-  for (let i = 0; i < 34; i++) { const r = 0.28 + toeval() * 0.22, g = new THREE.IcosahedronGeometry(r, 1); g.scale(1, 0.75 + toeval() * 0.4, 1); g.translate(-2.45 + toeval() * 2.6, YO + 0.25 + toeval() * (0.45 + (i % 3) * 0.35), -0.9 + toeval() * 1.8); lomp.push(g); }
+  for (let i = 0; i < 34; i++) { const r = 0.26 + toeval() * 0.16, g = new THREE.IcosahedronGeometry(r, 1); g.scale(1, 0.75 + toeval() * 0.4, 1); g.translate(-2.15 + toeval() * 2.4, YO + 0.25 + toeval() * (0.45 + (i % 3) * 0.35), -0.9 + toeval() * 1.8); lomp.push(g); }
   G.afval = mesh(samen(lomp), afvalS, "afval"); G.opbouw.add(G.afval);
   G.uitduw = new THREE.Group(); G.uitduw.position.x = XB - 0.18; G.opbouw.add(G.uitduw);
   G.uitduw.add(mesh(samen([doos(0.06, YH - YO - 0.2, BW - 0.2, 0, (YO + YH) / 2, 0, 0.02), ...[-0.8, 0, 0.8].map((z) => doos(0.12, YH - YO - 0.3, 0.06, 0.05, (YO + YH) / 2, z, 0.01))]), "metaal", "opbouw"));
@@ -147,19 +147,19 @@ G.bak = new THREE.Group(); G.kiep.add(G.bak);
 
 // ================= Teksten (maten van de tekening) =================
 const SECTIES = [
-  { sleutel: "vuilniswagen", naam: "De vuilniswagen", titel: "De vuilniswagen", tekst: "Deze wagen haalt het afval op. Achter kiept hij de containers leeg en perst hij het afval in de laadbak. Tik op de lampjes.", cam: [0.62, 0.2, 21, [0.1, 1.7, 0], 30], focus: null,
+  { sleutel: "vuilniswagen", naam: "De vuilniswagen", titel: "De vuilniswagen", tekst: "Deze wagen haalt het afval op. Achter kiept hij de containers leeg en perst hij het afval in de laadbak. Tik op de lampjes.", cam: [0.62, 0.2, 19, [0.7, 1.7, 0], 30], focus: null,
     specs: [["Lengte", "10,6 m in de tekening, met de container"], ["Hoogte", "3,45 m in de tekening"], ["Assen", "3"], ["Kleur", "oranje en wit"], ["Lampjes", "tik", "lichten"]],
     namen: [["cabine", "CABINE", 50, -60], ["opbouw", "LAADBAK", 20, -80], ["klep", "LAADKLEP", -60, -60], ["container", "CONTAINER", -60, 40]] },
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Een lage cabine: de ploeg stapt snel in en uit, vaak wel honderd keer per dag. Er is plek voor de chauffeur en drie helpers.", cam: [0.72, 0.12, 8.4, [3.8, 1.5, 0], 30], focus: ["cabine", "binnen", "spiegels", "opstap"], doorzicht: true,
     specs: [["Stoelen", "5 in de tekening"], ["Opstap", "1 lage trede"], ["Ramen", "laag in de deur, voor goed zicht"], ["Spiegels", "2 aan elke kant"]],
-    namen: [["stuur", "STUUR", -70, -50], ["spiegel", "SPIEGELS", 60, -40], ["opstap", "OPSTAP", 50, 50]] },
+    namen: [["stuur", "STUUR", -70, -50], ["spiegel", "SPIEGELS", 60, -40], ["opstap", "OPSTAP", -60, 50]] },
   { sleutel: "opbouw", naam: "De laadbak", titel: "De laadbak", tekst: "Hier gaat het afval in. Is de bak vol, dan rijdt de wagen naar de verwerking. De laadklep gaat omhoog en een grote plaat duwt het afval eruit.", cam: [-0.55, 0.22, 15, [-1.3, 2.1, 0], 32], focus: ["opbouw", "afval", "achterlader"], doorzicht: true, klep: true,
     specs: [["Lengte", "5,1 m in de tekening"], ["Hoogte binnen", "2,3 m in de tekening"], ["Uitduwplaat", "voorin, schuift naar achteren"], ["Laadklep", "kantelt omhoog"]],
     namen: [["afval", "AFVAL", -60, -60], ["uitduw", "UITDUWPLAAT", 60, -50], ["klep", "LAADKLEP", -60, 40]] },
   { sleutel: "kiep", naam: "De kiepinrichting", titel: "De kiepinrichting", tekst: "Achter haakt de container in de kam. De kiepinrichting tilt hem op, draait hem om, en het afval valt in de trog. Daarna zet hij hem weer neer.", cam: [-1.15, 0.14, 7.6, [-4.8, 1.55, 0], 30], focus: ["kiep", "container"], kiep: true,
     specs: [["Container", "240 liter in de tekening"], ["Hoogte container", "1,07 m in de tekening"], ["Draait", "150 graden in de tekening"], ["Deksel", "valt vanzelf open"]],
     namen: [["container", "CONTAINER", -70, 40], ["kiep", "KAM", 60, 40]] },
-  { sleutel: "persplaat", naam: "De persplaat", titel: "De persplaat", tekst: "In de laadklep zit een persplaat. Die veegt het afval uit de trog en duwt het de laadbak in. Zo past er veel meer in.", cam: [0.16, 0.12, 7.2, [-3.75, 2.0, 0], 30], focus: ["persplaat", "achterlader"], doorzicht: true, persen: true,
+  { sleutel: "persplaat", naam: "De persplaat", titel: "De persplaat", tekst: "In de laadklep zit een persplaat. Die veegt het afval uit de trog en duwt het de laadbak in. Zo past er veel meer in.", cam: [0.2, 0.14, 9.2, [-3.5, 1.9, 0], 30], focus: ["persplaat", "achterlader"], doorzicht: true, persen: true,
     specs: [["Plaat", "1,5 m lang in de tekening"], ["Beweging", "vegen, dan duwen"], ["Trog", "rond, onder de opening"], ["Kracht", "met olie onder druk"]],
     namen: [["persplaat", "PERSPLAAT", 60, -50], ["slede", "SLEDE", -60, -60], ["trog", "TROG", -60, 40]] },
   { sleutel: "wielen", naam: "De wielen", titel: "De wielen", tekst: "Drie assen. De middelste as wordt aangedreven en heeft dubbele banden. De achterste as loopt mee en draagt een deel van het gewicht.", cam: [0.32, 0.1, 7.5, [-1.0, 0.6, 1.0], 30], focus: ["wielen"], rollen: true,
@@ -167,12 +167,12 @@ const SECTIES = [
     namen: [["dubbellucht", "DUBBELLUCHT", 50, -60], ["naloop", "NALOOPAS", -60, -50]] },
   { sleutel: "lichten", naam: "De lichten", titel: "De lichten", tekst: "Een vuilniswagen staat vaak stil op straat. Daarom draaien er oranje zwaailichten, voor op de cabine en achter op de klep. Zo ziet iedereen hem.", cam: [0.9, 0.32, 14, [1.0, 2.1, 0], 32], focus: ["lichten"], lichten: true,
     specs: [["Zwaailichten", "4, oranje"], ["Koplampen", "2, wit"], ["Achterlichten", "rood, op de klep"], ["Lampjes", "tik", "lichten"]],
-    namen: [["zwaai", "ZWAAILICHT", 60, -50], ["koplamp", "KOPLAMP", 60, 40], ["zwaaiAchter", "ZWAAILICHT", -60, -50]] },
+    namen: [["zwaai", "ZWAAILICHT", 60, -50], ["koplamp", "KOPLAMP", 50, -40], ["zwaaiAchter", "ZWAAILICHT", -60, -50]] },
 ];
 const KIND = [
-  { naam: "de vuilniswagen", focus: ["opbouw", "cabine"], cam: [0.62, 0.2, 21, [0.1, 1.7, 0], 30], geluid: "toeter" },
+  { naam: "de vuilniswagen", focus: ["opbouw", "cabine", "achterlader"], cam: [0.62, 0.2, 21, [0.1, 1.7, 0], 30], geluid: "toeter" },
   { naam: "de container", focus: ["container"], cam: [-1.15, 0.14, 7.6, [-4.8, 1.55, 0], 30], kiep: true },
-  { naam: "de persplaat", focus: ["persplaat"], cam: [0.16, 0.12, 7.2, [-3.75, 2.0, 0], 30], doorzicht: true, persen: true, geluid: "brom" },
+  { naam: "de persplaat", focus: ["persplaat"], cam: [0.2, 0.14, 9.2, [-3.5, 1.9, 0], 30], doorzicht: true, persen: true, geluid: "brom" },
   { naam: "de laadbak", focus: ["opbouw", "achterlader"], cam: [-0.55, 0.22, 15, [-1.3, 2.1, 0], 32], klep: true },
   { naam: "de wielen", focus: ["wielen"], cam: [0.32, 0.1, 7.5, [-1.0, 0.6, 1.0], 30], rollen: true, geluid: "rol" },
   { naam: "de zwaailichten", focus: ["lichten"], cam: [0.9, 0.32, 14, [1.0, 2.1, 0], 32], lichten: true },
@@ -196,7 +196,10 @@ function mini(aan) {
 let wielHoek = 0, klepNu = 0, kiepT = 0, persT = 0, lichtT = 0, kiepAan = 0, persAan = 0;
 const glad = (t) => { t = Math.min(1, Math.max(0, t)); return t * t * (3 - 2 * t); };
 const fase = (t, a, b) => glad((t - a) / (b - a));
-function beweeg(dt, h, s) {
+let tVorig = null;
+function beweeg(dt0, h, s) {
+  // eigen klok: de bewegingen duren even lang, ook als het tekenen traag gaat
+  const dt = tVorig === null ? dt0 : Math.min(0.25, Math.max(0, (s.t - tVorig) / 1000)); tVorig = s.t;
   let bezig = false;
   if (h.rollen) { wielHoek -= dt * 2.2; bezig = true; }
   for (const w of G.wielen) w.rotation.z = wielHoek;
@@ -205,7 +208,7 @@ function beweeg(dt, h, s) {
   const open = glad(klepNu * 1.6), duw = glad(klepNu * 1.6 - 0.6);
   G.klep.rotation.z = -1.0 * open;
   G.uitduw.position.x = XB - 0.18 - 1.25 * duw; G.duwcil.scale.x = Math.max(0.05, 0.06 + 1.25 * duw);
-  G.bak.visible = klepNu < 0.02;
+  G.bak.visible = open < 0.03; // met de klep omhoog is er geen container (de wagen staat dan bij de verwerking)
   // de kiepinrichting: optillen en omkiepen, deksel valt open, weer neerzetten
   if (h.kiep || kiepT > 0) { kiepT += dt / 7; if (kiepT >= 1) kiepT = h.kiep ? kiepT - 1 : 0; bezig = true; }
   const k = fase(kiepT, 0.08, 0.42) - fase(kiepT, 0.62, 0.92), alfa = -150 * k;

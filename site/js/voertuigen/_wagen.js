@@ -193,7 +193,7 @@ function cabine(o) {
   const rO = o.raamOnder ?? yO + 0.05, rB = Math.min(yB - 0.04, H - 0.3), xDA = o.deurAchter;
   const deurRaam = [[opRuit(rO) - 0.2, rO, 0.04], [opRuit(rB) - 0.18, rB, 0.05], [xDA + 0.1, rB, 0.05], [xDA + 0.1, Math.max(rO, yO - 0.15), 0.05]];
   const ramen = o.ramen ?? [deurRaam];
-  if (o.ploeg) ramen.push([[xDA - 0.1, rO, 0.04], [xDA - 0.1, rB, 0.05], [o.ploeg + 0.12, rB, 0.05], [o.ploeg + 0.12, rO, 0.04]]);
+  if (typeof o.ploeg === "number") ramen.push([[xDA - 0.1, rO, 0.04], [xDA - 0.1, rB, 0.05], [o.ploeg + 0.12, rB, 0.05], [o.ploeg + 0.12, rO, 0.04]]);
   if (o.laag && !o.ramen) ramen.push([[opRuit(rO) - 0.2, 0.82, 0.04], [opRuit(rO) - 0.22, rO - 0.12, 0.04], [xDA + 0.32, rO - 0.12, 0.04], [xDA + 0.32, 0.82, 0.04]]); // kijkraam laag in de deur
   for (const k of [1, -1]) for (const pts of ramen) {
     zij.push(plaat(pts, 0.014, 0.004).translate(0, 0, k * (W / 2 + 0.006)));
@@ -202,7 +202,7 @@ function cabine(o) {
   // deurnaden (een dun lijntje rond elke deur)
   const yDO = o.laag ? yAchter + b + 0.04 : yAchter + b + 0.03, naadPts = (x0, x1, top) => [V(x0, yDO, 0), V(x0, yO - 0.05, 0), ...(top ? [V(opRuit(yO + 0.02) - 0.1, yO + 0.02, 0), V(opRuit(H - 0.25) - 0.1, H - 0.25, 0)] : [V(x0, H - 0.22, 0)]), V(x1, top ? H - 0.25 : H - 0.22, 0), V(x1, yDO, 0), V(x0, yDO, 0)];
   const deuren = [o.deurVoor ? naadPts(o.deurVoor, xDA, false) : naadPts(xDV - 0.05, xDA, true)];
-  if (o.ploeg) deuren.push(naadPts(xDA - 0.04, o.ploeg, false));
+  if (typeof o.ploeg === "number") deuren.push(naadPts(xDA - 0.04, o.ploeg, false));
   for (const k of [1, -1]) for (const pts of deuren) naden.push(lijn(pts.map((p) => V(p.x, p.y, k * (W / 2 + 0.003))), 0.007));
   const ruiten = mesh(samen([ruitG, ...zij]), "raam", deel), randen = mesh(samen([randG, ...zijRand]), S.kunststof, deel), naadM = mesh(samen(naden), "naad", deel);
   ruiten.userData.romp = randen.userData.romp = naadM.userData.romp = true;
@@ -212,13 +212,13 @@ function cabine(o) {
   for (const k of [1, -1]) {
     const z = k * (W / 2 + 0.02);
     grepen.push(doos(0.22, 0.045, 0.035, xDA + 0.2, yO - 0.18, z, 0.012));
-    if (o.ploeg) grepen.push(doos(0.22, 0.045, 0.035, o.ploeg + 0.22, yO - 0.18, z, 0.012));
+    if (typeof o.ploeg === "number") grepen.push(doos(0.22, 0.045, 0.035, o.ploeg + 0.22, yO - 0.18, z, 0.012));
     grepen.push(lijn([V(xDA - 0.04, yAchter + 0.45, z), V(xDA - 0.08, yAchter + 0.5, z + k * 0.04), V(xDA - 0.08, yO + 0.2, z + k * 0.04), V(xDA - 0.04, yO + 0.25, z)], 0.016, 8));
   }
   G.g.add(mesh(samen(grepen), S.kunststof, deel));
   // grille, bumper, zonneklep
   const lean = Math.atan2(0.03, yO - 0.1 - yVoor); // de voorkant helt een beetje naar achteren
-  const gy0 = yVoor + 0.68, gy1 = yO - 0.14, gx = xV + 0.002;
+  const gy0 = yVoor + 0.55, gy1 = yO - 0.14, gx = xV + 0.002;
   const gril = [rondeDoos(0.03, gy1 - gy0, W - 0.62, 0.012).rotateZ(lean).translate(gx - 0.012, (gy0 + gy1) / 2, 0)], lat = [];
   const nl = Math.max(3, Math.round((gy1 - gy0) / 0.11));
   for (let i = 0; i < nl; i++) { const y = gy0 + ((i + 0.5) / nl) * (gy1 - gy0); lat.push(rondeDoos(0.03, 0.04, W - 0.7, 0.012).translate(gx - 0.015 * ((y - yVoor) / (yO - yVoor)) + 0.012, y, 0)); }
@@ -231,11 +231,11 @@ function cabine(o) {
   // koplampen, knipperlichten, mistlampen (deel "lichten")
   const glas = [], kop = [], knip = [];
   for (const k of [1, -1]) {
-    const z = k * (W / 2 - 0.34), y = yVoor + 0.52;
-    glas.push(doos(0.05, 0.2, 0.5, xV + 0.005, y, z, 0.03));
-    kop.push(doos(0.04, 0.12, 0.17, xV + 0.02, y + 0.01, z - k * 0.1, 0.03), doos(0.04, 0.12, 0.13, xV + 0.02, y + 0.01, z + k * 0.07, 0.03), doos(0.03, 0.025, 0.42, xV + 0.03, y - 0.075, z, 0.008));
-    kop.push(cil(0.055, 0.03, xV + 0.07, yVoor + 0.18, k * (W / 2 - 0.3), "x", 18));
-    knip.push(doos(0.04, 0.1, 0.12, xV + 0.0, y, k * (W / 2 - 0.05), 0.02), doos(0.1, 0.05, 0.02, xV - 0.45, yVoor + 0.6, k * (W / 2 + 0.005), 0.01));
+    const z = k * (W / 2 - 0.36), y = yVoor + 0.28, xf = xV + 0.133; // in de voorkant van de bumper (rondeDoos is 0,9 r groter dan opgegeven)
+    glas.push(doos(0.03, 0.2, 0.52, xf + 0.004, y, z, 0.03));
+    kop.push(doos(0.03, 0.12, 0.17, xf + 0.012, y + 0.01, z - k * 0.1, 0.03), doos(0.03, 0.12, 0.13, xf + 0.012, y + 0.01, z + k * 0.08, 0.03), doos(0.02, 0.022, 0.42, xf + 0.016, y - 0.07, z, 0.008));
+    kop.push(cil(0.05, 0.025, xf + 0.008, yVoor + 0.11, k * 0.62, "x", 18));
+    knip.push(doos(0.03, 0.12, 0.12, xf + 0.004, y, k * (W / 2 - 0.08), 0.02), doos(0.1, 0.05, 0.02, xV - 0.45, yVoor + 0.6, k * (W / 2 + 0.005), 0.01));
   }
   G.g.add(mesh(samen(glas), "raam", "lichten"));
   const kopM = mesh(samen(kop), "lamp", "lichten"), knipM = mesh(samen(knip), S.oranje, "lichten");
