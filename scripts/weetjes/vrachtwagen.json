@@ -1,0 +1,193 @@
+{
+ "secties": [
+  "vrachtwagen",
+  "cabine",
+  "motor",
+  "chassis",
+  "wielen",
+  "oplegger",
+  "lichten"
+ ],
+ "weetjes": [
+  [
+   "vrachtwagen",
+   "Een vrachtwagen is gemaakt om spullen te vervoeren. Met lading mag hij meer dan 3500 kilo wegen.",
+   "https://nl.wikipedia.org/wiki/Vrachtauto",
+   "is een motorvoertuig gemaakt voor het vervoeren van goederen en waarvan de maximaal toegestane massa meer dan 3.500 kilogram bedraagt"
+  ],
+  [
+   "vrachtwagen",
+   "In Europa zie je het vaakst een trekker met een oplegger.",
+   "https://nl.wikipedia.org/wiki/Vrachtauto",
+   "de trekker met oplegger is in europa de meest voorkomende configuratie."
+  ],
+  [
+   "vrachtwagen",
+   "Voor een vrachtwagen heb je een eigen rijbewijs nodig: rijbewijs C, of CE als er een aanhanger of oplegger achter zit.",
+   "https://nl.wikipedia.org/wiki/Vrachtauto",
+   "voor het besturen van een vrachtauto is een europees rijbewijs nodig: rijbewijs c of rijbewijs ce"
+  ],
+  [
+   "vrachtwagen",
+   "Een vrachtwagen met lading mag in Europa meestal hoogstens 40 ton wegen. Dat is zo zwaar als ongeveer 30 auto's.",
+   "https://nl.wikipedia.org/wiki/Vrachtauto",
+   "zo is bijvoorbeeld 40 ton het maximum."
+  ],
+  [
+   "cabine",
+   "Bij deze vrachtwagen zit de chauffeur boven de motor. Dat heet frontstuur.",
+   "https://nl.wikipedia.org/wiki/Frontstuur",
+   "waarbij de bestuurder boven, naast of voor de motor is gepositioneerd."
+  ],
+  [
+   "cabine",
+   "De cabine kan naar voren kantelen. Dan kan de monteur goed bij de motor.",
+   "https://nl.wikipedia.org/wiki/Frontstuur",
+   "dit maakte de motor een stuk beter bereikbaar voor onderhoud"
+  ],
+  [
+   "cabine",
+   "Een vrachtwagen heeft geen achterruit. Daarom kijkt de chauffeur in de spiegels buiten.",
+   "https://nl.wikipedia.org/wiki/Achteruitkijkspiegel",
+   "auto's zonder achterruit, zoals vracht- en sommige bestelauto's, hebben vaak alleen maar buitenspiegels."
+  ],
+  [
+   "cabine",
+   "Rond een vrachtwagen zijn plekken die de chauffeur niet kan zien. Dat heet de dode hoek. Blijf daar uit de buurt.",
+   "https://nl.wikipedia.org/wiki/Dode_hoek_(auto)",
+   "dode hoeken zijn die ruimten rond een voertuig die de chauffeur vanuit het voertuig niet kan waarnemen."
+  ],
+  [
+   "cabine",
+   "Een kastje in de cabine houdt bij hoe lang en hoe hard de chauffeur rijdt. Dat heet een tachograaf.",
+   "https://nl.wikipedia.org/wiki/Tachograaf_(wegvervoer)",
+   "een instrument dat de rijtijd en rijsnelheid van een vrachtauto of bus registreert"
+  ],
+  [
+   "motor",
+   "De motor is een dieselmotor. Daarin gaat de brandstof vanzelf branden, zonder vonkje.",
+   "https://nl.wikipedia.org/wiki/Dieselmotor",
+   "een dieselmotor is een verbrandingsmotor die werkt volgens het principe van zelfontbranding"
+  ],
+  [
+   "motor",
+   "Lucht wordt warm als je hem samenperst. Pers je hem heel hard samen, dan wordt hij zo heet dat de brandstof vanzelf gaat branden.",
+   "https://nl.wikipedia.org/wiki/Dieselmotor",
+   "wordt lucht bij compressie warmer; bij grote compressie zelfs heet genoeg om brandstof spontaan te laten ontbranden."
+  ],
+  [
+   "motor",
+   "De dieselmotor is in 1893 bedacht door Rudolf Diesel.",
+   "https://nl.wikipedia.org/wiki/Dieselmotor",
+   "het dieselprincipe is uitgevonden in 1893 door rudolf diesel"
+  ],
+  [
+   "motor",
+   "Een trekker heeft een sterke motor en veel versnellingen: 10, 13 of zelfs 18.",
+   "https://nl.wikipedia.org/wiki/Trekker_(vrachtwagen)",
+   "een transmissie met veel overbrengingen (10, 13 of 18 versnellingen)"
+  ],
+  [
+   "chassis",
+   "De koppelschotel is een ronde plaat met een sleuf in de vorm van een wig.",
+   "https://nl.wikipedia.org/wiki/Koppelschotel",
+   "een koppelschotel is een schotelvormige plaat, voorzien van een wigvormige sleuf"
+  ],
+  [
+   "chassis",
+   "Onder de oplegger zit een dikke pen. Die heet de kingpin en schuift in de sleuf van de koppelschotel.",
+   "https://nl.wikipedia.org/wiki/Koppelschotel",
+   "de oplegger is voorzien van een plaat met daarop een pen die men kingpin noemt."
+  ],
+  [
+   "chassis",
+   "Zit de oplegger goed vast, dan hoor je vaak een klik.",
+   "https://nl.wikipedia.org/wiki/Koppelschotel",
+   "is vaak een klik hoorbaar van de koppelschotel"
+  ],
+  [
+   "chassis",
+   "Op de koppelschotel zit vet. Zo kan de oplegger soepel draaien in de bocht.",
+   "https://nl.wikipedia.org/wiki/Koppelschotel",
+   "om het scharnieren soepel te laten verlopen wordt de koppelschotel voorzien van een laag vet"
+  ],
+  [
+   "chassis",
+   "Een vrachtwagen remt met lucht. Een pomp perst lucht samen en bewaart die in tanks onder de wagen.",
+   "https://en.wikipedia.org/wiki/Air_brake_(road_vehicle)",
+   "the air compressor draws filtered air from the atmosphere and compresses it, storing the compressed air in high-pressure reservoirs."
+  ],
+  [
+   "wielen",
+   "Dubbellucht betekent: aan elke kant van de as twee wielen, dus vier in plaats van twee.",
+   "https://nl.wikipedia.org/wiki/Dubbellucht",
+   "waar vier in plaats van twee wielen op gemonteerd zijn: aan elke kant een stel."
+  ],
+  [
+   "wielen",
+   "Al meer dan honderd jaar zetten mensen vrachtwagenbanden in paren naast elkaar.",
+   "https://nl.wikipedia.org/wiki/Dubbellucht",
+   "vanaf het begin van de twintigste eeuw werden banden paarsgewijs op één velg gemonteerd"
+  ],
+  [
+   "wielen",
+   "In Europa heeft meestal alleen de as die de trekker aandrijft dubbele wielen. De andere assen hebben enkele wielen.",
+   "https://en.wikipedia.org/wiki/Semi-trailer_truck",
+   "in europe, usually only the driven tractor axle has dual wheels, while single wheels are used for every other axle on the tractor and the trailer."
+  ],
+  [
+   "wielen",
+   "De assen van een vrachtwagen zijn stevige, rechte assen. Die zijn erg sterk.",
+   "https://nl.wikipedia.org/wiki/Luchtvering",
+   "starre assen zijn over het algemeen een sterkere constructie vandaar de toepassing bij vrachtwagens"
+  ],
+  [
+   "oplegger",
+   "Een oplegger heeft voor geen wielen. Een groot deel van zijn gewicht rust op de trekker.",
+   "https://nl.wikipedia.org/wiki/Oplegger",
+   "die geen eigen vooras heeft en waarvan dus een belangrijk deel van het gewicht op het trekkend voertuig"
+  ],
+  [
+   "oplegger",
+   "Een gewone oplegger is 13,60 meter lang.",
+   "https://nl.wikipedia.org/wiki/Oplegger",
+   "de standaard lengte (13,60 meter)"
+  ],
+  [
+   "oplegger",
+   "Een trekker kan met elke oplegger rijden. Zo hoeft de chauffeur niet te wachten tot een oplegger geladen is.",
+   "https://nl.wikipedia.org/wiki/Oplegger",
+   "een trekker kan met elke oplegger rijden, zodat chauffeur en trekker niet op het laden en lossen hoeven te wachten."
+  ],
+  [
+   "oplegger",
+   "Staat de oplegger los, dan staat hij op steunpoten.",
+   "https://en.wikipedia.org/wiki/Semi-trailer_truck",
+   "landing gear – legs for when semi-trailer is detached"
+  ],
+  [
+   "lichten",
+   "Een knipperlicht knippert ongeveer 90 keer per minuut.",
+   "https://nl.wikipedia.org/wiki/Richtingaanwijzer",
+   "de knipperfrequentie moet 90 per minuut zijn met een tolerantie van 30."
+  ],
+  [
+   "lichten",
+   "Aan de zijkant knippert het knipperlicht oranjegeel.",
+   "https://nl.wikipedia.org/wiki/Richtingaanwijzer",
+   "in de zijflanken moet de richtingaanwijzer oranjegeel knipperen."
+  ],
+  [
+   "lichten",
+   "Knipperen links en rechts tegelijk? Dan waarschuwt de chauffeur voor gevaar.",
+   "https://nl.wikipedia.org/wiki/Richtingaanwijzer",
+   "ze knipperen dan gelijktijdig links en rechts."
+  ],
+  [
+   "lichten",
+   "Achter zit een rood remlicht. Dat gaat aan als de chauffeur remt.",
+   "https://nl.wikipedia.org/wiki/Remlicht",
+   "dat gaat branden als de rem in werking treedt."
+  ]
+ ]
+}

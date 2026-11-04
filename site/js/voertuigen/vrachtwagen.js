@@ -16,7 +16,10 @@ const XV = 8.35, XW = 6.95, XA = 3.15, RW = 0.51; // voorkant cabine, vooras, ac
 G.trekker = new THREE.Group(); root.add(G.trekker);
 // cabine (hoog dak, met een bed achter de stoelen)
 const cab = W.cabine({ x: XV, L: 2.3, W: 2.5, H: 3.72, yVoor: 0.5, yAchter: 1.05, wiel: [XW, RW, 0.6], ruit: [2.1, 3.0, 0.3], deurAchter: 6.45, vloer: 1.42, bed: true });
-G.cab = cab.g; G.trekker.add(G.cab);
+G.cab = cab.g;
+// de cabine kan naar voren kantelen, om een scharnier vooraan (dan zie je de motor)
+G.kantel = op(new THREE.Group(), 7.85, 1.05, 0); { const binnen = op(new THREE.Group(), -7.85, -1.05, 0); binnen.add(G.cab); G.kantel.add(binnen); }
+G.trekker.add(G.kantel); G.trekker.add(cab.bumper); // de bumper zit vast aan het chassis
 // zijschermen achter de cabine (dicht het gat naar de oplegger) en twee luchthoorns op het dak
 G.cab.add(mesh(samen([1, -1].map((k) => doos(0.5, 2.3, 0.03, 5.83, 2.5, k * 1.235, 0.012))), S.wit, "cabine"));
 {
@@ -71,7 +74,7 @@ G.trekker.add(mesh(samen([W.doos(0.06, 0.14, 1.5, 2.25, 0.9, 0, 0.02)]), S.chass
 // slangen voor lucht en stroom tussen trekker en oplegger (gekruld)
 {
   const krul = (z, r0) => { const pts = []; for (let i = 0; i <= 140; i++) { const t = i / 140, x = 6.05 - 0.85 * t, y = 1.75 - 0.18 * Math.sin(Math.PI * t), a = t * 15 * TAU; pts.push(V(x, y + Math.cos(a) * r0, z + Math.sin(a) * r0)); } return buis(pts, 0.009, { seg: 600, rond: 6 }); };
-  G.cab.add(mesh(krul(0.32, 0.045), "rood", "koppeling"), mesh(krul(0.18, 0.045), geel, "koppeling"), mesh(krul(0.04, 0.04), S.kunststof, "koppeling"));
+  G.trekker.add(mesh(krul(0.32, 0.045), "rood", "koppeling"), mesh(krul(0.18, 0.045), geel, "koppeling"), mesh(krul(0.04, 0.04), S.kunststof, "koppeling"));
 }
 
 // ================= De oplegger =================
@@ -173,7 +176,7 @@ const SECTIES = [
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Hier zit de chauffeur, hoog boven de weg. Achter de stoelen ligt een bed. Met de spiegels kijkt de chauffeur naast en achter de wagen.", cam: [0.62, 0.12, 8.2, [7.0, 2.1, 0], 30], focus: ["cabine", "binnen", "spiegels", "opstap", "toeter"], doorzicht: true,
     specs: [["Stoelen", "2"], ["Bed", "achter de stoelen"], ["Spiegels", "2 aan elke kant"], ["Opstap", "2 treden"], ["Hoogte", "3,7 m in de tekening"]],
     namen: [["stuur", "STUUR", -70, -50], ["spiegel", "SPIEGELS", 60, -40], ["opstap", "OPSTAP", 60, 40], ["bed", "BED", -60, 40]] },
-  { sleutel: "motor", naam: "De motor", titel: "De motor", tekst: "De motor zit onder de cabine. Hij draait op diesel. Voor de motor zit de koeler, en een ventilator blaast er lucht door.", cam: [0.42, 0.06, 7.2, [6.6, 1.05, 0], 30], focus: ["motor"], doorzicht: true, draaien: true,
+  { sleutel: "motor", naam: "De motor", titel: "De motor", tekst: "De motor zit onder de cabine. Kijk: de cabine kantelt naar voren, dan kun je erbij. Voor de motor zit de koeler, met een ventilator.", cam: [0.62, 0.16, 10, [7.2, 1.5, 0], 30], focus: ["motor"], kantel: true, draaien: true,
     specs: [["Plek", "onder de cabine"], ["Brandstof", "diesel"], ["Koeler", "voor de motor"], ["Ventilator", "7 bladen in de tekening"]],
     namen: [["motor", "MOTOR", -70, -50], ["koeler", "KOELER", 60, -50]] },
   { sleutel: "chassis", naam: "Het chassis", titel: "Het chassis", tekst: "Twee lange stalen balken dragen alles. Achterop zit de koppelschotel: daar haakt de oplegger in. Kijk, de oplegger rijdt los.", cam: [0.42, 0.42, 14, [4.8, 0.9, 0], 32], focus: ["chassis", "tank", "koppeling"], los: true,
@@ -191,7 +194,7 @@ const SECTIES = [
 ];
 const KIND = [
   { naam: "de vrachtwagen", focus: ["cabine", "oplegger"], cam: [0.6, 0.2, 33, [0, 2.0, 0], 30], geluid: "toeter" },
-  { naam: "de motor", focus: ["motor"], cam: [0.42, 0.06, 7.2, [6.6, 1.05, 0], 30], doorzicht: true, draaien: true, geluid: "brom" },
+  { naam: "de motor", focus: ["motor"], cam: [0.62, 0.16, 10, [7.2, 1.5, 0], 30], kantel: true, draaien: true, geluid: "brom" },
   { naam: "het stuur", focus: ["binnen"], cam: [0.62, 0.12, 9.5, [7.1, 2.1, 0], 30], doorzicht: true },
   { naam: "de spiegel", focus: ["spiegels"], cam: [0.75, 0.15, 6.5, [7.6, 2.6, 0.8], 30] },
   { naam: "de wielen", focus: ["wielen"], cam: [0.3, 0.1, 6.2, [3.5, 0.6, 0.9], 30], rollen: true, geluid: "rol" },
@@ -215,7 +218,7 @@ function mini(aan) {
     [XW, XA, ...XAS].map((x, i) => cirkel(x, i < 2 ? RW : RO)).join("");
 }
 
-let wielHoek = 0, deurNu = 0, losNu = 0, fanV = 0, lichtT = 0;
+let wielHoek = 0, deurNu = 0, losNu = 0, fanV = 0, lichtT = 0, kantelNu = 0;
 const glad = (t) => { t = Math.min(1, Math.max(0, t)); return t * t * (3 - 2 * t); };
 function beweeg(dt, h, s) {
   let bezig = false;
@@ -227,6 +230,8 @@ function beweeg(dt, h, s) {
   const poot = glad(losNu * 3), weg = glad(losNu * 1.5 - 0.5);
   G.poten.position.y = -0.24 * poot; G.trailer.position.x = -3.6 * weg;
   for (const w of G.oplWielen) w.rotation.z = wielHoek + (3.6 * weg) / RO;
+  const kaDoel = h.kantel ? 1 : 0; if (Math.abs(kaDoel - kantelNu) > 0.001) { kantelNu += Math.sign(kaDoel - kantelNu) * Math.min(Math.abs(kaDoel - kantelNu), dt / 2.5); bezig = true; }
+  G.kantel.rotation.z = -0.85 * glad(kantelNu);
   const fDoel = h.draaien ? 14 : 0; fanV += (fDoel - fanV) * Math.min(1, dt * 1.5);
   if (fanV > 0.01) { G.motor.fan.rotation.x += fanV * dt; bezig = true; }
   lichtT += dt; const aan = s.lichtAan || h.lichten || s.uiteen;
@@ -241,7 +246,7 @@ return {
   anker: () => ({ cabine: cab.schaal, stuur: cab.stuur, bed: cab.binnen.children[1], spiegel: cab.spiegels[0], opstap: cab.opstap, motor: G.motor.children[0], koeler: G.motor.children[2], tank: G.tank.children[0], koppeling: G.koppeling, chassis: G.balkR, poten: G.poten, voorwiel: G.voorR, dubbellucht: G.achterR, oplegger: G.box.children[0], deuren: G.deurR, oplwiel: G.oplWielR, koplamp: cab.koplamp, knipper: cab.knipper[0], achterlicht: G.achterlicht }),
   uiteenCam: [0.66, 0.32, 40, [0, 2.6, 0], 32],
   uiteen: () => [
-    [G.cab, [1.3, 1.6, 0], "CABINE", [50, -40]], [G.motor, [0.4, 0.35, 0], "MOTOR", [60, 30]], [G.tank, [0, 0, 1.4], "TANK", [50, 40]],
+    [G.kantel, [1.3, 1.6, 0], "CABINE", [50, -40]], [G.motor, [0.4, 0.35, 0], "MOTOR", [60, 30]], [G.tank, [0, 0, 1.4], "TANK", [50, 40]],
     [G.voorL, [0, 0, -1.1], null], [G.voorR, [0, 0, 1.1], "VOORWIEL", [40, 50]], [G.achterL, [0, 0, -1.2], null], [G.achterR, [0, 0, 1.2], "DUBBELLUCHT", [30, 60]],
     [G.koppeling, [0, 0.9, 0], "KOPPELSCHOTEL", [-40, -50]], [G.box, [-1.2, 1.8, 0], "OPLEGGER", [-40, -50]], [G.assen, [-1.2, -0.0, 1.0], "3 ASSEN", [-50, 40]],
   ],

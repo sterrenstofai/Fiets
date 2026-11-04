@@ -235,7 +235,7 @@ const SECTIES = [
   { sleutel: "deuren", naam: "De deuren", titel: "De deuren", tekst: "Drie brede deuren aan de rechterkant. Ze gaan eerst naar buiten en schuiven dan opzij. De bus zakt aan die kant een stukje omlaag: dat heet knielen.", cam: [0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32], focus: ["deuren"], deuren: true,
     specs: [["Deuren", "3, elk met 2 vleugels"], ["Breedte", "1,2 tot 1,3 m in de tekening"], ["Vloer", "37 cm boven de weg"], ["Knielen", "een paar centimeter omlaag"]],
     namen: [["deur", "MIDDELSTE DEUR", 30, 110], ["deur1", "VOORDEUR", 30, 110], ["deur3", "ACHTERDEUR", -30, 110]] },
-  { sleutel: "binnen", naam: "Binnen", titel: "Binnen in de bus", tekst: "Stoelen aan twee kanten van het gangpad, en overal stangen om je vast te houden. Met de rode knop vraag je de chauffeur om te stoppen.", cam: [0.55, 0.72, 19, [-0.2, 0.8, 0], 32], focus: ["binnen"], doorzicht: true,
+  { sleutel: "binnen", naam: "Binnen", titel: "Binnen in de bus", tekst: "Stoelen aan twee kanten van het gangpad, en overal stangen om je vast te houden. Met de rode knop vraag je de chauffeur om te stoppen.", cam: [0.55, 0.72, 22, [0.1, 0.8, 0], 32], focus: ["binnen"], doorzicht: true,
     specs: [["Zitplaatsen", "31 in de tekening"], ["Stangen", "geel, van vloer tot plafond"], ["Stopknoppen", "rood, aan de stangen"], ["Rolstoelplek", "tegenover de middelste deur"]],
     namen: [["stoel", "STOELEN", -60, -60], ["stangen", "STANGEN", 50, -80], ["vloer", "LAGE VLOER", 60, 50]] },
   { sleutel: "chauffeur", naam: "De chauffeur", titel: "De chauffeur", tekst: "Linksvoor zit de chauffeur, achter een groot stuur dat bijna plat ligt. Voor hem zit een dashboard met knoppen en een scherm.", cam: [2.0, 0.28, 6.8, [5.0, 1.25, -0.6], 32], focus: ["chauffeur"], doorzicht: true,
@@ -254,7 +254,7 @@ const SECTIES = [
 const KIND = [
   { naam: "de bus", focus: ["romp"], cam: [0.62, 0.15, 20, [0.2, 1.4, 0], 32], geluid: "toeter" },
   { naam: "de deuren", focus: ["deuren"], cam: [0.24, 0.07, 19.5, [0.2, 1.2, 0.5], 32], deuren: true },
-  { naam: "de stoelen", focus: ["binnen"], cam: [0.55, 0.72, 19, [-0.2, 0.8, 0], 32], doorzicht: true },
+  { naam: "de stoelen", focus: ["binnen"], cam: [0.55, 0.72, 22, [0.1, 0.8, 0], 32], doorzicht: true },
   { naam: "de chauffeur", focus: ["chauffeur"], cam: [2.0, 0.28, 6.8, [5.0, 1.25, -0.6], 32], doorzicht: true, geluid: "toeter" },
   { naam: "de wielen", focus: ["wielen"], cam: [0.1, 0.06, 13, [0.35, 0.75, 0], 32], rollen: true, geluid: "rol" },
   { naam: "het dak", focus: ["dak"], cam: [0.75, 0.78, 15, [-0.5, 2.6, 0], 32] },
