@@ -90,7 +90,8 @@ for (const [k, [teken, donker]] of Object.entries(SOORT)) {
 // een voertuig kan eigen materialen toevoegen: soort(naam, kleur voor de tekening, opties voor donker)
 function soort(naam, teken, donker) {
   if (MAT[naam]) return naam;
-  MAT[naam] = { teken: new THREE.MeshStandardMaterial({ color: teken, roughness: 0.75, metalness: 0, envMapIntensity: 0.7, emissive: donker.emissive ?? 0x000000, emissiveIntensity: 0 }), donker: new THREE.MeshPhysicalMaterial({ ...donker }) };
+  const gedeeld = {}; for (const k of ["transparent", "opacity", "side", "depthWrite"]) if (k in donker) gedeeld[k] = donker[k];
+  MAT[naam] = { teken: new THREE.MeshStandardMaterial({ color: teken, roughness: 0.75, metalness: 0, envMapIntensity: 0.7, emissive: donker.emissive ?? 0x000000, emissiveIntensity: 0, ...gedeeld }), donker: new THREE.MeshPhysicalMaterial({ ...donker }) };
   return naam;
 }
 const ACCENT = { teken: new THREE.Color(0xf3b7c0), donker: new THREE.Color(0xc8102e) };
@@ -340,7 +341,7 @@ function handWeg() { $("kindhand")?.remove(); try { localStorage.setItem("fiets-
 const namenEl = $("namen"), lijnEl = $("lijntjes");
 const ANKEROBJ = () => DEF.anker();
 let namen = [];
-function lokaal(obj) { const b = new THREE.Box3().setFromObject(obj); return obj.worldToLocal(b.getCenter(new THREE.Vector3())); }
+function lokaal(obj) { const b = new THREE.Box3().setFromObject(obj); return b.isEmpty() ? new THREE.Vector3() : obj.worldToLocal(b.getCenter(new THREE.Vector3())); }
 function maakNamen() {
   namenEl.textContent = ""; lijnEl.textContent = ""; namen = [];
   if (KINDMODUS) return;
@@ -362,7 +363,7 @@ function namenBijwerken() {
     const lok = n.ex ? n.ex.lok : n.lok; if (!lok) continue;
     pw.copy(lok); n.obj.localToWorld(pw);
     if (n.ex) { n.el.style.opacity = n.l.style.opacity = Math.min(1, uiteenNu * 2); }
-    const [ax, ay] = scherm(pw, r), links = n.dx < 0, bw = (n.w ||= n.el.offsetWidth || 90);
+    const [ax, ay] = scherm(pw, r), links = n.dx < 0, bw = n.w || (n.w = n.el.offsetWidth) || 90;
     const lx = links ? Math.max(8 + bw, ax + n.dx) : Math.min(r.width - 8 - bw, ax + n.dx), ly = Math.max(70, Math.min(r.height - 40, ay + n.dy));
     n.el.classList.toggle("links", links); n.el.style.left = lx + (links ? -3 : 3) + "px"; n.el.style.top = ly + "px";
     n.l.setAttribute("x1", ax); n.l.setAttribute("y1", ay); n.l.setAttribute("x2", lx); n.l.setAttribute("y2", ly);
@@ -391,10 +392,10 @@ function zetUiteen() {
     e.obj.position.add(b.sub(a)); e.obj.updateMatrixWorld(true);
     pts.push(thuisW, thuisW.clone().addScaledVector(e.v, k));
   }
-  gidsGeo.setFromPoints(pts.length ? pts : [V(0, 0, 0), V(0, 0, 0)]); gids.computeLineDistances(); gids.visible = u > 0.02;
+  gids.geometry.dispose(); gids.geometry = new THREE.BufferGeometry().setFromPoints(pts.length ? pts : [V(0, 0, 0), V(0, 0, 0)]); gids.computeLineDistances(); gids.visible = u > 0.02;
 }
 function zetUitElkaar(aan) {
-  uiteen = aan ? 1 : 0; $("uiteenknop").setAttribute("aria-pressed", String(aan));
+  uiteen = aan ? 1 : 0; $("uiteenknop").setAttribute("aria-pressed", String(aan)); if (!EX.length) exDef();
   camNaar(aan ? DEF.uiteenCam : SECTIES[sectie].cam);
   podium.classList.toggle("smal-uit", !!aan); klik(); maakNamen(); kleuren(); vraag();
 }
@@ -444,26 +445,26 @@ let vorigeT = performance.now(), opening = params.has("stil") ? 1 : 0;
 window.__meting = { frames: 0 };
 function stap_(t) {
   requestAnimationFrame(stap_);
-  const dt = Math.max(0, Math.min(0.05, (t - vorigeT) / 1000)); vorigeT = t;
+  const echt = Math.max(0, Math.min(0.5, (t - vorigeT) / 1000)), dt = Math.min(0.05, echt); vorigeT = t;
   let bezig = false;
   const h = huidig();
-  if (opening < 1) { opening = Math.min(1, opening + dt / 1.6); bezig = true; }
-  if (camVolgt) { const k = Math.min(1, dt * 2.6); for (const key of ["draai", "helling", "afstand", "fov"]) cam[key] += (camDoel[key] - cam[key]) * k; zetLens(); cam.doel.lerp(camDoel.doel, k); if (Math.abs(camDoel.draai - cam.draai) + Math.abs(camDoel.afstand - cam.afstand) + cam.doel.distanceTo(camDoel.doel) > 0.002) bezig = true; }
+  if (opening < 1) { opening = Math.min(1, opening + echt / 1.6); bezig = true; }
+  if (camVolgt) { const k = 1 - Math.exp(-echt * 2.8); for (const key of ["draai", "helling", "afstand", "fov"]) cam[key] += (camDoel[key] - cam[key]) * k; zetLens(); cam.doel.lerp(camDoel.doel, k); if (Math.abs(camDoel.draai - cam.draai) + Math.abs(camDoel.afstand - cam.afstand) + cam.doel.distanceTo(camDoel.doel) > 0.002) bezig = true; }
   if (Math.abs(vaart) > 1e-4 && !wijzers.size) { cam.draai += vaart; vaart *= 0.94; bezig = true; }
-  if (Math.abs(uiteenNu - uiteen) > 1e-3) { uiteenNu += Math.sign(uiteen - uiteenNu) * Math.min(Math.abs(uiteen - uiteenNu), dt / 1.6); bezig = true; if (uiteenNu < 0.02 || uiteenNu > 0.98) kleuren(); } else uiteenNu = uiteen;
+  if (Math.abs(uiteenNu - uiteen) > 1e-3) { uiteenNu += Math.sign(uiteen - uiteenNu) * Math.min(Math.abs(uiteen - uiteenNu), echt / 1.6); bezig = true; if (uiteenNu < 0.02 || uiteenNu > 0.98) kleuren(); } else uiteenNu = uiteen;
   if (DEF.beweeg(dt, h, { uiteen, lichtAan, t })) bezig = true;
   if (!rtKleur || (!bezig && !vraagNu)) return; vraagNu = false;
   zetUiteen();
   const o = glad(opening), dr = cam.draai - (1 - o) * 1.2, af = cam.afstand + (1 - o) * 5;
   camera.position.set(cam.doel.x + Math.sin(dr) * Math.cos(cam.helling) * af, cam.doel.y + Math.sin(cam.helling) * af, cam.doel.z + Math.cos(dr) * Math.cos(cam.helling) * af); camera.lookAt(cam.doel);
   renderer.setRenderTarget(rtKleur); renderer.setClearColor(0xffffff, 0); renderer.clear(); renderer.render(scene, camera);
-  const f = focusVan(), bewaar = new Map();
-  for (const m of meshes) { bewaar.set(m, m.material); m.material = !f || f.includes(m.userData.deel) || uiteen ? NORM_AAN : NORM_UIT; if (m.userData.romp && (h.doorzicht || uiteenNu > 0.01)) m.visible = false; }
+  const f = focusVan(), bewaar = new Map(), verborgen = [];
+  for (const m of meshes) { bewaar.set(m, m.material); m.material = !f || f.includes(m.userData.deel) || uiteen ? NORM_AAN : NORM_UIT; if (m.visible && m.userData.romp && (h.doorzicht || uiteenNu > 0.01)) { m.visible = false; verborgen.push(m); } }
   const zichtbaar = []; scene.traverse((x) => { if (x.userData?.geenLijn && x.visible) { zichtbaar.push(x); x.visible = false; } });
   grond.visible = false; renderer.shadowMap.autoUpdate = false;
   renderer.setRenderTarget(rtNormaal); renderer.setClearColor(0x8080ff, 0); renderer.clear(); renderer.render(scene, camera);
   renderer.shadowMap.autoUpdate = true; grond.visible = true; zichtbaar.forEach((x) => (x.visible = true));
-  for (const [m, mat] of bewaar) { m.material = mat; m.visible = true; }
+  for (const [m, mat] of bewaar) m.material = mat; for (const m of verborgen) m.visible = true;
   renderer.setRenderTarget(null); renderer.render(quadScene, quadCam);
   namenBijwerken();
   window.__meting.frames++;

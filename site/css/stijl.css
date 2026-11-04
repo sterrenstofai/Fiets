@@ -23,7 +23,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .lijntjes, .namen { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .lijntjes line, .lijntjes path { stroke: var(--inkt); stroke-width: 1; fill: none; }
 .lijntjes .maat { stroke-width: 1; }
-.naam { position: absolute; font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: var(--inkt); transform: translate(0, -50%); padding: 1px 2px; background: none; font-size: 9.5px; }
+.naam { position: absolute; font: 500 10.5px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: var(--inkt); transform: translate(0, -50%); padding: 2px 4px; border-radius: 3px; background: color-mix(in srgb, var(--papier) 82%, transparent); font-size: 9.5px; }
 .naam.links { transform: translate(-100%, -50%); }
 .naam.maatlabel { transform: translate(-50%, -50%); }
 .podium.donker .naam { color: #ECEBE8; background: color-mix(in srgb, #2a2a2a 70%, transparent); }
@@ -138,7 +138,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .leespagina table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .leespagina td { padding: 6px 0; border-bottom: 1px solid var(--lijn); vertical-align: top; }
 .leespagina td:last-child { text-align: right; font: 400 12px/1.4 var(--mono); color: #555; }
-@media (max-width: 520px) { .podium.smal-uit .naam { display: none; } }
+@media (max-width: 520px) { .podium.smal-uit .naam, .podium.smal-uit .lijntjes { display: none; } }
 
 /* site-navigatie in het paneel */
 .sitenav { display: flex; gap: 14px; margin: -4px 0 12px; font-size: 11px; }

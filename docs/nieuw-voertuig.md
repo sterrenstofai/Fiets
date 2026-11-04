@@ -32,10 +32,10 @@ staan al in `netlify.toml` voor alles wat in `VOERTUIGEN` staat (anders: toevoeg
   `frame`, `velg`, `carbon`, `metaal`, `schijf`, `spaak`, `zwartmetaal`, `ketting`, `loopvlak`, `wand`, `greep`, `rubber`,
   `zadel`, `lamp`, `achterlicht`, `scherm`, `cel`, `karton`, `rood`, `roodlicht`, `groenlicht`, `witlicht`.
   Een eigen kleur: `soort("groenlak", 0xd9e4d6, { color: 0x2f6b3a, roughness: 0.4, metalness: 0.1, clearcoat: 0.6 })`
-  geeft de naam terug. Eerste kleur = stand "Tekening" (licht, papierachtig, de inktlijnen doen het werk),
+  geeft de naam terug. `transparent`, `opacity`, `side` en `depthWrite` gelden voor beide standen. Eerste kleur = stand "Tekening" (licht, papierachtig, de inktlijnen doen het werk),
   het object = stand "Donker" (`MeshPhysicalMaterial`-opties). Houd het rustig: geen felle plastic kleuren.
 - Hulpjes: `buis(punten, r, {seg, rond})` buis langs een kromme (r mag een functie `t => [a, b]` zijn),
-  `draai(profiel)` draaivorm om de z-as (wielen), `rondeDoos(x, y, z, r)` afgeronde doos, `staaf(a, b, r)`,
+  `draai(profiel)` draaivorm om de z-as (wielen), `rondeDoos(x, y, z, r)` afgeronde doos (let op: de afronding komt erbij, de doos wordt ongeveer 0,9 × r groter), `staaf(a, b, r)`,
   `samen([geos])` geometrieën samenvoegen (één mesh is sneller), `groep(...objs)`, `op(obj, x, y, z)`.
 
 ## Wat `maak` teruggeeft
@@ -55,6 +55,7 @@ return {
 };
 ```
 
+- Een anker mag een lege groep zijn (dan telt de plek van de groep).
 - `cam`: `[draai (radialen om y, 0 = van de zijkant +z), helling (radialen), afstand, [doel], fov]`.
 - `SECTIES[i].specs`: `[["Label", "waarde"], ...]`; `["Lampjes", "tik", "lichten"]` maakt een tikregel die de lampen aan/uit zet.
   Een tik op een mesh met deel `"lichten"` doet hetzelfde.
