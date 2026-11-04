@@ -107,14 +107,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .knop.pil-zwart .v { width: 24px; height: 24px; border-radius: 50%; background: var(--wit); color: var(--inkt); display: grid; place-items: center; font-size: 13px; }
 .toetsen { margin: 6px 0 0; display: flex; justify-content: space-between; font-size: 10.5px; color: var(--zacht); }
 .toetsen kbd { font: inherit; border: 1px solid var(--lijn); border-radius: 3px; padding: 0 3px; background: var(--vlak); color: #555; }
-.voet { margin: 0; height: 28px; display: flex; align-items: center; padding: 0 16px; font-size: 10.5px; color: var(--zacht); border-top: 1px solid var(--lijn); background: var(--papier); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.appvoet { margin: 0; height: 28px; display: flex; align-items: center; padding: 0 16px; font-size: 10.5px; color: var(--zacht); border-top: 1px solid var(--lijn); background: var(--papier); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
 @media (max-width: 900px) {
   .app { grid-template-columns: minmax(0, 1fr); height: auto; }
   .podium { height: 62svh; min-height: 380px; }
   .paneel { border-left: 0; border-top: 1px solid var(--lijn); }
   .inhoud { overflow: visible; }
-  .voet { white-space: normal; height: auto; padding: 8px 16px; }
+  .appvoet { white-space: normal; height: auto; padding: 8px 16px; }
   .stapnummer #stapgetal { font-size: 44px; }
   .minitekst { display: none; }
   .hint { right: 130px; }
@@ -126,8 +126,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .uiteenknop[aria-pressed="true"] { background: var(--inkt); color: var(--wit); }
 .uiteenknop[aria-pressed="true"] kbd { color: #bbb; border-color: #555; }
 
-.voet a { color: inherit; margin-left: 4px; }
-.voet .label-tekening { background: var(--inkt); color: var(--wit); padding: 1px 5px; margin-right: 6px; text-transform: uppercase; letter-spacing: .06em; }
+.appvoet a { color: inherit; margin-left: 4px; }
+.appvoet .label-tekening { background: var(--inkt); color: var(--wit); padding: 1px 5px; margin-right: 6px; text-transform: uppercase; letter-spacing: .06em; }
 /* pagina Hoe dit werkt */
 .leespagina { background: var(--papier); min-height: 100svh; }
 .leespagina main { max-width: 40rem; margin: 0 auto; padding: 32px max(16px, env(safe-area-inset-left, 0px)) 48px; }
@@ -255,7 +255,7 @@ textarea, input[type=text] { font: inherit; font-size: 15px; border: 1px solid v
 .leespagina canvas, .leespagina svg, .leespagina input, .leespagina textarea { max-width: 100%; }
 .melding { max-width: calc(100vw - 32px); }
 .oz-kaart > span:nth-child(2) { min-width: 0; }
-body.kindmodus .voet { display: none; }
+body.kindmodus .appvoet { display: none; }
 body.kindmodus .app { height: 100svh; }
 @media (max-width: 900px) { body.kindmodus .podium { height: 100svh; } }
 @media (max-width: 520px) { .kindbron { top: auto; bottom: 108px; right: 0; left: 0; text-align: center; } .kindnaam { top: 40px; } }

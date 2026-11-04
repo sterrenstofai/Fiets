@@ -5,8 +5,11 @@ Draaien, onderdelen bekijken, uit elkaar halen, en een stand voor kinderen. De f
 
 ```
 site/                    wat live gaat (Netlify publiceert deze map)
-  index.html             de startpagina: een kaart per voertuig (js/overzicht.js)
-  kinderen.html          /kinderen: de kinderkeuze met grote plaatjes
+  index.html             de startpagina in de familie-opzet (js/overzicht.js): opening, strook, alle voertuigen, onderzoekjes, over
+  css/familie.css, js/familie.js   bovenbalk en voet, gedeeld met Voggels en De Ruimte
+  beeld/<naam>.webp      renders van de eigen 3D-tekening, voor de kaarten
+  kinderen.html          /kinderen: de kinderkeuze met grote plaatjes (js/kinderkeuze.js)
+  ontdek.html            /ontdek: een willekeurig voertuig
   fiets.html             /fiets en /kinderen/fiets: de fiets (js/app.js), met bouwstappen
   voertuig.html          /<naam> en /kinderen/<naam>: elk ander voertuig (js/kern.js + js/voertuigen/<naam>.js)
   onderzoekjes.html      zes onderzoekjes met Fos (js/onderzoekjes.js), met logboek, stempel en certificaat

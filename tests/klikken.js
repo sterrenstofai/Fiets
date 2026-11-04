@@ -32,7 +32,7 @@ const BASIS = process.argv[2] || "http://127.0.0.1:8765";
   // gezien in het echt, teller
   await p.goto(BASIS + "/fiets?stil&sectie=5"); await p.waitForFunction(() => window.__klaar);
   await p.click('[data-gezien="bel"]'); await p.waitForTimeout(200);
-  controle((await p.textContent("#mijnteller")) === "1", "teller Mijn fiets");
+  controle((await p.textContent(".nav-mijn-n")) === "1", "teller Mijn fiets in de balk");
   await p.goto(BASIS + "/mijn"); controle(await p.locator('[data-k="bel"][aria-pressed="true"]').count() === 1, "bel staat bij Mijn fiets");
   // onderzoekjes: stempel en certificaat
   for (const slug of ["tel-de-spaken", "een-rondje-trappen", "bel-en-lampjes", "lucht-in-de-band", "fietsen-spotten", "bouw-een-fiets"]) {
@@ -56,10 +56,12 @@ const BASIS = process.argv[2] || "http://127.0.0.1:8765";
   await p.click("#kindknop");
   // startpagina en kinderkeuze: elk voertuig opent, met onderdelen, uit elkaar en de kinderstand
   await p.goto(BASIS + "/");
-  const adressen = await p.locator(".kaart").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+  const adressen = await p.locator(".vkaart").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
   controle(adressen.length >= 2 && adressen.includes("/fiets") && adressen.includes("/vliegtuig"), "startpagina met voertuigen");
   await p.goto(BASIS + "/kinderen");
-  controle((await p.locator(".kaart").count()) === adressen.length && (await p.locator('.kaart[href="/kinderen/vliegtuig"]').count()) === 1, "kinderkeuze");
+  controle((await p.locator(".kinderkaart").count()) === adressen.length && (await p.locator('.kinderkaart[href="/kinderen/vliegtuig"]').count()) === 1, "kinderkeuze");
+  await p.goto(BASIS + "/"); await p.fill("#zoekveld", "trein"); await p.keyboard.press("Enter"); await p.waitForURL("**/trein"); controle(true, "zoeken in de balk");
+  await p.goto(BASIS + "/"); await p.click('.chip[data-groep="op het water"]'); controle((await p.locator(".vkaart").count()) === 1, "filter op het water");
   for (const a of adressen.filter((x) => x !== "/fiets")) {
     await p.goto(BASIS + a + "?stil"); await p.waitForFunction(() => window.__klaar, null, { timeout: 60000 });
     const n = await p.locator("#lijst li").count();

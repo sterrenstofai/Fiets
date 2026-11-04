@@ -141,6 +141,11 @@
   status = 200
 
 [[redirects]]
+  from = "/ontdek"
+  to = "/ontdek.html"
+  status = 200
+
+[[redirects]]
   from = "/onderzoekjes/*"
   to = "/onderzoekjes.html"
   status = 200
