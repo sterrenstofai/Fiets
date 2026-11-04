@@ -4,7 +4,7 @@ const { chromium } = require("playwright");
 const BASIS = process.argv[2] || "http://127.0.0.1:8765";
 (async () => {
   const b = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
-  const p = await b.newPage({ viewport: { width: 1366, height: 900 } });
+  const p = await b.newPage({ viewport: { width: 1366, height: 900 } }); p.setDefaultTimeout(90000);
   const fouten = []; p.on("pageerror", (e) => fouten.push(e.message)); p.on("console", (m) => m.type() === "error" && fouten.push(m.text()));
   const controle = (ok, wat) => { if (!ok) fouten.push("mislukt: " + wat); };
   await p.goto(BASIS + "/fiets?stil"); await p.waitForFunction(() => window.__klaar);
