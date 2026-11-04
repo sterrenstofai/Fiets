@@ -88,7 +88,7 @@ body.familie > main { flex: 1; }
 
 /* ---------- Opening op de voorpagina ---------- */
 .held { display: grid; gap: 1.5rem; padding-top: clamp(1rem, 4vw, 3rem); align-items: center; }
-.held h1 { font-size: clamp(2.6rem, 8vw, 5.6rem); line-height: 1; max-width: 14ch; text-wrap: balance; }
+.held h1 { font-size: clamp(2.6rem, 6.4vw, 4.6rem); line-height: 1; max-width: 15ch; text-wrap: balance; }
 .held-sub { font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.5; max-width: 34rem; margin: 1.2rem 0 0; }
 .held-knoppen { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.6rem; }
 .held-beeld { display: block; margin: 0; position: relative; }
@@ -172,3 +172,14 @@ body.familie-app.kindmodus .balk { display: none; }
 .kinderkaart:hover, .kinderkaart:focus-visible { background: var(--geel); transform: translateY(-2px); }
 footer.voet a, .familie .noot a, .held-beeld a { color: inherit; }
 .kinderkeuze main { padding-top: clamp(1.5rem, 5vw, 3.5rem); }
+
+/* De opening: het voertuig live in 3D (een kader met /<naam>?held), met het plaatje eronder tot het klaar is */
+.held-3d { position: relative; aspect-ratio: 3 / 2; width: 100%; }
+.held-3d img, .held-3d iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.held-3d img { object-fit: cover; }
+.held-3d iframe { opacity: 0; transition: opacity .8s ease; }
+.held-3d.klaar iframe { opacity: 1; }
+.held-3d-hint { position: absolute; left: 50%; bottom: .4rem; transform: translateX(-50%); margin: 0; pointer-events: none; font: 500 .8rem var(--letter); color: var(--inkt-zacht); background: color-mix(in srgb, var(--papier-licht) 88%, transparent); border: 1px solid var(--lijn-f); border-radius: 999px; padding: .25rem .8rem; white-space: nowrap; opacity: 0; transition: opacity .6s; }
+.held-3d.klaar .held-3d-hint { opacity: 1; }
+@media (min-width: 1000px) { .held-3d { aspect-ratio: 4 / 3; } }
+@media (prefers-reduced-motion: reduce) { .held-3d iframe, .held-3d-hint { transition: none; } }

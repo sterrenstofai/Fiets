@@ -1,8 +1,7 @@
-// De voorpagina: een opening met één voertuig (elke dag een ander), de strook, en alle voertuigen met zoeken en filters.
+// De voorpagina: een opening met het skateboard live in 3D, de strook, en alle voertuigen met zoeken en filters.
 import { lijst, pad } from "/js/voertuigen.js";
 const V = lijst(), $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const dag = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 864e5);
 const tellingen = {};
 async function tel(v) {
   if (!tellingen[v.slug]) tellingen[v.slug] = fetch(v.slug === "fiets" ? "/data/weetjes.json" : `/data/weetjes-${v.slug}.json`).then((r) => r.json())
@@ -16,15 +15,15 @@ async function held(v) {
   for (const a of document.querySelectorAll("[data-held-link]")) a.href = pad(v);
   $("[data-held-link].knop-pil").textContent = `Bekijk ${v.naam}`;
   $("[data-held-kind]").href = pad(v, true);
-  const img = $("[data-held-beeld]"); img.src = `/beeld/${v.slug}.webp`; img.alt = `${v.naam}, getekend in 3D`;
-  for (const b of document.querySelectorAll("[data-strook] button")) b.setAttribute("aria-current", String(b.dataset.slug === v.slug));
   const t = await tel(v);
   $("[data-held-gegevens]").innerHTML = `<dt>Waar</dt><dd>${esc(v.groep)}</dd>` + (t ? `<dt>Onderdelen</dt><dd>${t.onderdelen}, elk met uitleg</dd><dt>Weetjes</dt><dd>${t.weetjes}, nagekeken bij de bron</dd>` : "") + `<dt>Voor kinderen</dt><dd>grote knoppen en een stem</dd>`;
 }
 // strook
-$("[data-strook]").innerHTML = V.map((v) => `<button type="button" class="strook-item" data-slug="${v.slug}" aria-label="${esc(v.label)}"><span class="strook-beeld"><img src="/beeld/${v.slug}.webp" alt="" width="84" height="56" loading="lazy"></span><span class="strook-naam">${esc(v.label)}</span></button>`).join("");
-for (const b of document.querySelectorAll("[data-strook] button")) b.addEventListener("click", () => held(V.find((v) => v.slug === b.dataset.slug)));
-held(V[dag % V.length]);
+// de opening: het skateboard, live in 3D (de pagina /skateboard?held in een kader); tot die klaar is staat het plaatje er
+const HELD = V.find((v) => v.slug === "skateboard") || V[0];
+$("[data-strook]").innerHTML = V.map((v) => `<a class="strook-item" href="${pad(v)}"${v === HELD ? ' aria-current="true"' : ""}><span class="strook-beeld"><img src="/beeld/${v.slug}.webp" alt="" width="84" height="56" loading="lazy"></span><span class="strook-naam">${esc(v.label)}</span></a>`).join("");
+held(HELD);
+addEventListener("message", (e) => { if (e.origin === location.origin && e.data === "held-klaar") $("[data-held-3d]").classList.add("klaar"); });
 // alle voertuigen
 const groepen = [...new Set(V.map((v) => v.groep))];
 let groep = null;

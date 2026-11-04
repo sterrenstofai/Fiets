@@ -22,17 +22,21 @@
   <section class="breed held" aria-labelledby="held-kop">
     <div>
       <p class="etiket">Voertuigen, voor ouders en kinderen</p>
-      <h1 id="held-kop">Wat zit er in <span data-held-naam>de trekker</span>?</h1>
+      <h1 id="held-kop">Wat zit er in <span data-held-naam>het skateboard</span>?</h1>
       <p class="held-sub" data-held-zin>Draai hem rond, kijk wat erin zit en haal hem uit elkaar.</p>
       <dl class="held-gegevens" data-held-gegevens></dl>
       <div class="held-knoppen">
-        <a class="knop-pil knop-accent" href="/trekker" data-held-link>Bekijk de trekker</a>
-        <a class="knop-pil" href="/kinderen/trekker" data-held-kind>Voor kinderen</a>
+        <a class="knop-pil knop-accent" href="/skateboard" data-held-link>Bekijk het skateboard</a>
+        <a class="knop-pil" href="/kinderen/skateboard" data-held-kind>Voor kinderen</a>
         <a class="knop-pil" href="/fiets">Bouw een fiets</a>
       </div>
     </div>
     <figure class="held-beeld">
-      <a href="/trekker" data-held-link tabindex="-1"><img src="/beeld/trekker.webp" alt="" width="1200" height="800" data-held-beeld></a>
+      <div class="held-3d" data-held-3d>
+        <img src="/beeld/skateboard.webp" alt="Het skateboard, getekend in 3D" width="1200" height="800">
+        <iframe src="/skateboard?held&amp;stil" title="Het skateboard in 3D. Sleep om te draaien, tik om het te openen." loading="eager"></iframe>
+        <p class="held-3d-hint">Sleep om te draaien</p>
+      </div>
       <figcaption><span class="label">tekening</span><span>Zelf getekend in code. Geen bestaand voertuig.</span></figcaption>
     </figure>
   </section>

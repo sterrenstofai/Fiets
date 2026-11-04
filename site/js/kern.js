@@ -11,6 +11,9 @@ import * as MIJN from "/js/mijn.js";
 const params = new URLSearchParams(location.search);
 const pad = location.pathname.replace(/\/$/, "").split("/").filter(Boolean);
 const KINDMODUS = pad[0] === "kinderen";
+const RUSTIG = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const HELD = params.has("held"); // kaal, als bewegend beeld in de opening van de voorpagina
+if (HELD) document.body.classList.add("held");
 const SLUG = (params.get("v") || (KINDMODUS ? pad[1] : pad[0]) || "vliegtuig").replace(/[^a-z]/g, "");
 const TAU = Math.PI * 2;
 const HDR = "/modellen/studio_small_09_1k.hdr";
@@ -344,7 +347,7 @@ let namen = [];
 function lokaal(obj) { const b = new THREE.Box3().setFromObject(obj); return b.isEmpty() ? new THREE.Vector3() : obj.worldToLocal(b.getCenter(new THREE.Vector3())); }
 function maakNamen() {
   namenEl.textContent = ""; lijnEl.textContent = ""; namen = [];
-  if (KINDMODUS) return;
+  if (KINDMODUS || HELD) return;
   const A = ANKEROBJ();
   const lijst = uiteen ? EX.filter((e) => e.naam).map((e) => [e.obj, e.naam, e.plek[0], e.plek[1], e]) : (SECTIES[sectie].namen || []).map(([k, t, dx, dy]) => [A[k], t, dx, dy, null]);
   for (const [obj, tekst, dx, dy, ex] of lijst) {
@@ -407,16 +410,18 @@ function camNaar([d, h, a, p, fov = 32]) { camDoel.draai = cam.draai + Math.atan
 const wijzers = new Map(); let vaart = 0, knijp = null;
 doek.addEventListener("pointerdown", (e) => { doek.setPointerCapture(e.pointerId); wijzers.set(e.pointerId, { x: e.clientX, y: e.clientY }); vaart = 0; camVolgt = false; if (wijzers.size === 2) { const [a, b] = [...wijzers.values()]; knijp = { d: Math.hypot(a.x - b.x, a.y - b.y), a: cam.afstand }; } });
 doek.addEventListener("pointermove", (e) => {
-  const w = wijzers.get(e.pointerId); if (!w) return; const dx = e.clientX - w.x, dy = e.clientY - w.y; w.x = e.clientX; w.y = e.clientY;
+  const w = wijzers.get(e.pointerId); if (!w) return; const dx = e.clientX - w.x, dy = e.clientY - w.y; gesleept += Math.abs(dx) + Math.abs(dy); w.x = e.clientX; w.y = e.clientY;
   if (wijzers.size === 2 && knijp) { const [a, b] = [...wijzers.values()]; cam.afstand = THREE.MathUtils.clamp(knijp.a * knijp.d / Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), 1.2, 14); }
   else { vaart = -dx * 0.007; cam.draai += vaart; cam.helling = THREE.MathUtils.clamp(cam.helling + dy * 0.004, -0.05, 1.35); }
   vraag();
 });
-const los = (e) => { wijzers.delete(e.pointerId); if (wijzers.size < 2) knijp = null; };
+let losTijd = 0, sleepTijd = 0, gesleept = 0;
+const los = (e) => { wijzers.delete(e.pointerId); if (wijzers.size < 2) knijp = null; losTijd = performance.now(); if (gesleept < 6) sleepTijd = Date.now(); gesleept = 0; };
 doek.addEventListener("pointerup", los); doek.addEventListener("pointercancel", los);
 doek.addEventListener("wheel", (e) => { e.preventDefault(); camVolgt = false; cam.afstand = THREE.MathUtils.clamp(cam.afstand * Math.exp(e.deltaY * 0.001), 1.2, 14); vraag(); }, { passive: false });
 const ray = new THREE.Raycaster();
 doek.addEventListener("click", (e) => {
+  if (HELD) { if (Date.now() - sleepTijd > 300) return; window.top.location.href = "/" + SLUG; return; }
   const r = doek.getBoundingClientRect(); ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
   const zicht = (o) => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
   const h = ray.intersectObjects(meshes.filter(zicht), false).find((x) => !(x.object.userData.romp && huidig().doorzicht)) ; if (!h) return;
@@ -453,6 +458,7 @@ function stap_(t) {
   if (Math.abs(vaart) > 1e-4 && !wijzers.size) { cam.draai += vaart; vaart *= 0.94; bezig = true; }
   if (Math.abs(uiteenNu - uiteen) > 1e-3) { uiteenNu += Math.sign(uiteen - uiteenNu) * Math.min(Math.abs(uiteen - uiteenNu), echt / 1.6); bezig = true; if (uiteenNu < 0.02 || uiteenNu > 0.98) kleuren(); } else uiteenNu = uiteen;
   if (DEF.beweeg(dt, h, { uiteen, lichtAan, t })) bezig = true;
+  if (HELD && !RUSTIG && !wijzers.size && performance.now() - losTijd > 2500) { cam.draai += echt * 0.22; camDoel.draai = cam.draai; bezig = true; }
   if (!rtKleur || (!bezig && !vraagNu)) return; vraagNu = false;
   zetUiteen();
   const o = glad(opening), dr = cam.draai - (1 - o) * 1.2, af = cam.afstand + (1 - o) * 5;
@@ -468,6 +474,7 @@ function stap_(t) {
   renderer.setRenderTarget(null); renderer.render(quadScene, quadCam);
   namenBijwerken();
   window.__meting.frames++;
+  if (HELD && window.__meting.frames === 2) parent.postMessage("held-klaar", location.origin);
 }
 if (KINDMODUS) {
   document.body.classList.add("kindmodus");
@@ -481,6 +488,7 @@ if (KINDMODUS) {
   try { if (localStorage.getItem("fiets-kind-hand")) $("kindhand")?.remove(); } catch {}
   kindToon(0, false);
 } else { toon(); camNaar(SECTIES[0].cam); }
+if (HELD) { camDoel.afstand *= 0.78; camDoel.doel.y *= 0.8; }
 if (params.get("sectie")) gaSectie(+params.get("sectie"));
 if (params.get("cam")) { const c = params.get("cam").split(",").map(Number); camNaar([c[0], c[1], c[2], [c[3], c[4], c[5]], c[6] || 32]); }
 if (params.get("stand") === "tekening") document.querySelector('[data-stand="tekening"]').click(); else document.querySelector('[data-stand="echt"]').click();

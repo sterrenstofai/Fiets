@@ -282,3 +282,10 @@ body.kindmodus .app { height: 100svh; }
 .kinderkeuze .kaart { padding: 26px 12px 20px; font-size: 24px; border-radius: 20px; }
 .kinderkeuze .kaart img { max-width: 170px; }
 .kinderkeuze h1 { font-size: 34px; }
+
+/* kaal: het voertuig als bewegend beeld in de opening van de voorpagina (?held) */
+body.held { background: transparent; overflow: hidden; height: 100svh; }
+body.held .balk, body.held .paneel, body.held .appvoet, body.held .stand, body.held .uiteenknop, body.held .hint, body.held .minifiets, body.held .minitekst, body.held #namen, body.held #lijntjes, body.held #kind, body.held .naar-inhoud { display: none !important; }
+body.held .app { display: block; height: 100svh; min-height: 0; }
+body.held .podium { position: fixed; inset: 0; height: auto; min-height: 0; touch-action: pan-y; }
+body.held #doek { cursor: grab; touch-action: pan-y; }
