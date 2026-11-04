@@ -17,7 +17,7 @@ weergave = weergave.replace("new THREE.PlaneGeometry(30, 30)", "new THREE.PlaneG
 extra = """  romp: [0xfbfbf9, { color: 0x2a2b2d, roughness: 0.4, metalness: 0.15, clearcoat: 0.7, clearcoatRoughness: 0.2 }],
   klep: [0xe4e4e1, { color: 0x3a3c3f, roughness: 0.45, metalness: 0.3 }],
   raam: [0x55575a, { color: 0x0d0f11, roughness: 0.1, metalness: 0.4, clearcoat: 1 }],
-  naad: [0xd2d2cf, { color: 0x1f2022, roughness: 0.5, metalness: 0.1 }],
+  naad: [0xd2d2cf, { color: 0x232426, roughness: 0.4, metalness: 0.15, clearcoat: 0.7, clearcoatRoughness: 0.2 }],
   stoel: [0xc4c9d1, { color: 0x3c4658, roughness: 0.8, metalness: 0 }],
   vloer: [0xe6e6e3, { color: 0x2a2b2d, roughness: 0.8, metalness: 0 }],
   roodlicht: [0xff8a8a, { color: 0xc8102e, roughness: 0.2, metalness: 0, emissive: 0xff2030, emissiveIntensity: 0 }],

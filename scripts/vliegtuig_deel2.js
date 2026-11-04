@@ -276,6 +276,7 @@ if (KINDMODUS) {
   kindToon(0, false);
 } else { toon(); camNaar(SECTIES[0].cam); }
 if (params.get("sectie")) gaSectie(+params.get("sectie"));
+if (params.get("cam")) { const c = params.get("cam").split(",").map(Number); camNaar([c[0], c[1], c[2], [c[3], c[4], c[5]], c[6] || 32]); }
 if (params.get("stand") === "tekening") document.querySelector('[data-stand="tekening"]').click(); else document.querySelector('[data-stand="echt"]').click();
 if (params.has("uiteen")) { zetUitElkaar(true); if (params.has("af")) uiteenNu = 1; }
 requestAnimationFrame(stap_);
