@@ -44,13 +44,15 @@ body.familie > main { flex: 1; }
 .merk-naam { font: 600 1.5rem/1 var(--letter); letter-spacing: -.02em; }
 @media (max-width: 380px) { .merk-naam { font-size: 1.2rem; } .nav-knop { width: 36px; height: 36px; } }
 .zoek { grid-area: zoek; position: relative; display: grid; gap: .4rem; }
-.zoek-rij { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.zoek-rij { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .5rem; }
 .zoek-pil { grid-column: 1 / -1; position: relative; display: flex; align-items: center; background: var(--papier-licht); border-radius: 999px; border: 1px solid var(--lijn-f); height: 46px; }
 .zoek-pil:focus-within { border-color: var(--inkt); }
 .zoek-pil input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0 0 0 1.15rem; height: 100%; font: 400 1rem var(--letter); color: var(--inkt); -webkit-appearance: none; appearance: none; }
 .zoek-pil input:focus { outline: none; }
 .zoek-pil input::placeholder { color: color-mix(in srgb, var(--inkt-zacht) 80%, transparent); }
 .zoek-rij .knop-pil { min-height: 46px; padding: 0 1.1rem; }
+@media (max-width: 400px) { .zoek-rij .knop-pil { padding: 0 .7rem; gap: .35rem; font-size: .95rem; min-width: 0; } .zoek-rij .knop-pil svg { width: 18px; height: 18px; } }
+@media (max-width: 370px) { .zoek-rij .knop-pil svg { display: none; } }
 .zoek-lijst { list-style: none; margin: 0; padding: .35rem; position: absolute; inset-inline: 0; top: calc(100% + .35rem); background: var(--papier-licht); border-radius: 22px; z-index: 40; box-shadow: 0 24px 40px -20px rgb(0 0 0 / .35); border: 1px solid var(--lijn-f); }
 .zoek-lijst li { padding: .7rem 1rem; cursor: pointer; min-height: 44px; border-radius: 14px; display: flex; justify-content: space-between; gap: 1rem; }
 .zoek-lijst li[aria-selected="true"], .zoek-lijst li:hover { background: var(--passe); }
