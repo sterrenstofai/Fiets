@@ -14,6 +14,6 @@ export const VOERTUIGEN = [
   { slug: "vliegtuig", naam: "het vliegtuig", label: "Vliegtuig", groep: "in de lucht" },
 ];
 // alleen wat er al is (een voertuig in aanbouw staat er nog niet in)
-export const KLAAR = new Set(["fiets", "step", "skateboard", "vrachtwagen", "vuilniswagen", "trein", "vliegtuig", "boot"]);
+export const KLAAR = new Set(["fiets", "step", "skateboard", "vrachtwagen", "bus", "brandweerauto", "vuilniswagen", "trein", "vliegtuig", "boot"]);
 export const lijst = () => VOERTUIGEN.filter((v) => KLAAR.has(v.slug));
 export const pad = (v, kind = false) => (kind ? "/kinderen/" : "/") + v.slug;

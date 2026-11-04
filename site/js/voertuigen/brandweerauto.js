@@ -291,10 +291,10 @@ const N = (lijst) => (SMAL ? lijst.map(([k, t, dx, dy]) => [k, t, -Math.abs(dx),
 const SECTIES = [
   { sleutel: "brandweerauto", naam: "De brandweerauto", titel: "De brandweerauto", tekst: "Een tankautospuit: de brandweerauto die als eerste komt. Hij heeft water bij zich, een pomp, slangen, een ladder en plek voor zes mensen. Tik op de zwaailichten.", cam: C(0.7, 0.16, 15.5, [0.1, 1.5, 0], 32), focus: null,
     specs: [["Lengte", "8,6 m in de tekening"], ["Breedte", "2,55 m"], ["Hoogte", "3,3 m met de ladder"], ["Bemanning", "6, in de cabine"], ["Zwaailichten", "tik", "zwaailichten"]],
-    namen: N([["cabine", "CABINE", 50, -90], ["luik", "ROLLUIKEN", -40, 90], ["ladder", "LADDER", -50, -60], ["zwaai", "ZWAAILICHTEN", 40, -50], ["wiel", "WIELEN", 50, 70]]) },
+    namen: N([["cabine", "CABINE", 50, -130], ["luik", "ROLLUIKEN", -40, 90], ["ladder", "LADDER", -50, -60], ["zwaai", "ZWAAILICHTEN", 40, -40], ["wiel", "WIELEN", 50, 70]]) },
   { sleutel: "cabine", naam: "De cabine", titel: "De cabine", tekst: "Voorin rijdt de chauffeur, naast hem zit de baas van de ploeg. Achterin zitten nog vier brandweermensen. Ze trekken onderweg hun pak en masker al aan.", cam: C(0.95, 0.14, 13, [2.4, 1.6, 0.6], 32), focus: ["cabine", "spiegels"], deuren: true,
     specs: [["Plaatsen", "6: 2 voor, 4 achter"], ["Deuren", "4, ze draaien open"], ["Chauffeur", "linksvoor"], ["Spiegels", "2 aan elke kant"]],
-    namen: N([["voordeur", "VOORDEUR", 50, -70], ["bemanning", "BEMANNING", -50, -80], ["spiegel", "SPIEGELS", 50, 60]]) },
+    namen: N([["voordeur", "VOORDEUR", 60, -150], ["bemanning", "BEMANNING", -60, -150], ["spiegel", "SPIEGELS", 70, 110]]) },
   { sleutel: "kasten", naam: "De kasten", titel: "De kasten met rolluiken", tekst: "Aan de zijkant zitten kasten met rolluiken. Die schuiven omhoog. Daarachter liggen de slangen, de flessen met lucht om te ademen en het gereedschap.", cam: C(0.1, 0.1, 12.5, [-0.7, 1.6, 0.4], 32), focus: ["kasten", "gereedschap"], luiken: true,
     specs: [["Kasten", "3 aan elke kant"], ["Rolluiken", "van aluminium, schuiven omhoog"], ["Ademlucht", "4 flessen per kant in de tekening"], ["Slangen", "opgerold, 9 per kant"]],
     namen: N([["flessen", "ADEMLUCHT", 60, 130], ["slangen", "SLANGEN", 40, -120], ["luik", "ROLLUIK", -60, -140]]) },
@@ -343,7 +343,7 @@ function beweeg(dt, h, s) {
   const d = [[deurNu, cyclus(h.deuren, 8)], [luikNu, cyclus(h.luiken, 9) || (s.uiteen ? 1 : 0)], [achterNu, h.achter || s.uiteen ? 1 : 0], [ladderNu, cyclus(h.ladder, 11)]];
   if (h.deuren || h.luiken || h.ladder || h.achter) bezig = true;
   const [dn, ln, an, la] = d.map(([nu, doel], i) => { const v = naar(nu, doel, dt, [1.3, 1.8, 1.8, 2.6][i]); if (v !== nu) bezig = true; return v; });
-  if (dn !== deurNu || !G._eerst) for (const { s: sc, k } of G.deuren) sc.rotation.y = k * 1.2 * glad(dn);
+  if (dn !== deurNu || !G._eerst) for (const { s: sc, k } of G.deuren) sc.rotation.y = k * 1.35 * glad(dn);
   if (ln !== luikNu || !G._eerst) for (const l of G.luiken) l.userData.zet(glad(ln));
   if (an !== achterNu || !G._eerst) G.achterLuik.userData.zet(glad(an));
   if (la !== ladderNu || !G._eerst) { G.ladder.rotation.z = 0.95 * glad(la / 0.6); G.ladderBoven.position.x = 0.05 + 2.6 * glad((la - 0.55) / 0.45); }
