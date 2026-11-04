@@ -184,7 +184,7 @@ for (const k of [1, -1]) {
   s.moveTo(2.77, 0.5); s.lineTo(3.02, 0.5); s.quadraticCurveTo(3.06, 0.5, 3.06, 0.55); s.lineTo(3.06, 0.86); s.lineTo(2.98, 1.04); s.quadraticCurveTo(2.96, 1.07, 2.92, 1.07); s.lineTo(2.81, 1.07); s.quadraticCurveTo(2.77, 1.07, 2.77, 1.03); s.lineTo(2.77, 0.5);
   const gat = new THREE.Path(); gat.moveTo(2.85, 0.93); gat.lineTo(2.94, 0.93); gat.quadraticCurveTo(2.97, 0.93, 2.97, 0.96); gat.lineTo(2.95, 0.99); gat.lineTo(2.85, 0.99); gat.quadraticCurveTo(2.83, 0.99, 2.83, 0.96); gat.quadraticCurveTo(2.83, 0.93, 2.85, 0.93); s.holes.push(gat);
   const platen = [];
-  for (let i = 0; i < 8; i++) { const g = new THREE.ExtrudeGeometry(s, { depth: 0.085, bevelEnabled: true, bevelThickness: 0.006, bevelSize: 0.006, bevelSegments: 2, curveSegments: 8 }); g.translate(0, 0, -0.4 + i * 0.1); platen.push(g); }
+  for (let i = 0; i < 8; i++) { const g = new THREE.ExtrudeGeometry(s, { depth: 0.074, bevelEnabled: true, bevelThickness: 0.006, bevelSize: 0.006, bevelSegments: 2, curveSegments: 8 }); g.translate(0, 0, -0.4 + i * 0.1); platen.push(g); }
   const stang_ = mesh(cilZ(0.02, 0.86, 16).translate(2.84, 0.76, 0), "metaal", "gewichten");
   gw.add(drager, mesh(samen(platen), GEWICHT, "gewichten"), stang_); root.add(gw); G.gewichten = gw;
 }
@@ -336,10 +336,10 @@ zetHef(0.15);
 const SECTIES = [
   { sleutel: "trekker", naam: "De trekker", titel: "De trekker", tekst: "Een trekker trekt en duwt machines over het land: een ploeg, een maaier of een kar. Hij is sterk, niet snel. Tik op de lampen.", cam: [0.92, 0.3, 9.4, [0.3, 1.3, 0], 32], focus: null,
     specs: [["Lengte", "5,1 m in de tekening"], ["Breedte", "2,5 m in de tekening"], ["Hoogte", "3,3 m tot het zwaailicht"], ["Wielen", "4: 2 grote, 2 kleine"], ["Lampen", "tik", "lichten"]],
-    namen: [["cabine", "CABINE", 83, -26], ["kap", "MOTORKAP", 46, -83], ["achterwiel", "ACHTERWIEL", -91, 46], ["gewichten", "GEWICHTEN", -71, 53], ["uitlaat", "UITLAAT", 120, 0]] },
+    namen: [["cabine", "CABINE", 83, -26], ["kap", "MOTORKAP", 67, -75], ["achterwiel", "ACHTERWIEL", -91, 46], ["gewichten", "GEWICHTEN", -71, 53], ["uitlaat", "UITLAAT", 118, 18]] },
   { sleutel: "motor", naam: "De motor", titel: "De motor", tekst: "Onder de motorkap zit een dieselmotor. Die maakt veel kracht, ook als de trekker langzaam rijdt. Voorin koelt de radiator de motor.", cam: [0.62, 0.3, 7.4, [1.2, 1.5, 0], 30], focus: ["motor", "motorkap", "uitlaat"], doorzicht: true, motor: true,
     specs: [["Motor", "diesel, 4 cilinders in de tekening"], ["Radiator", "voorin, achter de grille"], ["Ventilator", "7 bladen in de tekening"], ["Uitlaat", "rechts, omhoog"]],
-    namen: [["motor", "MOTORBLOK", 45, -169], ["radiator", "RADIATOR", 100, 0], ["uitlaat", "UITLAAT", 120, 0], ["filter", "LUCHTFILTER", 27, -49]] },
+    namen: [["motor", "MOTORBLOK", 45, -169], ["radiator", "RADIATOR", 100, 0], ["uitlaat", "UITLAAT", 120, 0], ["filter", "LUCHTFILTER", 75, -38]] },
   { sleutel: "banden", naam: "De banden", titel: "De banden", tekst: "Grote banden achter, kleine voor. De schuine noppen grijpen in de grond, zodat de trekker niet wegglijdt in de modder.", cam: [0.4, 0.12, 8.8, [0.2, 0.85, 0.5], 32], focus: ["achterwielen", "voorwielen"], rollen: true,
     specs: [["Achterwiel", "1,82 m hoog in de tekening"], ["Voorwiel", "1,29 m hoog in de tekening"], ["Noppen", "46 achter, 40 voor"], ["Profiel", "schuin, in een V"]],
     namen: [["achterwiel", "ACHTERWIEL", -120, 90], ["voorwiel", "VOORWIEL", -99, 74], ["nop", "NOPPEN", -141, -71]] },
@@ -348,13 +348,13 @@ const SECTIES = [
     namen: [["stoel", "STOEL", -147, -22], ["stuurwiel", "STUUR", 129, -40], ["spiegel", "SPIEGEL", 58, 29], ["dak", "DAK", -39, -44]] },
   { sleutel: "hefinrichting", naam: "Hef en aftakas", titel: "Hefinrichting en aftakas", tekst: "Achterop hangt een machine aan drie punten. De hefarmen tillen hem op. De aftakas draait rond en laat de machine werken. Blijf er ver vandaan als hij draait.", cam: [-0.95, 0.26, 5.4, [-1.85, 0.9, 0], 32], focus: ["hef"], hef: true,
     specs: [["Punten", "3: 2 onderarmen en een topstang"], ["Hefarmen", "omhoog en omlaag"], ["Aftakas", "draait, achterop"], ["Trekhaak", "onder de aftakas"]],
-    namen: [["onderarm", "ONDERARM", -83, 26], ["hefarm", "HEFARM", -115, 208], ["topstang", "TOPSTANG", -47, 177], ["aftakas", "AFTAKAS", 57, 104]] },
+    namen: [["onderarm", "ONDERARM", -83, 26], ["hefarm", "HEFARM", -189, 212], ["topstang", "TOPSTANG", -200, 100], ["aftakas", "AFTAKAS", 57, 104]] },
   { sleutel: "voorkant", naam: "De voorkant", titel: "De voorkant", tekst: "Voorop hangen zware gewichten. Die houden de voorwielen op de grond als er achter een zware machine hangt. De voorwielen sturen.", cam: [1.0, 0.22, 5.8, [1.85, 0.85, 0.35], 32], focus: ["gewichten", "voorwielen"], sturen: true,
     specs: [["Gewichten", "8 platen in de tekening"], ["Sturen", "met de voorwielen"], ["Spatborden", "draaien mee"]],
-    namen: [["gewichten", "GEWICHTEN", 57, 104], ["voorwiel", "VOORWIEL", -111, 34], ["voorbord", "SPATBORD", -139, 156]] },
+    namen: [["gewichten", "GEWICHTEN", 57, 104], ["voorwiel", "VOORWIEL", -111, 34], ["voorbord", "SPATBORD", -107, 194]] },
   { sleutel: "lampen", naam: "De lampen", titel: "De lampen", tekst: "Lampen rondom, zodat je ook in het donker op het land kunt werken. Het oranje zwaailicht zegt: let op, hier rijdt een langzaam voertuig.", cam: [0.78, 0.4, 10.2, [0.25, 1.55, 0], 32], focus: ["lichten"], lichten: true,
     specs: [["Koplampen", "2, in de neus"], ["Werklampen", "6, op het dak"], ["Achterlichten", "2, rood"], ["Zwaailicht", "oranje"], ["Lampen", "tik", "lichten"]],
-    namen: [["zwaai", "ZWAAILICHT", -28, -9], ["werklampen", "WERKLAMPEN", -27, -49], ["koplampen", "KOPLAMPEN", 50, 0], ["achterlicht", "ACHTERLICHT", -28, 31]] },
+    namen: [["zwaai", "ZWAAILICHT", -28, -9], ["werklampen", "WERKLAMPEN", 31, -55], ["koplampen", "KOPLAMPEN", 50, 0], ["achterlicht", "ACHTERLICHT", -28, 31]] },
 ];
 const KIND = [
   { naam: "de trekker", focus: ["motorkap", "chassis", "spatborden"], cam: [0.72, 0.26, 10.4, [0.35, 1.35, 0], 32] },
