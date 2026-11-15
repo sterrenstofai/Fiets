@@ -1,6 +1,14 @@
 [build]
   publish = "site"
 
+# Dit onderzoekje staat nu op fosje.com/voertuigen. Alles op het oude adres stuurt daarheen door.
+# De site en de scripts leven verder in de repo sterrenstofai/fosje.
+[[redirects]]
+  from = "/*"
+  to = "https://fosje.com/voertuigen/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
